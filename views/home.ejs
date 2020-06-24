@@ -1,0 +1,161 @@
+
+<%- include("partials/header", {pageTitle:"FutuRadio"}); %>
+<%- include("partials/navbar-home", {pageTitle:"We entertain",pageSubTitle: "Discover our podcasts and music"}); %>
+
+<!-- Section Podcasts -->
+<section id="podcasts">
+  <div class="myPrograms">
+    <h3 class="programs-title">I nostri programmi</h3>
+  </div>
+
+  <div class="wrapper">
+    <div class="testimonial-carousel owl-carousel">
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="/programmi/casaSarzilla"><img class="img-item" src="/images/logofutu.png" alt=""></a>
+        </div>
+        <!-- <div class="img-text">
+          <h2 item-title>Casa Sarzilla</h2>
+          <p item-p>Scemo chi legge</p>
+        </div> -->
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="programmi/casaSarzilla"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="casaSarzilla.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="casaSarzilla.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="casaSarzilla.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="casaSarzilla.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="casaSarzilla.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $('.testimonial-carousel').owlCarousel({
+      loop: true,
+      margin: 20,
+      nav: true,
+      autoplay: true,
+      navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+      responsiveClass: true,
+      responsive: {
+        0: {
+          items: 1
+        },
+        600: {
+          items: 3
+        },
+        1000: {
+          items: 5
+        }
+      }
+    })
+  </script>
+  <hr class="h-line-programs">
+
+</section>
+
+<!-- Section music -->
+<section id="music">
+  <div class="myPrograms">
+    <h3 class="programs-title">La nostra musica</h3>
+    <!-- <hr class="h-line-programs"> -->
+  </div>
+
+  <div class="wrapper">
+    <div class="music-carousel owl-carousel">
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="programmi.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="programmi.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="programmi.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="programmi.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="programmi.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="programmi.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+
+      <div class="single-testimonial">
+        <div class="img-area">
+          <a href="programmi.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $('.music-carousel').owlCarousel({
+      loop: true,
+      margin: 20,
+      nav: true,
+      autoplay: true,
+      navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
+      responsiveClass: true,
+      responsive: {
+        0: {
+          items: 1
+        },
+        600: {
+          items: 3
+        },
+        1000: {
+          items: 5
+        }
+      }
+    })
+  </script>
+
+<%- include("partials/footer"); %>
