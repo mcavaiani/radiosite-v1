@@ -1,10 +1,13 @@
 <!-- Section music -->
 <section id="music">
   <div class="myPrograms">
-    <h3 class="programs-title">Il blog di Casa Sarzilla</h3>
+    <h3 class="programs-title">Il blog di <%= title %></h3>
     <!-- <hr class="h-line-programs"> -->
   </div>
   <div class="">
+    <% if(posts && posts.length){%>
+
+
     <%  posts.forEach(function(post){ %>
 
       <h1><%=post.title%></h1>
@@ -15,6 +18,7 @@
 
 
       <% }) %>
+      <% } %>
   </div>
 
   <!-- <hr class="h-line-programs"> -->

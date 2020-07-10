@@ -1,21 +1,65 @@
 //jshint esversion:6
-
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
 const _ = require("lodash");
+const session = require('express-session');
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
+const async = require('async');
 
 const app = express();
 
 app.set('view engine', 'ejs');
-
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(express.static("public"));
 
+app.use(session({
+  secret: process.env.SECRETKEY,
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 mongoose.connect('mongodb+srv://admin-cava:admin123@cluster0-kuomu.mongodb.net/futuradioDB', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.set("useCreateIndex", true);
+
+const userSchema = new mongoose.Schema({
+  // email: String,
+  username: String,
+  password: String
+  // name: String,
+  // lastName: String,
+  // nickName: String,
+  // description: String,
+  // pictureUrl: String,
+  // facebook: String,
+  // instragram: String,
+  // twitter: String,
+  // tiktok: String
+});
+
+userSchema.plugin(passportLocalMongoose);
+const User = new mongoose.model("User", userSchema);
+
+passport.use(User.createStrategy());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
 const postSchema = new mongoose.Schema({
   title: String,
   content: String,
@@ -24,39 +68,163 @@ const postSchema = new mongoose.Schema({
   program: String
 });
 
-const Post = mongoose.model('Post', postSchema);
-
-app.get("/", function(req, res){
-      res.render("home");
+const showSchema = new mongoose.Schema({
+  name: String,
+  description: String,
+  author: String,
+  stateName: String
 });
 
-app.get("/programmi/:program", function(req, res){
+const blogSchema = new mongoose.Schema({
+  name: String,
+  description: String,
+  author: String,
+  stateName: String
+});
+
+const mixSchema = new mongoose.Schema({
+  name: String,
+  description: String,
+  author: String,
+  stateName: String
+});
+
+const Show = mongoose.model('Show',showSchema);
+const Blog = mongoose.model('Blog',blogSchema);
+const Mix = mongoose.model('Mix',mixSchema);
+const Post = mongoose.model('Post', postSchema);
+
+const newShow = new Show({
+  name: "Casa Cava",
+  description: "Casa Cava è una figata",
+  author: "Cava",
+  stateName: "casa-cava"
+});
+
+const newMix = new Mix({
+  name: "I mix di Cava",
+  description: "I mix di Cava sono una figata",
+  author: "Cava",
+  stateName: "i-mix-di-cava"
+});
+
+
+// newShow.save();
+app.get("/", function(req, res){
+  //add quesries for posts, mix and blogs
+
+  var fs = Show.find().sort({name:1});
+  var fb = Blog.find().sort({name:1});
+  var fm = Mix.find().sort({name:1});
+
+  var resourcesStack = {
+      showList: fs.exec.bind(fs),
+      blogList: fb.exec.bind(fb),
+      mixList: fm.exec.bind(fm)
+  };
+
+  async.parallel(resourcesStack, function (error, resultSet){
+    if (error) {
+        res.status(500).send(error);
+        return;
+    }
+    console.log(resultSet);
+    res.render('home', {
+        shows: resultSet.showList,
+        blogs: resultSet.blogList,
+        mixes: resultSet.mixList
+    });
+});
+
+});
+
+// SEZIONE PROGRAMMI
+
+// app.get("/programmi/:program", function(req, res){
+//   // console.log(req.params);
+//   // const stateName = _.camelCase(req.params.program);
+//   // const title = _.startCase(stateName);
+//
+//   Post.find({program: req.params.program}).sort({date: 'desc'}).exec(function (err, foundPosts) {
+//     if (err){
+//       console.error(err);
+//     }else{
+//       console.log(foundPosts);
+//       res.render(req.params.program,{posts: foundPosts});
+//     }
+//   })
+// });
+
+app.get("/shows/:show", function(req, res){
   // console.log(req.params);
   // const stateName = _.camelCase(req.params.program);
   // const title = _.startCase(stateName);
 
-  Post.find({program: req.params.program}).sort({date: 'desc'}).exec(function (err, foundPosts) {
-    if (err){
-      console.error(err);
+  Show.findOne({stateName: req.params.show}, function(err, foundShow){
+
+    if(err){
+      console.log(err);
     }else{
-      console.log(foundPosts);
-      res.render(req.params.program,{posts: foundPosts});
+      if(foundShow){
+        console.log("Found show");
+        Post.find({program: foundShow.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
+          if (err){
+            console.error(err);
+          };
+          console.log("Found posts");
+          console.log(foundShow);
+          console.log(foundPosts);
+          res.render("programTemplate",{showName: foundShow.name, showMan: foundShow.author, showDescription: foundShow.description,stateName: foundShow.stateName, posts: foundPosts});
+        })
+      }else{
+        res.redirect("/");
+      }
     }
-  })
-});
 
-app.get("/:program/posts/:postId", function(req, res){
-  const requestedProgramName = req.params.program;
-  const requestedPostId = req.params.postId;
-
-  Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
-    res.render("post", {
-      pageTitle: foundPost.program,
-      title: foundPost.title,
-      content: foundPost.content
-    });
   });
 });
+
+app.get("/blogs/:blog", function(req, res){
+  // console.log(req.params);
+  // const stateName = _.camelCase(req.params.program);
+  // const title = _.startCase(stateName);
+
+  Show.findOne({stateName: req.params.blog}, function(err, foundBlog){
+
+    if(err){
+      console.log(err);
+    }else{
+      if(foundBlog){
+        console.log("Found blog");
+        Post.find({program: foundBlog.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
+          if (err){
+            console.error(err);
+          };
+          console.log("Found posts");
+          console.log(foundBlog);
+          console.log(foundPosts);
+          res.render("programTemplate",{showName: foundBlog.name, showMan: foundBlog.author, showDescription: foundBlog.description,stateName: foundBlog.stateName, posts: foundPosts});
+        })
+      }else{
+        res.redirect("/");
+      }
+    }
+  });
+});
+
+// app.get("/:program/posts/:postId", function(req, res){
+//   const requestedProgramName = req.params.program;
+//   const requestedPostId = req.params.postId;
+//
+//   Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
+//     res.render("post", {
+//       pageTitle: foundPost.program,
+//       title: foundPost.title,
+//       content: foundPost.content
+//     });
+//   });
+// });
+
 
 // Tergeting all articles
 // app.route("/articles")
@@ -156,6 +324,75 @@ app.get("/:program/posts/:postId", function(req, res){
 //       }
 //     });
 //   });
+
+
+// LOGIN
+app.route("/login")
+  .get(function(req,res){
+    res.render("login");
+  })
+  .post(function(req, res){
+
+    const user = new User({
+      username: req.body.username,
+      password: req.body.password
+    });
+
+    req.login(user, function(err){
+      if (err){
+        console.log(err);
+        res.redirect("/login");
+      }else{
+        passport.authenticate("local");
+        res.redirect("/adminConsole");
+      }
+    });
+  });
+
+// REGISTRAZIONE
+app.route("/register")
+  .get(function(req, res){
+    res.render("register");
+  })
+  .post(function(req, res){
+
+    User.register({username: req.body.username}, req.body.password, function(err,user){
+      if(err){
+        console.log(err);
+        res.redirect("/register");
+      }else{
+        passport.authenticate("local")(req,res,function(){
+          res.redirect("/");
+        })
+      }
+    });
+  })
+
+// LOGOUT
+app.get("/logout",function(req,res){
+  req.logout();
+  res.redirect("/");
+});
+
+
+app.get("/adminConsole", function(req, res){
+  passport.authenticate("local");
+  res.render("adminConsole");
+})
+
+
+app.get("/adminConsole/user", function(req,res){
+  res.render("user");
+});
+
+app.get("/createPage", function(req,res){
+  res.render("createPage");
+});
+
+app.get("/createUser", function(req,res){
+  res.render("createUser");
+});
+
 app.get("/compose", function(req, res){
   res.render("compose");
 });
@@ -178,10 +415,13 @@ app.post("/compose", function(req, res){
   });
 });
 
+
+// PORTA SERVER
 let port = process.env.PORT;
 if (port == null || port == "") {
   port = 3000;
 }
+
 app.listen(port, function() {
   console.log("Server have started");
 });
