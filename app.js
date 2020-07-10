@@ -1,6 +1,8 @@
 //jshint esversion:6
 require('dotenv').config();
+const config = require("config");
 const express = require("express");
+const usersRoute = require("./routes/console.route");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
@@ -9,6 +11,7 @@ const session = require('express-session');
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const async = require('async');
+var cookieParser = require('cookie-parser')
 
 const app = express();
 
@@ -16,49 +19,56 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use(cookieParser())
+app.use(express.json());
+//use users route for api/users
+app.use("/console", usersRoute);
 app.use(express.static("public"));
 
-app.use(session({
-  secret: process.env.SECRETKEY,
-  resave: false,
-  saveUninitialized: false
-}));
 
-app.use(passport.initialize());
-app.use(passport.session());
+
+
+// app.use(session({
+//   secret: process.env.SECRETKEY,
+//   resave: false,
+//   saveUninitialized: false
+// }));
+
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 mongoose.connect('mongodb+srv://admin-cava:admin123@cluster0-kuomu.mongodb.net/futuradioDB', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
 
-const userSchema = new mongoose.Schema({
-  // email: String,
-  username: String,
-  password: String
-  // name: String,
-  // lastName: String,
-  // nickName: String,
-  // description: String,
-  // pictureUrl: String,
-  // facebook: String,
-  // instragram: String,
-  // twitter: String,
-  // tiktok: String
-});
+// const userSchema = new mongoose.Schema({
+//   // email: String,
+//   username: String,
+//   password: String
+//   // name: String,
+//   // lastName: String,
+//   // nickName: String,
+//   // description: String,
+//   // pictureUrl: String,
+//   // facebook: String,
+//   // instragram: String,
+//   // twitter: String,
+//   // tiktok: String
+// });
 
-userSchema.plugin(passportLocalMongoose);
-const User = new mongoose.model("User", userSchema);
+// userSchema.plugin(passportLocalMongoose);
+// const User = new mongoose.model("User", userSchema);
 
-passport.use(User.createStrategy());
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
+// passport.use(User.createStrategy());
+//
+// passport.serializeUser(function(user, done) {
+//   done(null, user.id);
+// });
+//
+// passport.deserializeUser(function(id, done) {
+//   User.findById(id, function(err, user) {
+//     done(err, user);
+//   });
+// });
 
 const postSchema = new mongoose.Schema({
   title: String,
@@ -327,46 +337,46 @@ app.get("/blogs/:blog", function(req, res){
 
 
 // LOGIN
-app.route("/login")
-  .get(function(req,res){
-    res.render("login");
-  })
-  .post(function(req, res){
-
-    const user = new User({
-      username: req.body.username,
-      password: req.body.password
-    });
-
-    req.login(user, function(err){
-      if (err){
-        console.log(err);
-        res.redirect("/login");
-      }else{
-        passport.authenticate("local");
-        res.redirect("/adminConsole");
-      }
-    });
-  });
+// app.route("/login")
+//   .get(function(req,res){
+//     res.render("login");
+//   })
+//   .post(function(req, res){
+//
+//     const user = new User({
+//       username: req.body.username,
+//       password: req.body.password
+//     });
+//
+//     req.login(user, function(err){
+//       if (err){
+//         console.log(err);
+//         res.redirect("/login");
+//       }else{
+//         passport.authenticate("local");
+//         res.redirect("/adminConsole");
+//       }
+//     });
+//   });
 
 // REGISTRAZIONE
-app.route("/register")
-  .get(function(req, res){
-    res.render("register");
-  })
-  .post(function(req, res){
-
-    User.register({username: req.body.username}, req.body.password, function(err,user){
-      if(err){
-        console.log(err);
-        res.redirect("/register");
-      }else{
-        passport.authenticate("local")(req,res,function(){
-          res.redirect("/");
-        })
-      }
-    });
-  })
+// app.route("/register")
+//   .get(function(req, res){
+//     res.render("register");
+//   })
+//   .post(function(req, res){
+//
+//     User.register({username: req.body.username}, req.body.password, function(err,user){
+//       if(err){
+//         console.log(err);
+//         res.redirect("/register");
+//       }else{
+//         passport.authenticate("local")(req,res,function(){
+//           res.redirect("/");
+//         })
+//       }
+//     });
+//   })
 
 // LOGOUT
 app.get("/logout",function(req,res){
@@ -375,10 +385,10 @@ app.get("/logout",function(req,res){
 });
 
 
-app.get("/adminConsole", function(req, res){
-  passport.authenticate("local");
-  res.render("adminConsole");
-})
+// app.get("/adminConsole", function(req, res){
+//   passport.authenticate("local");
+//   res.render("adminConsole");
+// })
 
 
 app.get("/adminConsole/user", function(req,res){
