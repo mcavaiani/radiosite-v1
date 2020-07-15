@@ -194,7 +194,7 @@ app.get("/shows/:show", function(req, res){
           console.log("Found posts");
           console.log(foundShow);
           console.log(foundPosts);
-          res.render("programTemplate",{showName: foundShow.name, showMan: foundShow.author, showDescription: foundShow.description,stateName: foundShow.stateName, latestPost: foundPosts.shift(), oldPosts: foundPosts});
+          res.render("programTemplate",{showName: foundShow.name, showMan: foundShow.author, showDescription: foundShow.description,stateName: foundShow.stateName, latestPost: [foundPosts.shift()], oldPosts: foundPosts});
         })
       }else{
         res.redirect("/");
@@ -223,7 +223,17 @@ app.get("/blogs/:blog", function(req, res){
           console.log("Found posts");
           console.log(foundBlog);
           console.log(foundPosts);
-          res.render("blogTemplate",{showName: foundBlog.name, showMan: foundBlog.author, showDescription: foundBlog.description,stateName: foundBlog.stateName, latestPost: foundPosts.shift(), oldPosts: foundPosts});
+          var topPosts = [];
+          var oldPosts = [];
+          if (foundPosts.length>3){
+            topPosts = foundPosts.slice(0,3);
+            oldPosts = foundPosts.slice(3);
+          }else{
+            topPosts = foundPosts;
+          }
+          console.log(topPosts);
+          console.log(oldPosts);
+          res.render("blogTemplate",{showName: foundBlog.name, showMan: foundBlog.author, showDescription: foundBlog.description,stateName: foundBlog.stateName, latestPost: topPosts, oldPosts: oldPosts});
         })
       }else{
         res.redirect("/");

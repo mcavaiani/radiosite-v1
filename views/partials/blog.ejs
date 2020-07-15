@@ -1,7 +1,15 @@
 <!-- Section music -->
+<% console.log(posts)%>
+<% console.log(latests)%>
+<% console.log(latests.length)%>
 
-  <% if(latest){ %>
-  <div class="">
+<div class="">
+  <% if(latests && latests.length){ %>
+    <% console.log(latests.length)%>
+    <% var ind = 0%>
+    <%  latests.forEach(function(latest){ %>
+
+
     <div class="row justify-content-center post-row">
       <div class="post-img-container col-lg-6">
         <% console.log(latest.previewPicture)%>
@@ -9,22 +17,25 @@
       </div>
       <div class="post-text-container col-lg-6">
         <div class="post-text">
-          <% var number =posts.length +1 %>
+          <% var number =posts.length + latests.length - ind%>
           <p class="post-number">Ep. <%=number%></p>
           <% var dateShort =latest.date %>
           <% console.log(dateShort)%>
-          <p class="post-date"><%=moment(latest.date).format('DD-MM-YY')%></p>
+          <p class="post-date"><%=moment(dateShort).format('DD-MM-YY')%></p>
           <h2 class="post-header"><%=latest.title%></h2>
           <p class="post-preview"><%=latest.content.substring(0, 100)%>...<a href="/shows/<%=stateName%>/posts/<%=latest.id%>">read more</a></p>
           <p class="post-author"><%=latest.author%></p>
         </div>
       </div>
     </div>
-  </div>
-  <hr class="featurette-divider">
+    <% ind++%>
+  <% }) %>
+
   <%}else{ %>
     <p>Non ci sono post</p>
   <%} %>
+  </div>
+
   <!-- <div class="row card-row">
     <div class="card">
       <div class="card-body">
@@ -36,9 +47,10 @@
   </div> -->
 
   <div class="">
-    <% if(posts && posts.length){%>
 
-    <% var ind = 0%>
+    <% if(posts && posts.length){%>
+      <hr class="featurette-divider">
+    <% ind = 0%>
     <%  posts.forEach(function(post){ %>
 
       <div class="row card-row">
@@ -47,7 +59,7 @@
             <h5 class="card-title"><%= post.title%></h5>
             <p class="card-text post-preview"><%= post.content.substring(0,100)%>...<a href="/shows/<%=stateName%>/posts/<%=post.id%>">read more</a></p>
             <% var pos = posts.length - ind%>
-            <h6 class="card-subtitle mb-2 text-muted">Episode <%=pos %> - <%=moment(latest.date).format('DD-MM-YY') %></h6>
+            <h6 class="card-subtitle mb-2 text-muted">Episode <%=pos %> - <%=moment(post.date).format('DD-MM-YY') %></h6>
           </div>
         </div>
       </div>
