@@ -38,6 +38,8 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/login", function(req, res) {
+
+  //add check jwt before render login
   res.render("login");
 });
 

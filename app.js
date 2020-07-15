@@ -11,7 +11,10 @@ const session = require('express-session');
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const async = require('async');
-var cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const chalk = require("chalk");
+const figlet = require('figlet');
+const moment = require("moment");
 
 const app = express();
 
@@ -24,6 +27,10 @@ app.use(express.json());
 //use users route for api/users
 app.use("/console", usersRoute);
 app.use(express.static("public"));
+app.use((req, res, next)=>{
+    res.locals.moment = moment;
+    next();
+  });
 
 
 
@@ -39,6 +46,8 @@ app.use(express.static("public"));
 
 mongoose.connect('mongodb+srv://admin-cava:admin123@cluster0-kuomu.mongodb.net/futuradioDB', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
+const importedUser = require('./models/user.model');
+
 
 // const userSchema = new mongoose.Schema({
 //   // email: String,
@@ -75,7 +84,8 @@ const postSchema = new mongoose.Schema({
   content: String,
   author: String,
   date: String,
-  program: String
+  program: String,
+  previewPicture: String
 });
 
 const showSchema = new mongoose.Schema({
@@ -123,9 +133,9 @@ const newMix = new Mix({
 app.get("/", function(req, res){
   //add quesries for posts, mix and blogs
 
-  var fs = Show.find().sort({name:1});
-  var fb = Blog.find().sort({name:1});
-  var fm = Mix.find().sort({name:1});
+  var fs = Show.find();
+  var fb = Blog.find();
+  var fm = Mix.find();
 
   var resourcesStack = {
       showList: fs.exec.bind(fs),
@@ -184,7 +194,7 @@ app.get("/shows/:show", function(req, res){
           console.log("Found posts");
           console.log(foundShow);
           console.log(foundPosts);
-          res.render("programTemplate",{showName: foundShow.name, showMan: foundShow.author, showDescription: foundShow.description,stateName: foundShow.stateName, posts: foundPosts});
+          res.render("programTemplate",{showName: foundShow.name, showMan: foundShow.author, showDescription: foundShow.description,stateName: foundShow.stateName, latestPost: foundPosts.shift(), oldPosts: foundPosts});
         })
       }else{
         res.redirect("/");
@@ -199,7 +209,7 @@ app.get("/blogs/:blog", function(req, res){
   // const stateName = _.camelCase(req.params.program);
   // const title = _.startCase(stateName);
 
-  Show.findOne({stateName: req.params.blog}, function(err, foundBlog){
+  Blog.findOne({stateName: req.params.blog}, function(err, foundBlog){
 
     if(err){
       console.log(err);
@@ -213,7 +223,7 @@ app.get("/blogs/:blog", function(req, res){
           console.log("Found posts");
           console.log(foundBlog);
           console.log(foundPosts);
-          res.render("programTemplate",{showName: foundBlog.name, showMan: foundBlog.author, showDescription: foundBlog.description,stateName: foundBlog.stateName, posts: foundPosts});
+          res.render("blogTemplate",{showName: foundBlog.name, showMan: foundBlog.author, showDescription: foundBlog.description,stateName: foundBlog.stateName, latestPost: foundPosts.shift(), oldPosts: foundPosts});
         })
       }else{
         res.redirect("/");
@@ -222,18 +232,18 @@ app.get("/blogs/:blog", function(req, res){
   });
 });
 
-// app.get("/:program/posts/:postId", function(req, res){
-//   const requestedProgramName = req.params.program;
-//   const requestedPostId = req.params.postId;
-//
-//   Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
-//     res.render("post", {
-//       pageTitle: foundPost.program,
-//       title: foundPost.title,
-//       content: foundPost.content
-//     });
-//   });
-// });
+app.get("/shows/:show/posts/:postId", function(req, res){
+  const requestedProgramName = req.params.show;
+  const requestedPostId = req.params.postId;
+
+  Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
+    res.render("post", {
+      pageTitle: foundPost.program,
+      title: foundPost.title,
+      content: foundPost.content
+    });
+  });
+});
 
 
 // Tergeting all articles
@@ -425,6 +435,24 @@ app.post("/compose", function(req, res){
   });
 });
 
+app.get("/about", function(req,res){
+
+  importedUser.User.find(function(err, foundUsers){
+
+    if(err){
+      console.log(err);
+    }else{
+      if(foundUsers){
+        console.log(foundUsers);
+        res.render("about",{users: foundUsers});
+      }else{
+        res.render("/");
+      }
+    }
+
+  });
+});
+
 
 // PORTA SERVER
 let port = process.env.PORT;
@@ -434,4 +462,8 @@ if (port == null || port == "") {
 
 app.listen(port, function() {
   console.log("Server have started");
+  console.log(
+  chalk.magenta(figlet.textSync('FutuRadio', { horizontalLayout: 'full' })) +
+  chalk.magenta("\nWelcome to FutuRadio website!")
+  );
 });

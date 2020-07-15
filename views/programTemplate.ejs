@@ -25,6 +25,11 @@
   </div>
   <hr class="h-line-programs">
 </section>
-<%- include("partials/blog",{stateName: stateName, title: showName}); %>
+<section id="music">
+  <div class="myPrograms">
+    <h3 class="programs-title">Il blog di <%= showName %></h3>
+    <!-- <hr class="h-line-programs"> -->
+  </div>
+<%- include("partials/blog",{stateName: stateName, latest: latestPost, posts: oldPosts}); %>
 
 <%- include("partials/footer"); %>
