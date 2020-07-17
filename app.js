@@ -149,7 +149,7 @@ app.get("/", function(req, res){
         return;
     }
     console.log(resultSet);
-    res.render('home', {
+    res.render('home-new', {
         shows: resultSet.showList,
         blogs: resultSet.blogList,
         mixes: resultSet.mixList

@@ -112,6 +112,86 @@ text-align: center;
 
 
 
+#menu-section{
+  align-items: center;
+  text-align: center;
+}
+
+.menu-container{
+  padding: 5% 0;
+}
+.btn.menu-button{
+  font-size: 2rem;
+  font-weight: 600;
+  background-color: transparent;
+  border-radius: 0;
+  color: #a6a6a6;
+}
+
+.btn.menu-button.active{
+  /* color: #232323; */
+  color: #0060A9;
+}
+.btn.menu-button.active::after {
+
+}
+
+.menu-button:focus, .menu-button:hover {
+  box-shadow: none;
+  color: #232323;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* PROGRAMS */
 /* #131313 */
 #podcasts{
