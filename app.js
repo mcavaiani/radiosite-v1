@@ -149,6 +149,34 @@ app.get("/", function(req, res){
         return;
     }
     console.log(resultSet);
+    res.render('home', {
+        shows: resultSet.showList,
+        blogs: resultSet.blogList,
+        mixes: resultSet.mixList
+    });
+});
+
+});
+
+app.get("/home", function(req, res){
+  //add quesries for posts, mix and blogs
+
+  var fs = Show.find();
+  var fb = Blog.find();
+  var fm = Mix.find();
+
+  var resourcesStack = {
+      showList: fs.exec.bind(fs),
+      blogList: fb.exec.bind(fb),
+      mixList: fm.exec.bind(fm)
+  };
+
+  async.parallel(resourcesStack, function (error, resultSet){
+    if (error) {
+        res.status(500).send(error);
+        return;
+    }
+    console.log(resultSet);
     res.render('home-new', {
         shows: resultSet.showList,
         blogs: resultSet.blogList,

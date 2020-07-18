@@ -1,6 +1,5 @@
-
 <%- include("partials/header", {pageTitle:"FutuRadio"}); %>
-<%- include("partials/navbar-home", {pageTitle:"We entertain",pageSubTitle: "Discover our podcasts and music", showList: shows}); %>
+<%- include("partials/navbar-home-new", {pageTitle:"FutuRadio",pageSubTitle: "La radio del futuro", showList: shows}); %>
 
 
 <!-- Contenuti -->
@@ -8,12 +7,13 @@
 <section id="menu-section">
 
   <div class="myPrograms align-items-center">
-    <h3 class="programs-title">I nostri contenuti</h3>
+    <h3 class="programs-title-new">I nostri contenuti</h3>
+    <hr class="title-hr">
   </div>
 
-  <div class="container">
-    <div class="menu-container">
-      <div class="shows-menu">
+  <div class="btn-container">
+    <div class="menu-container btn-toolbar">
+      <div class="shows-menu btn-group">
         <button class="btn menu-button" data-filter="*">Tutti</button>
         <button class="btn menu-button" data-filter=".show">Le Voci</button>
         <button class="btn menu-button" data-filter=".mix">I Suoni</button>
@@ -22,21 +22,23 @@
     </div>
   </div>
 
-  <div class="container">
+  <div class="gallery-container">
     <div class="row">
       <% if(shows && shows.length){%>
       <%  shows.forEach(function(show){ %>
-      <div class="col-12 col-md-6 menu-item show">
+        <div class="col-12 col-md-6 menu-item show">
         <div class="item-container">
           <div class="item-thumbnail align-items-center">
             <a href="shows/<%=show.stateName%>"><img class="img-item-new" src="/images/shows/<%=show.stateName%>.png" alt=""></a>
           </div>
-          <div class="item-content text-center">
-            <h3>con <%=show.author%></h3>
-          </div>
+          <!-- <div class="item-content text-center">
+            <h3>con Sarzo</h3>
+          </div> -->
 
         </div>
+        <!-- <hr class="hr-homepage-cards"> -->
       </div>
+
       <% }) %>
       <% } %>
 
@@ -47,11 +49,12 @@
           <div class="item-thumbnail align-items-center">
             <a href="mixes/<%=mix.stateName%>"><img class="img-item-new" src="/images/mixes/<%=mix.stateName%>.png" alt=""></a>
           </div>
-          <div class="item-content text-center">
-            <h3>con <%=mix.author%></h3>
-          </div>
+          <!-- <div class="item-content text-center">
+            <h3>con Sarzo</h3>
+          </div> -->
 
         </div>
+        <!-- <hr class="hr-homepage-cards"> -->
       </div>
       <% }) %>
       <% } %>
@@ -63,71 +66,21 @@
           <div class="item-thumbnail align-items-center">
             <a href="blogs/<%=blog.stateName%>"><img class="img-item-new" src="/images/blogs/<%=blog.stateName%>.png" alt=""></a>
           </div>
-          <div class="item-content text-center">
-            <h3>con <%=blog.author%></h3>
-          </div>
+          <!-- <div class="item-content text-center">
+            <h3>con Sarzo</h3>
+          </div> -->
 
         </div>
+        <!-- <hr class="hr-homepage-cards"> -->
       </div>
       <% }) %>
       <% } %>
     </div>
 
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <div class="row">
-    <div class="col-lg-6">
-      <h1>I nostri contenuti</h1>
-    </div>
-    <div class="col-lg-6 carousel-container">
-      <% if(shows && shows.length){%>
-      <%  shows.forEach(function(show){ %>
-
-          <div class="img-carousel">
-            <a href="shows/<%=show.stateName%>"><img class="img-item-new" src="/images/<%=show.stateName%>.png" alt=""></a>
-          </div>
-
-      <% }) %>
-      <% } %>
-    </div>
-
-    <div class="col-lg-6 carousel-container">
-      <% if(mixes && mixes.length){%>
-      <%  mixes.forEach(function(mix){ %>
-
-          <div class="img-carousel">
-            <a href="mixes/<%=mix.stateName%>"><img class="img-item-new" src="/images/<%=mix.stateName%>.png" alt=""></a>
-          </div>
-
-      <% }) %>
-      <% } %>
-
-    </div>
-    <div class="col-lg-6 carousel-container">
-      <% if(blogs && blogs.length){%>
-      <%  blogs.forEach(function(blog){ %>
-
-          <div class="img-carousel">
-            <a href="blogs/<%=blog.stateName%>"><img class="img-item-new" src="/images/<%=blog.stateName%>.png" alt=""></a>
-          </div>
-
-      <% }) %>
-      <% } %>
-    </div>
+</section>
+<section id="about-us">
+  <div class="jumbotron">
 
   </div>
 </section>
@@ -135,147 +88,10 @@
 
 
 
-<!-- Section Podcasts -->
-<section id="podcasts">
-  <div class="myPrograms">
-    <h3 class="programs-title">I nostri programmi</h3>
-  </div>
-
-  <div class="wrapper">
-    <div class="home-carousel owl-carousel">
-
-      <% if(shows && shows.length){%>
-      <%  shows.forEach(function(show){ %>
-
-        <div class="single-testimonial">
-          <div class="img-area">
-            <a href="shows/<%=show.stateName%>"><img class="img-item" src="/images/<%=show.stateName%>.png" alt=""></a>
-          </div>
-          <h3>con <%=show.author%></h3>
-        </div>
-
-      <% }) %>
-      <% } %>
-
-    </div>
-  </div>
-  <hr class="h-line-programs">
-
-</section>
-
-<!-- Section music -->
-<section id="music">
-  <div class="myPrograms">
-    <h3 class="programs-title">La nostra musica</h3>
-    <!-- <hr class="h-line-programs"> -->
-  </div>
-
-  <div class="wrapper">
-    <div class="home-carousel owl-carousel">
-
-      <% if(mixes && mixes.length){%>
-      <%  mixes.forEach(function(mix){ %>
-
-        <div class="single-testimonial">
-          <div class="img-area">
-            <a href="mixes/<%=mix.stateName%>"><img class="img-item" src="/images/<%=mix.stateName%>.png" alt=""></a>
-          </div>
-        </div>
-
-      <% }) %>
-      <% } %>
-
-
-      <!-- <div class="single-testimonial">
-        <div class="img-area">
-          <a href="programmi.html"><img class="img-item" src="images/logofutu.png" alt=""></a>
-        </div>
-      </div> -->
-
-    </div>
-  </div>
-  <hr class="h-line-programs">
-</section>
-
-<section id="music">
-  <div class="myPrograms">
-    <h3 class="programs-title">I nostri blog</h3>
-  </div>
-
-  <div class="wrapper">
-    <div class="home-carousel owl-carousel">
-
-      <% if(blogs && blogs.length){%>
-      <%  blogs.forEach(function(blog){ %>
-
-        <div class="single-testimonial">
-          <div class="img-area">
-            <a href="shows/<%=blog.stateName%>"><img class="img-item" src="/images/<%=blog.stateName%>.png" alt=""></a>
-          </div>
-        </div>
-
-      <% }) %>
-      <% } %>
-
-    </div>
-  </div>
-  <hr class="h-line-programs">
-</section>
 
 
 
-  <script>
-    $('.home-carousel').owlCarousel({
-      loop: true,
-      margin: 20,
-      nav: true,
-      autoplay: true,
-      navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
-      responsiveClass: true,
-      responsive: {
-        0: {
-          items: 1
-        },
-        600: {
-          items: 2
-        },
-        1000: {
-          items: 3
-        }
-      }
-    })
-  </script>
 
-  <script>
-    $('.home-carousel-new').owlCarousel({
-      loop: true,
-      margin: 0,
-      nav: true,
-      autoplay: true,
-      // navText: ["<i class='fa fa-chevron-left'></i>", "<i class='fa fa-chevron-right'></i>"],
-      responsiveClass: true,
-      responsive: {
-        0: {
-          items: 1
-        },
-        600: {
-          items: 1
-        },
-        1000: {
-          items: 1
-        }
-      }
-    })
-  </script>
 
-  <script type="text/javascript">
-      $('.carousel-container').slick({
-        dots: true,
-        arrows: false,
-        autoplay: true,
-        autoplaySpeed: 1000
-      })
-
-  </script>
 
 <%- include("partials/footer"); %>
