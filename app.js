@@ -270,6 +270,44 @@ app.get("/blogs/:blog", function(req, res){
   });
 });
 
+app.get("/mixes/:mix", function(req, res){
+  // console.log(req.params);
+  // const stateName = _.camelCase(req.params.program);
+  // const title = _.startCase(stateName);
+
+  Mix.findOne({stateName: req.params.mix}, function(err, foundMix){
+
+    if(err){
+      console.log(err);
+    }else{
+      if(foundMix){
+        console.log("Found mix");
+        Post.find({program: foundMix.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
+          if (err){
+            console.error(err);
+          };
+          console.log("Found posts");
+          console.log(foundMix);
+          console.log(foundPosts);
+          var topPosts = [];
+          var oldPosts = [];
+          if (foundPosts.length>3){
+            topPosts = foundPosts.slice(0,3);
+            oldPosts = foundPosts.slice(3);
+          }else{
+            topPosts = foundPosts;
+          }
+          console.log(topPosts);
+          console.log(oldPosts);
+          res.render("mixTemplate",{showName: foundMix.name, showMan: foundMix.author, showDescription: foundMix.description,stateName: foundMix.stateName, latestPost: topPosts, oldPosts: oldPosts});
+        })
+      }else{
+        res.redirect("/");
+      }
+    }
+  });
+});
+
 app.get("/shows/:show/posts/:postId", function(req, res){
   const requestedProgramName = req.params.show;
   const requestedPostId = req.params.postId;

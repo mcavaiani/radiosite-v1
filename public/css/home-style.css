@@ -1,3 +1,7 @@
+body{
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPUlEQVQoU2NkIAJMnTrVl5EIdWAleBWCTMrOzt6MVyGyIoImIjsLw2p0k2CKURTiUkS61fhMgltNjCKQYgCVbRoX7exOkwAAAABJRU5ErkJggg==) repeat;
+
+}
 
 .navbar-section{
   background-size: cover;
@@ -26,7 +30,7 @@
 }
 
 .nav-droplist{
-  background-color: ;
+  /* background-color: ; */
 
 }
 
@@ -102,6 +106,7 @@
   text-align: center;
   margin: 0 20px;
   /* background-color: #131313; */
+  /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPUlEQVQoU2NkIAJMnTrVl5EIdWAleBWCTMrOzt6MVyGyIoImIjsLw2p0k2CKURTiUkS61fhMgltNjCKQYgCVbRoX7exOkwAAAABJRU5ErkJggg==) repeat; */
 }
 
 .menu-container{
