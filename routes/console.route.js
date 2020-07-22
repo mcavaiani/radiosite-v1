@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
 
   const token = user.generateAuthToken();
   res.set("x-access-token", token);
-  res.redirect("/console/adminConsole");
+  res.redirect("/console/admin-console");
 
 });
 
@@ -61,7 +61,10 @@ router.post("/login", async (req, res) => {
   );
 
   if (!passwordIsValid) {
-
+    return res.status(401).send({
+      accessToken: null,
+      message: "Invalid password!"
+    });
   };
   var token = jwt.sign({
     id: user.id
@@ -69,7 +72,7 @@ router.post("/login", async (req, res) => {
     expiresIn: 3600 // 24 hours
   });
   res.cookie("access-token", token, { httpOnly: true, secure: false});
-  res.redirect("/console/adminConsole");
+  res.redirect("/console/admin-console");
 });
 
 router.get("/logout",function(req,res){
@@ -78,10 +81,22 @@ router.get("/logout",function(req,res){
 });
 
 
-router.get("/adminConsole", auth, async (req, res)=>{
+router.get("/admin-console", auth, async (req, res)=>{
   // passport.authenticate("local");
   res.render("adminConsole");
 })
+
+router.get("/admin-console/user", auth, async (req, res)=>{
+  // passport.authenticate("local");
+
+  let user = await User.findOne({
+    _id: req.user.id
+  });
+
+  res.render("user", {userInfo:user});
+})
+
+
 
 
 

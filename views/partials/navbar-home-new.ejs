@@ -20,15 +20,12 @@
               Programmi
             </a>
 
-            <% if(showList && showList.length){%>
-            <%  showList.forEach(function(show){ %>
-
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="/shows/<%=show.stateName%>"><%=show.name%></a>
-              </div>
-
-            <% }) %>
-            <% } %>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/shows/all-inclusive">All Inclusive</a>
+              <a class="dropdown-item" href="/shows/casa-cava">Casa Cava</a>
+              <a class="dropdown-item" href="/shows/casa-sarzilla">Casa Sarzilla</a>
+              <a class="dropdown-item" href="/shows/l-indiescreto">L'Indiescreto</a>
+            </div>
             <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="/shows/casa-cava">Casa Cava</a>
             </div> -->
@@ -39,6 +36,8 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="/mixes/i-mix-di-cava">I mix di Cava</a>
+              <a class="dropdown-item" href="/mixes/tops-of-the-room">Tops of the room</a>
+              <a class="dropdown-item" href="/mixes/clubbing">Clubbing</a>
             </div>
           </li>
 
@@ -49,14 +48,15 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="/blogs/cucina-con-cava">Cucina con Cava</a>
+              <a class="dropdown-item" href="/blogs/club-culture">Club culture</a>
             </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/about">Le Persone</a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="/console/login">Login</a>
+          </li>
         </ul>
 
       </div>

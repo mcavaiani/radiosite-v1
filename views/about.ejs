@@ -1,4 +1,4 @@
-<%- include("partials/header", {pageTitle:"Chi siamo"}); %>
+<%- include("partials/header", {pageTitle:"Chi siamo", stateName: "about"}); %>
 <%- include("partials/navbar-program", {pageTitle:"Chi siamo"}); %>
 
 
@@ -51,6 +51,10 @@
 
 <main role="main">
 
+  <div class="people-header">
+    <h3 class="people-title">Le nostre persone</h3>
+  </div>
+
 
 
     <!-- START THE FEATURETTES -->
@@ -70,38 +74,22 @@
     <% if(users && users.length){%>
     <%  users.forEach(function(user){ %>
       <% if(user._doc.toBeShown==true){%>
-
-      <hr class="featurette-divider">
-
+<hr class="h-line-people">
       <div class="row featurette justify-content-center">
         <div class="col-md-2 img-featurette-container">
-          <img class="about-img-left featurette-image" src="/images/<%=user._doc.nickName%>.jpg" alt="There should be my face">
+          <img class="about-img-left featurette-image" src="/images/people/<%=user._doc.nickName%>.jpg" alt="There should be my face">
         </div>
         <div class="col-md-7">
           <h2 class="featurette-heading"><%=user._doc.nickName%></h2>
           <p class="lead"><%=user._doc.description%></p>
         </div>
       </div>
+
       <% } %>
     <% }) %>
     <% } %>
 
-    <hr class="featurette-divider">
+    <!-- <hr class="featurette-divider"> -->
 
-    <div class="row featurette justify-content-center">
-      <div class="col-md-2 img-featurette-container">
-        <img class="about-img-left featurette-image" src="/images/sarzo.jpg" alt="There should be my face">
-      </div>
-      <div class="col-md-7">
-        <h2 class="featurette-heading">Sarzo</h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-      </div>
-    </div>
-
-
-
-
-
-    <hr class="featurette-divider">
 </main>
 <%- include("partials/footer"); %>

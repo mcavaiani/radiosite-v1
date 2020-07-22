@@ -176,6 +176,7 @@ app.get("/home", function(req, res){
         res.status(500).send(error);
         return;
     }
+    console.log("Lista di show")
     console.log(resultSet);
     res.render('home', {
         shows: resultSet.showList,
@@ -222,7 +223,17 @@ app.get("/shows/:show", function(req, res){
           console.log("Found posts");
           console.log(foundShow);
           console.log(foundPosts);
-          res.render("programTemplate",{showName: foundShow.name, showMan: foundShow.author, showDescription: foundShow.description,stateName: foundShow.stateName, latestPost: [foundPosts.shift()], oldPosts: foundPosts});
+          var topPosts = [];
+          var oldPosts = [];
+          if (foundPosts.length>3){
+            topPosts = foundPosts.slice(0,3);
+            oldPosts = foundPosts.slice(3);
+          }else{
+            topPosts = foundPosts;
+          }
+          console.log(topPosts);
+          console.log(oldPosts);
+          res.render("programTemplate",{showName: foundShow.name, showMan: foundShow.author, showDescription: foundShow.description,stateName: foundShow.stateName, latestPost: topPosts, oldPosts: oldPosts});
         })
       }else{
         res.redirect("/");
@@ -477,9 +488,6 @@ app.get("/logout",function(req,res){
 // })
 
 
-app.get("/adminConsole/user", function(req,res){
-  res.render("user");
-});
 
 app.get("/createPage", function(req,res){
   res.render("createPage");

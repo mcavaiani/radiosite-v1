@@ -1,19 +1,24 @@
 <!-- Section music -->
+<% console.log("Questi sono i post:")%>
 <% console.log(posts)%>
+<% console.log("Questi è l'ultimo:")%>
 <% console.log(latests)%>
+<% console.log("E la sua lunghezza:")%>
 <% console.log(latests.length)%>
 
 <div class="">
   <% if(latests && latests.length){ %>
-    <% console.log(latests.length)%>
     <% var ind = 0%>
     <%  latests.forEach(function(latest){ %>
 
-
     <div class="row justify-content-center post-row">
-      <div class="post-img-container col-lg-6">
-        <% console.log(latest.previewPicture)%>
-        <img class="post-img" src="<%=latest.previewPicture.toString()%>" alt="There should be my face">
+      <div class="post-img-container col-lg-4">
+        <% if(latest.previewPicture){%>
+        <%  var picture = latest.previewPicture.toString();%>
+      <%  }else{%>
+      <%    var picture = "../images/people/"+showMan+".jpg";%>
+      <%  }%>
+        <img class="post-img" src="<%=picture%>" alt="There should be my face">
       </div>
       <div class="post-text-container col-lg-6">
         <div class="post-text">
@@ -45,16 +50,16 @@
       </div>
     </div>
   </div> -->
-
+  <hr class="h-line-programs">
   <div class="">
 
     <% if(posts && posts.length){%>
-      <hr class="featurette-divider">
+
     <% ind = 0%>
     <%  posts.forEach(function(post){ %>
 
-      <div class="row card-row">
-        <div class="card col-lg-12">
+      <div class="row card-post-row">
+        <div class="card-post col-lg-12">
           <div class="card-body">
             <h5 class="card-title"><%= post.title%></h5>
             <p class="card-text post-preview"><%= post.content.substring(0,100)%>...<a href="/shows/<%=stateName%>/posts/<%=post.id%>">read more</a></p>

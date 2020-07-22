@@ -1,0 +1,19 @@
+.body-login{
+  background: none;
+  background-color: #f0f0f0;
+}
+
+.container-login{
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+#login-navbar{
+  padding: 0 auto;
+  display: block;
+}
+
+.navbar-container-login{
+  padding: 2% 5% 0 5%;
+}
