@@ -30,112 +30,38 @@ app.use(express.static("public"));
 app.use((req, res, next)=>{
     res.locals.moment = moment;
     next();
-  });
-
-
-
-
-// app.use(session({
-//   secret: process.env.SECRETKEY,
-//   resave: false,
-//   saveUninitialized: false
-// }));
-
-// app.use(passport.initialize());
-// app.use(passport.session());
+});
 
 mongoose.connect('mongodb+srv://admin-cava:admin123@cluster0-kuomu.mongodb.net/futuradioDB', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
 const importedUser = require('./models/user.model');
+const importedShow = require('./models/show.model');
+const importedBlog = require('./models/blog.model');
+const importedMix = require('./models/mix.model');
+const importedPost = require('./models/post.model');
 
-
-// const userSchema = new mongoose.Schema({
-//   // email: String,
-//   username: String,
-//   password: String
-//   // name: String,
-//   // lastName: String,
-//   // nickName: String,
-//   // description: String,
-//   // pictureUrl: String,
-//   // facebook: String,
-//   // instragram: String,
-//   // twitter: String,
-//   // tiktok: String
+// const newShow = new Show({
+//   name: "Casa Cava",
+//   description: "Casa Cava è una figata",
+//   author: "Cava",
+//   stateName: "casa-cava"
 // });
 
-// userSchema.plugin(passportLocalMongoose);
-// const User = new mongoose.model("User", userSchema);
-
-// passport.use(User.createStrategy());
-//
-// passport.serializeUser(function(user, done) {
-//   done(null, user.id);
+// const newMix = new Mix({
+//   name: "I mix di Cava",
+//   description: "I mix di Cava sono una figata",
+//   author: "Cava",
+//   stateName: "i-mix-di-cava"
 // });
-//
-// passport.deserializeUser(function(id, done) {
-//   User.findById(id, function(err, user) {
-//     done(err, user);
-//   });
-// });
-
-const postSchema = new mongoose.Schema({
-  title: String,
-  content: String,
-  author: String,
-  date: String,
-  program: String,
-  previewPicture: String
-});
-
-const showSchema = new mongoose.Schema({
-  name: String,
-  description: String,
-  author: String,
-  stateName: String
-});
-
-const blogSchema = new mongoose.Schema({
-  name: String,
-  description: String,
-  author: String,
-  stateName: String
-});
-
-const mixSchema = new mongoose.Schema({
-  name: String,
-  description: String,
-  author: String,
-  stateName: String
-});
-
-const Show = mongoose.model('Show',showSchema);
-const Blog = mongoose.model('Blog',blogSchema);
-const Mix = mongoose.model('Mix',mixSchema);
-const Post = mongoose.model('Post', postSchema);
-
-const newShow = new Show({
-  name: "Casa Cava",
-  description: "Casa Cava è una figata",
-  author: "Cava",
-  stateName: "casa-cava"
-});
-
-const newMix = new Mix({
-  name: "I mix di Cava",
-  description: "I mix di Cava sono una figata",
-  author: "Cava",
-  stateName: "i-mix-di-cava"
-});
 
 
 // newShow.save();
 app.get("/", function(req, res){
   //add quesries for posts, mix and blogs
 
-  var fs = Show.find();
-  var fb = Blog.find();
-  var fm = Mix.find();
+  var fs = importedShow.Show.find();
+  var fb = importedBlog.Blog.find();
+  var fm = importedMix.Mix.find();
 
   var resourcesStack = {
       showList: fs.exec.bind(fs),
@@ -161,9 +87,9 @@ app.get("/", function(req, res){
 app.get("/home", function(req, res){
   //add quesries for posts, mix and blogs
 
-  var fs = Show.find();
-  var fb = Blog.find();
-  var fm = Mix.find();
+  var fs = importedShow.Show.find();
+  var fb = importedBlog.Blog.find();
+  var fm = importedMix.Mix.find();
 
   var resourcesStack = {
       showList: fs.exec.bind(fs),
@@ -209,14 +135,14 @@ app.get("/shows/:show", function(req, res){
   // const stateName = _.camelCase(req.params.program);
   // const title = _.startCase(stateName);
 
-  Show.findOne({stateName: req.params.show}, function(err, foundShow){
+  importedShow.Show.findOne({stateName: req.params.show}, function(err, foundShow){
 
     if(err){
       console.log(err);
     }else{
       if(foundShow){
         console.log("Found show");
-        Post.find({program: foundShow.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
+        importedPost.Post.find({program: foundShow.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
           if (err){
             console.error(err);
           };
@@ -225,9 +151,9 @@ app.get("/shows/:show", function(req, res){
           console.log(foundPosts);
           var topPosts = [];
           var oldPosts = [];
-          if (foundPosts.length>3){
-            topPosts = foundPosts.slice(0,3);
-            oldPosts = foundPosts.slice(3);
+          if (foundPosts.length>1){
+            topPosts = foundPosts.slice(0,1);
+            oldPosts = foundPosts.slice(1);
           }else{
             topPosts = foundPosts;
           }
@@ -248,14 +174,14 @@ app.get("/blogs/:blog", function(req, res){
   // const stateName = _.camelCase(req.params.program);
   // const title = _.startCase(stateName);
 
-  Blog.findOne({stateName: req.params.blog}, function(err, foundBlog){
+  importedBlog.Blog.findOne({stateName: req.params.blog}, function(err, foundBlog){
 
     if(err){
       console.log(err);
     }else{
       if(foundBlog){
         console.log("Found blog");
-        Post.find({program: foundBlog.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
+        importedPost.Post.find({program: foundBlog.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
           if (err){
             console.error(err);
           };
@@ -286,14 +212,14 @@ app.get("/mixes/:mix", function(req, res){
   // const stateName = _.camelCase(req.params.program);
   // const title = _.startCase(stateName);
 
-  Mix.findOne({stateName: req.params.mix}, function(err, foundMix){
+  importedMix.Mix.findOne({stateName: req.params.mix}, function(err, foundMix){
 
     if(err){
       console.log(err);
     }else{
       if(foundMix){
         console.log("Found mix");
-        Post.find({program: foundMix.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
+        importedPost.Post.find({program: foundMix.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
           if (err){
             console.error(err);
           };
@@ -302,9 +228,9 @@ app.get("/mixes/:mix", function(req, res){
           console.log(foundPosts);
           var topPosts = [];
           var oldPosts = [];
-          if (foundPosts.length>3){
-            topPosts = foundPosts.slice(0,3);
-            oldPosts = foundPosts.slice(3);
+          if (foundPosts.length>1){
+            topPosts = foundPosts.slice(0,1);
+            oldPosts = foundPosts.slice(1);
           }else{
             topPosts = foundPosts;
           }
@@ -323,15 +249,89 @@ app.get("/shows/:show/posts/:postId", function(req, res){
   const requestedProgramName = req.params.show;
   const requestedPostId = req.params.postId;
 
-  Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
-    res.render("post", {
-      pageTitle: foundPost.program,
-      title: foundPost.title,
-      content: foundPost.content
-    });
-  });
+  importedShow.Show.findOne({stateName: requestedProgramName}, function(err, foundShow){
+    if(err){
+      console.log(err);
+    }else{
+      if(foundShow){
+        console.log("Found show");
+        importedPost.Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
+          if(err){
+            console.log(err);
+          }else{
+            res.render("post", {
+              pageTitle: foundShow.name,
+              stateName: requestedProgramName,
+              title: foundPost.title,
+              content: foundPost.content
+            });
+          }
+        })
+      }else{
+        res.redirect("/shows/"+requestedProgramName+"/");
+      }
+    }
+  })
 });
 
+app.get("/mixes/:mix/posts/:postId", function(req, res){
+  const requestedProgramName = req.params.mix;
+  const requestedPostId = req.params.postId;
+
+  importedMix.Mix.findOne({stateName: requestedProgramName}, function(err, foundMix){
+    if(err){
+      console.log(err);
+    }else{
+      if(foundMix){
+        console.log("Found show");
+        importedPost.Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
+          if(err){
+            console.log(err);
+          }else{
+            res.render("post", {
+              pageTitle: foundMix.name,
+              stateName: requestedProgramName,
+              title: foundPost.title,
+              content: foundPost.content
+            });
+          }
+        })
+      }else{
+        res.redirect("/mixes/"+requestedProgramName+"/");
+      }
+    }
+  })
+});
+
+
+app.get("/blogs/:blog/posts/:postId", function(req, res){
+  const requestedProgramName = req.params.blog;
+  const requestedPostId = req.params.postId;
+
+  importedBlog.Blog.findOne({stateName: requestedProgramName}, function(err, foundBlog){
+    if(err){
+      console.log(err);
+    }else{
+      if(foundBlog){
+        console.log("Found mix");
+        importedPost.Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
+          if(err){
+            console.log(err);
+          }else{
+            res.render("post", {
+              pageTitle: foundBlog.name,
+              stateName: requestedProgramName,
+              title: foundPost.title,
+              content: foundPost.content
+            });
+          }
+        })
+      }else{
+        res.redirect("/blogs/"+requestedProgramName+"/");
+      }
+    }
+  })
+});
 
 // Tergeting all articles
 // app.route("/articles")
