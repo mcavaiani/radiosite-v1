@@ -17,15 +17,15 @@ const userSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 255
   },
-  // name: String,
-  // lastName: String,
-  // nickName: String,
-  // description: String,
-  // pictureUrl: String,
-  // facebook: String,
-  // instragram: String,
-  // twitter: String,
-  // tiktok: String
+  name: String,
+  lastName: String,
+  nickName: String,
+  description: String,
+  pictureUrl: String,
+  facebook: String,
+  instragram: String,
+  twitter: String,
+  tiktok: String,
   isAdmin: Boolean
 });
 

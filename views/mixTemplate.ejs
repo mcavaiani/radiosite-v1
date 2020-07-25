@@ -3,7 +3,7 @@
 <%- include("partials/navbar-program", {pageTitle:showName}); %>
 
 <section id="description-section">
-  <hr class="h-line-programs">
+  <!-- <hr class="h-line-programs"> -->
   <div class="profile">
     <img class="pic-me" src="/images/people/<%= showMan %>.jpg" alt="There should be my face">
     <h2 class="profile-header">Cos'è <%= showName %>?</h2>
@@ -30,6 +30,6 @@
     <h3 class="programs-title">Il blog di <%= showName %></h3>
     <!-- <hr class="h-line-programs"> -->
   </div>
-<%- include("partials/blog",{stateName: stateName, latests: latestPost, posts: oldPosts}); %>
+<%- include("partials/blog",{stateName: stateName, latests: latestPost, posts: oldPosts, programType: pType}); %>
 
 <%- include("partials/footer"); %>

@@ -80,7 +80,6 @@ router.get("/logout",function(req,res){
   res.redirect("/");
 });
 
-
 router.get("/admin-console", auth, async (req, res)=>{
 
   res.render("adminConsole");
@@ -95,15 +94,5 @@ router.get("/admin-console/user", auth, async (req, res)=>{
   res.render("user", {userInfo:user});
 })
 
-
-
-
-
-//
-//
-// router.get("/current", auth, async (req, res) => {
-//   const user = await User.findById(req.user._id).select("-password");
-//   res.send(user);
-// });
 
 module.exports = router;

@@ -10,63 +10,60 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const momentMiddleware = require("../middleware/momentMiddleware");
 
-
-
-router.get("/:show", momentMiddleware, function(req, res){
+router.get("/:blog", momentMiddleware, function(req, res){
   // console.log(req.params);
   // const stateName = _.camelCase(req.params.program);
   // const title = _.startCase(stateName);
 
-  importedShow.Show.findOne({stateName: req.params.show}, function(err, foundShow){
+  importedBlog.Blog.findOne({stateName: req.params.blog}, function(err, foundBlog){
 
     if(err){
       console.log(err);
     }else{
-      if(foundShow){
-        console.log("Found show");
-        importedPost.Post.find({program: foundShow.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
+      if(foundBlog){
+        console.log("Found blog");
+        importedPost.Post.find({program: foundBlog.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
           if (err){
             console.error(err);
           };
           console.log("Found posts");
-          console.log(foundShow);
+          console.log(foundBlog);
           console.log(foundPosts);
           var topPosts = [];
           var oldPosts = [];
-          if (foundPosts.length>1){
-            topPosts = foundPosts.slice(0,1);
-            oldPosts = foundPosts.slice(1);
+          if (foundPosts.length>3){
+            topPosts = foundPosts.slice(0,3);
+            oldPosts = foundPosts.slice(3);
           }else{
             topPosts = foundPosts;
           }
           console.log(topPosts);
           console.log(oldPosts);
-          res.render("programTemplate",{showName: foundShow.name, showMan: foundShow.author, showDescription: foundShow.description,stateName: foundShow.stateName, latestPost: topPosts, oldPosts: oldPosts, pType: "shows"});
+          res.render("blogTemplate",{showName: foundBlog.name, showMan: foundBlog.author, showDescription: foundBlog.description,stateName: foundBlog.stateName, latestPost: topPosts, oldPosts: oldPosts, pType: "blogs"});
         })
       }else{
         res.redirect("/");
       }
     }
-
   });
 });
 
-router.get("/:show/posts/:postId", momentMiddleware, function(req, res){
-  const requestedProgramName = req.params.show;
+router.get("/:blog/posts/:postId", momentMiddleware, function(req, res){
+  const requestedProgramName = req.params.blog;
   const requestedPostId = req.params.postId;
 
-  importedShow.Show.findOne({stateName: requestedProgramName}, function(err, foundShow){
+  importedBlog.Blog.findOne({stateName: requestedProgramName}, function(err, foundBlog){
     if(err){
       console.log(err);
     }else{
-      if(foundShow){
-        console.log("Found show");
+      if(foundBlog){
+        console.log("Found mix");
         importedPost.Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
           if(err){
             console.log(err);
           }else{
             res.render("post", {
-              pageTitle: foundShow.name,
+              pageTitle: foundBlog.name,
               stateName: requestedProgramName,
               title: foundPost.title,
               content: foundPost.content
@@ -74,38 +71,12 @@ router.get("/:show/posts/:postId", momentMiddleware, function(req, res){
           }
         })
       }else{
-        res.redirect("/shows/"+requestedProgramName+"/");
+        res.redirect("/blogs/"+requestedProgramName+"/");
       }
     }
   })
 });
 
 
-
-
-// router.get("/register", function(req, res) {
-//   res.render("register");
-// });
-
-
-// router.get("/admin-console/user", auth, async (req, res)=>{
-//
-//   let user = await User.findOne({
-//     _id: req.user.id
-//   });
-//
-//   res.render("user", {userInfo:user});
-// })
-
-
-
-
-
-//
-//
-// router.get("/current", auth, async (req, res) => {
-//   const user = await User.findById(req.user._id).select("-password");
-//   res.send(user);
-// });
 
 module.exports = router;

@@ -28,7 +28,7 @@
           <% console.log(dateShort)%>
           <p class="post-date"><%=moment(dateShort).format('DD-MM-YY')%></p>
           <h2 class="post-header"><%=latest.title%></h2>
-          <p class="post-preview"><%=latest.content.substring(0, 100)%>...<a href="/shows/<%=stateName%>/posts/<%=latest.id%>">read more</a></p>
+          <p class="post-preview"><%=latest.content.substring(0, 100)%>...<a href="/<%=programType %>/<%=stateName%>/posts/<%=latest.id%>">read more</a></p>
           <p class="post-author"><%=latest.author%></p>
         </div>
       </div>
@@ -36,8 +36,10 @@
     <% ind++%>
   <% }) %>
 
+  <hr class="h-line-programs">
+
   <%}else{ %>
-    <p>Non ci sono post</p>
+    <p class="post-error">Non ci sono post</p>
   <%} %>
   </div>
 
@@ -50,7 +52,7 @@
       </div>
     </div>
   </div> -->
-  <hr class="h-line-programs">
+  <!-- <hr class="h-line-programs"> -->
   <div class="">
 
     <% if(posts && posts.length){%>
@@ -62,7 +64,7 @@
         <div class="card-post col-lg-12">
           <div class="card-body">
             <h5 class="card-title"><%= post.title%></h5>
-            <p class="card-text post-preview"><%= post.content.substring(0,100)%>...<a href="/shows/<%=stateName%>/posts/<%=post.id%>">read more</a></p>
+            <p class="card-text post-preview"><%= post.content.substring(0,100)%>...<a href="/<%=programType %>/<%=stateName%>/posts/<%=post.id%>">read more</a></p>
             <% var pos = posts.length - ind%>
             <h6 class="card-subtitle mb-2 text-muted">Episode <%=pos %> - <%=moment(post.date).format('DD-MM-YY') %></h6>
           </div>

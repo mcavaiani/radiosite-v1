@@ -93,15 +93,6 @@ body{
   margin: 0 2% 5% 0;
 }
 
-.title-hr{
-  border: 2px solid #EF50AE;
-  background-color: #EF50AE;
-  width: 30%;
-  margin: 0 auto;
-}
-
-
-
 #menu-section{
   align-items: center;
   text-align: center;
@@ -173,6 +164,13 @@ body{
     font-size: 1.5rem;
   }
 
+  .title-h1{
+    font-size: 4rem;
+  }
+  .programs-title{
+    font-size: 2rem;
+  }
+
 
 }
 
@@ -185,6 +183,44 @@ body{
   }
   .btn.menu-button{
     font-size: 2rem;
+  }
+  .title-h1{
+    font-size: 6rem;
+  }
+  .programs-title{
+    font-size: 4rem;
+  }
+
+
+  .title-h3-new{
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+    font-size: 2rem;
+    color: white;
+    padding-bottom: 0%;
+  }
+
+}
+
+@media all and (min-width: 62em) {
+  .title-h1{
+    font-size: 9rem;
+  }
+
+  .title-h1-new{
+    font-size: 9rem;
+  }
+  .programs-title-new{
+    font-size: 5rem;
+  }
+
+
+  .title-h3-new{
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+    font-size: 3rem;
+    color: white;
+    padding-bottom: 0%;
   }
 
 }

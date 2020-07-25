@@ -3,6 +3,9 @@ require('dotenv').config();
 const config = require("config");
 const express = require("express");
 const usersRoute = require("./routes/console.route");
+const showsRoute = require("./routes/show.route");
+const mixesRoute = require("./routes/mix.route");
+const blogsRoute = require("./routes/blog.route");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
@@ -14,7 +17,8 @@ const async = require('async');
 const cookieParser = require('cookie-parser');
 const chalk = require("chalk");
 const figlet = require('figlet');
-const moment = require("moment");
+const momentMiddleware = require("./middleware/momentMiddleware");
+// const moment = require("moment");
 
 const app = express();
 
@@ -26,11 +30,14 @@ app.use(cookieParser())
 app.use(express.json());
 //use users route for api/users
 app.use("/console", usersRoute);
+app.use("/shows", showsRoute);
+app.use("/blogs", blogsRoute);
+app.use("/mixes", mixesRoute);
 app.use(express.static("public"));
-app.use((req, res, next)=>{
-    res.locals.moment = moment;
-    next();
-});
+// app.use((req, res, next)=>{
+//     res.locals.moment = moment;
+//     next();
+// });
 
 mongoose.connect('mongodb+srv://admin-cava:admin123@cluster0-kuomu.mongodb.net/futuradioDB', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
@@ -111,226 +118,6 @@ app.get("/home", function(req, res){
     });
 });
 
-});
-
-// SEZIONE PROGRAMMI
-
-// app.get("/programmi/:program", function(req, res){
-//   // console.log(req.params);
-//   // const stateName = _.camelCase(req.params.program);
-//   // const title = _.startCase(stateName);
-//
-//   Post.find({program: req.params.program}).sort({date: 'desc'}).exec(function (err, foundPosts) {
-//     if (err){
-//       console.error(err);
-//     }else{
-//       console.log(foundPosts);
-//       res.render(req.params.program,{posts: foundPosts});
-//     }
-//   })
-// });
-
-app.get("/shows/:show", function(req, res){
-  // console.log(req.params);
-  // const stateName = _.camelCase(req.params.program);
-  // const title = _.startCase(stateName);
-
-  importedShow.Show.findOne({stateName: req.params.show}, function(err, foundShow){
-
-    if(err){
-      console.log(err);
-    }else{
-      if(foundShow){
-        console.log("Found show");
-        importedPost.Post.find({program: foundShow.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
-          if (err){
-            console.error(err);
-          };
-          console.log("Found posts");
-          console.log(foundShow);
-          console.log(foundPosts);
-          var topPosts = [];
-          var oldPosts = [];
-          if (foundPosts.length>1){
-            topPosts = foundPosts.slice(0,1);
-            oldPosts = foundPosts.slice(1);
-          }else{
-            topPosts = foundPosts;
-          }
-          console.log(topPosts);
-          console.log(oldPosts);
-          res.render("programTemplate",{showName: foundShow.name, showMan: foundShow.author, showDescription: foundShow.description,stateName: foundShow.stateName, latestPost: topPosts, oldPosts: oldPosts});
-        })
-      }else{
-        res.redirect("/");
-      }
-    }
-
-  });
-});
-
-app.get("/blogs/:blog", function(req, res){
-  // console.log(req.params);
-  // const stateName = _.camelCase(req.params.program);
-  // const title = _.startCase(stateName);
-
-  importedBlog.Blog.findOne({stateName: req.params.blog}, function(err, foundBlog){
-
-    if(err){
-      console.log(err);
-    }else{
-      if(foundBlog){
-        console.log("Found blog");
-        importedPost.Post.find({program: foundBlog.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
-          if (err){
-            console.error(err);
-          };
-          console.log("Found posts");
-          console.log(foundBlog);
-          console.log(foundPosts);
-          var topPosts = [];
-          var oldPosts = [];
-          if (foundPosts.length>3){
-            topPosts = foundPosts.slice(0,3);
-            oldPosts = foundPosts.slice(3);
-          }else{
-            topPosts = foundPosts;
-          }
-          console.log(topPosts);
-          console.log(oldPosts);
-          res.render("blogTemplate",{showName: foundBlog.name, showMan: foundBlog.author, showDescription: foundBlog.description,stateName: foundBlog.stateName, latestPost: topPosts, oldPosts: oldPosts});
-        })
-      }else{
-        res.redirect("/");
-      }
-    }
-  });
-});
-
-app.get("/mixes/:mix", function(req, res){
-  // console.log(req.params);
-  // const stateName = _.camelCase(req.params.program);
-  // const title = _.startCase(stateName);
-
-  importedMix.Mix.findOne({stateName: req.params.mix}, function(err, foundMix){
-
-    if(err){
-      console.log(err);
-    }else{
-      if(foundMix){
-        console.log("Found mix");
-        importedPost.Post.find({program: foundMix.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
-          if (err){
-            console.error(err);
-          };
-          console.log("Found posts");
-          console.log(foundMix);
-          console.log(foundPosts);
-          var topPosts = [];
-          var oldPosts = [];
-          if (foundPosts.length>1){
-            topPosts = foundPosts.slice(0,1);
-            oldPosts = foundPosts.slice(1);
-          }else{
-            topPosts = foundPosts;
-          }
-          console.log(topPosts);
-          console.log(oldPosts);
-          res.render("mixTemplate",{showName: foundMix.name, showMan: foundMix.author, showDescription: foundMix.description,stateName: foundMix.stateName, latestPost: topPosts, oldPosts: oldPosts});
-        })
-      }else{
-        res.redirect("/");
-      }
-    }
-  });
-});
-
-app.get("/shows/:show/posts/:postId", function(req, res){
-  const requestedProgramName = req.params.show;
-  const requestedPostId = req.params.postId;
-
-  importedShow.Show.findOne({stateName: requestedProgramName}, function(err, foundShow){
-    if(err){
-      console.log(err);
-    }else{
-      if(foundShow){
-        console.log("Found show");
-        importedPost.Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
-          if(err){
-            console.log(err);
-          }else{
-            res.render("post", {
-              pageTitle: foundShow.name,
-              stateName: requestedProgramName,
-              title: foundPost.title,
-              content: foundPost.content
-            });
-          }
-        })
-      }else{
-        res.redirect("/shows/"+requestedProgramName+"/");
-      }
-    }
-  })
-});
-
-app.get("/mixes/:mix/posts/:postId", function(req, res){
-  const requestedProgramName = req.params.mix;
-  const requestedPostId = req.params.postId;
-
-  importedMix.Mix.findOne({stateName: requestedProgramName}, function(err, foundMix){
-    if(err){
-      console.log(err);
-    }else{
-      if(foundMix){
-        console.log("Found show");
-        importedPost.Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
-          if(err){
-            console.log(err);
-          }else{
-            res.render("post", {
-              pageTitle: foundMix.name,
-              stateName: requestedProgramName,
-              title: foundPost.title,
-              content: foundPost.content
-            });
-          }
-        })
-      }else{
-        res.redirect("/mixes/"+requestedProgramName+"/");
-      }
-    }
-  })
-});
-
-
-app.get("/blogs/:blog/posts/:postId", function(req, res){
-  const requestedProgramName = req.params.blog;
-  const requestedPostId = req.params.postId;
-
-  importedBlog.Blog.findOne({stateName: requestedProgramName}, function(err, foundBlog){
-    if(err){
-      console.log(err);
-    }else{
-      if(foundBlog){
-        console.log("Found mix");
-        importedPost.Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
-          if(err){
-            console.log(err);
-          }else{
-            res.render("post", {
-              pageTitle: foundBlog.name,
-              stateName: requestedProgramName,
-              title: foundPost.title,
-              content: foundPost.content
-            });
-          }
-        })
-      }else{
-        res.redirect("/blogs/"+requestedProgramName+"/");
-      }
-    }
-  })
 });
 
 // Tergeting all articles
@@ -433,59 +220,10 @@ app.get("/blogs/:blog/posts/:postId", function(req, res){
 //   });
 
 
-// LOGIN
-// app.route("/login")
-//   .get(function(req,res){
-//     res.render("login");
-//   })
-//   .post(function(req, res){
-//
-//     const user = new User({
-//       username: req.body.username,
-//       password: req.body.password
-//     });
-//
-//     req.login(user, function(err){
-//       if (err){
-//         console.log(err);
-//         res.redirect("/login");
-//       }else{
-//         passport.authenticate("local");
-//         res.redirect("/adminConsole");
-//       }
-//     });
-//   });
-
-// REGISTRAZIONE
-// app.route("/register")
-//   .get(function(req, res){
-//     res.render("register");
-//   })
-//   .post(function(req, res){
-//
-//     User.register({username: req.body.username}, req.body.password, function(err,user){
-//       if(err){
-//         console.log(err);
-//         res.redirect("/register");
-//       }else{
-//         passport.authenticate("local")(req,res,function(){
-//           res.redirect("/");
-//         })
-//       }
-//     });
-//   })
-
-// LOGOUT
-app.get("/logout",function(req,res){
-  req.logout();
-  res.redirect("/");
-});
 
 
-// app.get("/adminConsole", function(req, res){
-//   passport.authenticate("local");
-//   res.render("adminConsole");
-// })
+
+
 
 
 
