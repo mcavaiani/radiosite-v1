@@ -18,7 +18,28 @@ const cookieParser = require('cookie-parser');
 const chalk = require("chalk");
 const figlet = require('figlet');
 const momentMiddleware = require("./middleware/momentMiddleware");
+const mysql = require('mysql');
+const util = require('util');
 // const moment = require("moment");
+
+var db = mysql.createConnection({
+    host     : 'localhost',
+    database : 'futuradiodb',
+    user     : 'root',
+    password : 'root',
+});
+
+db.connect(function(err) {
+    if (err) {
+        console.error('Error connecting: ' + err.stack);
+        return;
+    }
+
+    console.log('Connected as id ' + db.threadId);
+});
+
+global.db = db;
+const query = util.promisify(db.query).bind(db);
 
 const app = express();
 
@@ -63,36 +84,76 @@ const importedPost = require('./models/post.model');
 
 
 // newShow.save();
-app.get("/", function(req, res){
+app.get("/", async function(req, res){
   //add quesries for posts, mix and blogs
 
-  var fs = importedShow.Show.find();
-  var fb = importedBlog.Blog.find();
-  var fm = importedMix.Mix.find();
+  try{
+    let sql = 'SELECT * FROM shows';
+    const programList = await query(sql);
+    const newProgramList = programList.map(v => Object.assign({}, v));
 
-  var resourcesStack = {
-      showList: fs.exec.bind(fs),
-      blogList: fb.exec.bind(fb),
-      mixList: fm.exec.bind(fm)
+    console.log(newProgramList);
+
+    var showList = newProgramList.filter(function (el) {
+      return el.type === 'podcast';
+    });
+
+    var blogList = newProgramList.filter(function (el) {
+      return el.type === 'blog';
+    });
+
+    var mixList = newProgramList.filter(function (el) {
+      return el.type === 'mix';
+    });
+
+    console.log('showList è');
+    console.log(showList);
+    console.log('blogList è');
+    console.log(blogList);
+    console.log('mixList è');
+    console.log(mixList);
+
+    res.render('home-new', {
+        shows: showList,
+        blogs: blogList,
+        mixes: mixList
+    });
+
+  }catch(e){
+    res.status(500).send(e);
   };
 
-  async.parallel(resourcesStack, function (error, resultSet){
-    if (error) {
-        res.status(500).send(error);
-        return;
-    }
-    console.log(resultSet);
-    res.render('home-new', {
-        shows: resultSet.showList,
-        blogs: resultSet.blogList,
-        mixes: resultSet.mixList
-    });
-});
+
+
+//   var fs = importedShow.Show.find();
+//   var fb = importedBlog.Blog.find();
+//   var fm = importedMix.Mix.find();
+//
+//   var resourcesStack = {
+//       showList: fs.exec.bind(fs),
+//       blogList: fb.exec.bind(fb),
+//       mixList: fm.exec.bind(fm)
+//   };
+//
+//   async.parallel(resourcesStack, function (error, resultSet){
+//     if (error) {
+//         res.status(500).send(error);
+//         return;
+//     }
+//     console.log(resultSet);
+//     res.render('home-new', {
+//         shows: resultSet.showList,
+//         blogs: resultSet.blogList,
+//         mixes: resultSet.mixList
+//     });
+// });
 
 });
 
 app.get("/home", function(req, res){
   //add quesries for posts, mix and blogs
+
+  // const users = await db.query( 'SELECT * FROM users WHERE id = 1' );
 
   var fs = importedShow.Show.find();
   var fb = importedBlog.Blog.find();

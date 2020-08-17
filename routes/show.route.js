@@ -12,10 +12,14 @@ const momentMiddleware = require("../middleware/momentMiddleware");
 
 
 
-router.get("/:show", momentMiddleware, function(req, res){
+router.get("/:show", momentMiddleware, async function(req, res){
   // console.log(req.params);
   // const stateName = _.camelCase(req.params.program);
   // const title = _.startCase(stateName);
+
+  let sql = 'SELECT * FROM shows WHERE stateName = ?';
+  const provaShow = await db.query(sql,req.params.show);
+  console.log(provaShow);
 
   importedShow.Show.findOne({stateName: req.params.show}, function(err, foundShow){
 
