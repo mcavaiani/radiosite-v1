@@ -40,6 +40,7 @@ db.connect(function(err) {
 
 global.db = db;
 const query = util.promisify(db.query).bind(db);
+global.query = query;
 
 const app = express();
 

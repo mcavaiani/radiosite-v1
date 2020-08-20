@@ -5,7 +5,9 @@
 <section id="description-section">
   <!-- <hr class="h-line-programs"> -->
   <div class="profile">
+    <%  showMen.forEach(function(showMan){ %>
     <img class="pic-me" src="/images/people/<%= showMan %>.jpg" alt="There should be my face">
+    <% }) %>
     <h2 class="profile-header">Cos'è <%= showName %>?</h2>
     <p class="hello-p"><%= showDescription %></p>
   </div>
@@ -20,6 +22,6 @@
 
   <section id="music">
 
-  <%- include("partials/blog",{stateName: stateName, latests: latestPost, posts: oldPosts, showMan: showMan, programType: pType}); %>
+  <%- include("partials/blog",{stateName: stateName, latests: latestPost, posts: oldPosts, programType: pType}); %>
 
 <%- include("partials/footer"); %>

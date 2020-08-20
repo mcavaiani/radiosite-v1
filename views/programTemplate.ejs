@@ -3,7 +3,9 @@
 <section id="description-section">
   <!-- <hr class="h-line-programs"> -->
   <div class="profile">
+    <%  showMen.forEach(function(showMan){ %>
     <img class="pic-me" src="/images/people/<%= showMan %>.jpg" alt="There should be my face">
+    <% }) %>
     <h2 class="profile-header">Cos'è <%= showName %>?</h2>
     <p class="hello-p"><%= showDescription %></p>
   </div>

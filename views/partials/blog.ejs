@@ -16,7 +16,7 @@
         <% if(latest.previewPicture){%>
         <%  var picture = latest.previewPicture.toString();%>
       <%  }else{%>
-      <%    var picture = "../images/people/"+showMan+".jpg";%>
+      <%    var picture = "../images/people/"+latest.author+".jpg";%>
       <%  }%>
         <img class="post-img" src="<%=picture%>" alt="There should be my face">
       </div>
