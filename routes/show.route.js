@@ -21,8 +21,6 @@ router.get("/:show", momentMiddleware, async function(req, res){
     const show = await query(sqlShow, req.params.show);
     var foundShow = show.map(v => Object.assign({}, v));
     foundShow = foundShow[0];
-    console.log("lo show è")
-    console.log(foundShow);
   // }catch(e){
   //   console.log(e);
   //   res.redirect("/");
@@ -32,8 +30,6 @@ router.get("/:show", momentMiddleware, async function(req, res){
     let sqlAuthor = 'SELECT userId FROM usersShows WHERE showId = ?';
     const authorList = await query(sqlAuthor, foundShow.id);
     const authors = authorList.map(v => Object.assign({}, v));
-    console.log("Gli autori sono");
-    console.log(authors);
   // }catch(e){
   //   console.log(e);
   //   res.redirect("/");
@@ -41,30 +37,26 @@ router.get("/:show", momentMiddleware, async function(req, res){
 
   let authorsArray = [];
   authors.forEach(element => authorsArray.push(element.userId));
-  console.log("Questo è l'array di autori");
-  console.log(authorsArray);
 
   let sqlAuthorInfo = 'SELECT * FROM users WHERE id = ?';
   const authorInfo = await query(sqlAuthorInfo, authorsArray);
   const authorsInfoList = authorInfo.map(v => Object.assign({}, v));
-  console.log("PROVA QUERY PER AUTORI");
-  console.log(authorsInfoList);
 
   let authorNames = [];
   authorsInfoList.forEach(element => authorNames.push(element.nickName));
-  console.log("PROVA QUERY PER AUTORI");
-  console.log(authorNames);
 
   // try{
     let sqlPosts = 'SELECT * FROM posts WHERE program = ?';
     const postList = await query(sqlPosts, req.params.show);
-    const postListNew = show.map(v => Object.assign({}, v));
+    const postListNew = postList.map(v => Object.assign({}, v));
   // }catch(e){
   //   console.log(e);
   //   res.redirect("/");
   // }
 
-  var foundPosts = postListNew.sort( function ( a, b ) { return b.postDate - a.postDate; } );
+  var foundPosts = postListNew.sort(function(a,b){ return b.postDate.localeCompare(a.postDate);});
+  console.log("Ecco tutti i post di "+req.params.show);
+  console.log(foundPosts);
 
   var topPosts = [];
   var oldPosts = [];

@@ -65,7 +65,7 @@ router.get("/:blog", momentMiddleware, async function(req, res){
   //   res.redirect("/");
   // }
 
-  var foundPosts = postListNew.sort( function ( a, b ) { return b.postDate - a.postDate; } );
+  var foundPosts = postListNew.sort(function(a,b){ return b.postDate.localeCompare(a.postDate);});
 
   var topPosts = [];
   var oldPosts = [];
