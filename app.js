@@ -6,6 +6,7 @@ const usersRoute = require("./routes/console.route");
 const showsRoute = require("./routes/show.route");
 const mixesRoute = require("./routes/mix.route");
 const blogsRoute = require("./routes/blog.route");
+const apiRoute = require("./routes/api.route");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require('mongoose');
@@ -55,6 +56,7 @@ app.use("/console", usersRoute);
 app.use("/shows", showsRoute);
 app.use("/blogs", blogsRoute);
 app.use("/mixes", mixesRoute);
+app.use("/api", apiRoute);
 app.use(express.static("public"));
 // app.use((req, res, next)=>{
 //     res.locals.moment = moment;

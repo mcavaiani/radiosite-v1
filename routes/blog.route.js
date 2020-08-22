@@ -16,16 +16,16 @@ router.get("/:blog", momentMiddleware, async function(req, res){
   // const stateName = _.camelCase(req.params.program);
   // const title = _.startCase(stateName);
 
-  // try{
+  try{
     let sqlBlog = 'SELECT * FROM shows WHERE stateName = ?';
     const blog = await query(sqlBlog, req.params.blog);
     var foundBlog = blog.map(v => Object.assign({}, v));
+    if (!foundBlog.length){res.redirect("/");}
     foundBlog = foundBlog[0];
-    console.log(foundBlog);
-  // }catch(e){
-  //   console.log(e);
-  //   res.redirect("/");
-  // }
+  }catch(e){
+    console.log(e);
+    res.redirect("/");
+  }
 
   // try{
     let sqlAuthor = 'SELECT userId FROM usersShows WHERE showId = ?';
@@ -69,9 +69,9 @@ router.get("/:blog", momentMiddleware, async function(req, res){
 
   var topPosts = [];
   var oldPosts = [];
-  if (foundPosts.length>1){
-    topPosts = foundPosts.slice(0,1);
-    oldPosts = foundPosts.slice(1);
+  if (foundPosts.length>3){
+    topPosts = foundPosts.slice(0,3);
+    oldPosts = foundPosts.slice(3);
     console.log("Questo è l'ultimo post");
     console.log(topPosts);
     console.log("Questi sono i post precedenti");
@@ -116,33 +116,57 @@ router.get("/:blog", momentMiddleware, async function(req, res){
   // });
 });
 
-router.get("/:blog/posts/:postId", momentMiddleware, function(req, res){
-  const requestedProgramName = req.params.blog;
-  const requestedPostId = req.params.postId;
+router.get("/:blog/posts/:postId", momentMiddleware, async function(req, res){
 
-  importedBlog.Blog.findOne({stateName: requestedProgramName}, function(err, foundBlog){
-    if(err){
-      console.log(err);
-    }else{
-      if(foundBlog){
-        console.log("Found mix");
-        importedPost.Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
-          if(err){
-            console.log(err);
-          }else{
-            res.render("post", {
-              pageTitle: foundBlog.name,
-              stateName: requestedProgramName,
-              title: foundPost.title,
-              content: foundPost.content
-            });
-          }
-        })
-      }else{
-        res.redirect("/blogs/"+requestedProgramName+"/");
-      }
-    }
-  })
+  let sqlBlog = 'SELECT * FROM shows WHERE stateName = ?';
+  const blog = await query(sqlBlog, req.params.blog);
+  var foundBlog = blog.map(v => Object.assign({}, v));
+  if (!foundBlog.length){res.redirect("/");}
+  foundBlog = foundBlog[0];
+
+  console.log("Blog name is");
+  console.log(foundBlog);
+
+  let sqlPost = 'SELECT * FROM posts WHERE program = ? and id = ?';
+  const post = await query(sqlPost,[req.params.blog, req.params.postId]);
+  var foundPost = post.map(v => Object.assign({}, v));
+  if (!foundPost.length){res.redirect("/");}
+  foundPost = foundPost[0];
+
+  console.log("Post info");
+  console.log(foundPost);
+
+  res.render("post", {
+    pageTitle: foundBlog.name,
+    stateName: req.params.blog,
+    title: foundPost.title,
+    content: foundPost.content
+  });
+
+  //
+  // importedBlog.Blog.findOne({stateName: requestedProgramName}, function(err, foundBlog){
+  //   if(err){
+  //     console.log(err);
+  //   }else{
+  //     if(foundBlog){
+  //       console.log("Found mix");
+  //       importedPost.Post.findOne({program: requestedProgramName, _id: requestedPostId}, function(err, foundPost){
+  //         if(err){
+  //           console.log(err);
+  //         }else{
+  //           res.render("post", {
+  //             pageTitle: foundBlog.name,
+  //             stateName: requestedProgramName,
+  //             title: foundPost.title,
+  //             content: foundPost.content
+  //           });
+  //         }
+  //       })
+  //     }else{
+  //       res.redirect("/blogs/"+requestedProgramName+"/");
+  //     }
+  //   }
+  // })
 });
 
 

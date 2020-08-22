@@ -16,15 +16,17 @@ router.get("/:show", momentMiddleware, async function(req, res){
   // const stateName = _.camelCase(req.params.program);
   // const title = _.startCase(stateName);
 
-  // try{
+  try{
     let sqlShow = 'SELECT * FROM shows WHERE stateName = ?';
     const show = await query(sqlShow, req.params.show);
     var foundShow = show.map(v => Object.assign({}, v));
+    if (!foundShow.length){res.redirect("/");}
     foundShow = foundShow[0];
-  // }catch(e){
-  //   console.log(e);
-  //   res.redirect("/");
-  // }
+  }catch(e){
+     console.log(e);
+     res.redirect("/");
+  }
+
 
   // try{
     let sqlAuthor = 'SELECT userId FROM usersShows WHERE showId = ?';
