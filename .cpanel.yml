@@ -2,4 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/futuradi/radiosite-v1/
-    - /cp -R images $DEPLOYPATH
+    - /bin/cp -R images $DEPLOYPATH
