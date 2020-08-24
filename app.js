@@ -24,10 +24,10 @@ const util = require('util');
 // const moment = require("moment");
 
 var db = mysql.createConnection({
-    host     : 'localhost',
+    // host     : 'localhost',
     database : 'futuradiodb',
-    user     : 'root',
-    password : 'root',
+    user     : 'futuradi_user',
+    password : process.env.DBPSW,
 });
 
 db.connect(function(err) {
