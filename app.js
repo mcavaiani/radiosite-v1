@@ -25,7 +25,7 @@ const util = require('util');
 
 var db = mysql.createConnection({
     host     : process.env.SERVER,
-    database : 'futuradiodb',
+    database : 'futuradi_futuradiodb',
     user     : 'futuradi_user',
     password : process.env.DBPSW,
 });
