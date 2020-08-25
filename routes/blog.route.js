@@ -140,7 +140,8 @@ router.get("/:blog/posts/:postId", momentMiddleware, async function(req, res){
     pageTitle: foundBlog.name,
     stateName: req.params.blog,
     title: foundPost.title,
-    content: foundPost.content
+    content: foundPost.content,
+    author: foundPost.author
   });
 
   //

@@ -25,21 +25,28 @@ const https = require("https");
 const fs = require("fs");
 const helmet = require("helmet");
 const options = {
-  // key: fs.readFileSync("/srv/www/keys/my-site-key.pem"),
-  // cert: fs.readFileSync("/srv/www/keys/chain.pem")
+  key: fs.readFileSync("ead7f_26eb7_6a85b9258a328aa39499cc46bcb42445.key"),
+  cert: fs.readFileSync("www_futuradio_it_fc1ab_e3773_1629935999_9377561114728d417c10a7854aa9f356.crt")
 };
 // const moment = require("moment");
 
 let host = process.env.SERVER;
 if (host == null || host == "") {
   host = 'localhost';
+  database = 'futuradiodb';
+  user = 'root';
+  password = 'root'
+}else{
+  database = process.env.DATABASE;
+  user = process.env.DBUSER;
+  password = process.env.DBPSW;
 }
 
 var db = mysql.createConnection({
     host     : host,
-    database : process.env.DATABASE,
-    user     : process.env.DBUSER,
-    password : process.env.DBPSW,
+    database : database,
+    user     : user,
+    password : password
 });
 
 db.connect(function(err) {
@@ -203,12 +210,14 @@ if (port == null || port == "") {
   port = 3000;
 }
 
-app.listen(port, function() {
+// app.listen(port, function() {
+//
+// });
+
+https.createServer(options, app).listen(port, function(){
   console.log("Server have started");
   console.log(
   chalk.magenta(figlet.textSync('FutuRadio', { horizontalLayout: 'full' })) +
   chalk.magenta("\nWelcome to FutuRadio website!")
   );
 });
-
-https.createServer(options, app).listen(8080);

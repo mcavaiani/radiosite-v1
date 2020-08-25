@@ -16,6 +16,10 @@ body{
   background-image: url("../images/black-mic.jpg");
 }
 
+#post-navbar{
+  color: : black;
+}
+
 
 .navbar-container{
   padding: 2% 5%;
@@ -74,11 +78,27 @@ body{
      1px  1px 0px #000; */
 }
 
+.title-h3-post{
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  color: black;
+  padding-bottom: 0%;
+}
+
 .title-h3-new{
   font-family: 'Josefin Sans', sans-serif;
   font-weight: 400;
   font-size: 1.25rem;
   color: white;
+  padding-bottom: 0%;
+}
+
+.title-h3-post{
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  color: black;
   padding-bottom: 0%;
 }
 
@@ -214,12 +234,23 @@ body{
     font-size: 5rem;
   }
 
+  .title-h1-post{
+    font-size: 9rem;
+  }
 
   .title-h3-new{
     font-family: 'Josefin Sans', sans-serif;
     font-weight: 400;
     font-size: 3rem;
     color: white;
+    padding-bottom: 0%;
+  }
+
+  .title-h3-post{
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+    font-size: 3rem;
+    color: black;
     padding-bottom: 0%;
   }
 

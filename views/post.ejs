@@ -1,5 +1,6 @@
-<%- include("partials/header-post", {pageTitle: pageTitle, stateName: stateName}); %>
-<%- include("partials/navbar-program", {pageTitle:pageTitle}); %>
+
+<%- include("partials/header", {pageTitle: pageTitle}); %>
+<%- include("partials/navbar-post", {pageTitle:pageTitle, author: author}); %>
 
   <h1><%=title%></h1>
   <p><%=content%></p>
