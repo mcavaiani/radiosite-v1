@@ -74,7 +74,9 @@ router.post("/login", async (req, res) => {
     });
   };
   var token = jwt.sign({
-    id: foundUser.id
+    id: foundUser.id,
+    username: foundUser.username,
+    isAdmin: foundUser.isAdmin
   }, process.env.SECRETKEY, {
     expiresIn: 3600 // 1 hour
   });

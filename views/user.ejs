@@ -25,12 +25,12 @@
 
   <div class="row">
     <div class="col-md-12 order-md-1">
-      <form class="needs-validation" novalidate>
+      <form class="needs-validation" novalidate action="/api/user" method="POST" id="update-user-info">
         <div class="row">
 
           <div class="col-md-4 mb-3">
             <label for="nickname">Il tuo nickname</label>
-            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+            <input type="text" class="form-control" name="nickName" id="nickName" placeholder="" value="" required>
             <div class="invalid-feedback">
               Inserisci il tuo nickname.
             </div>
@@ -40,7 +40,7 @@
 
         <div class="mb-3">
           <label>Descrizione</label>
-          <textarea class="form-control" name="postBody" rows="5" cols="30"></textarea>
+          <textarea class="form-control" name="description" rows="5" cols="30" id="description"></textarea>
           <div class="invalid-feedback">
             Inserisci la descrizione. Apparirà sulla tua pagina!
           </div>
@@ -48,7 +48,7 @@
 
         <div class="mb-3">
           <label for="address">Immagine di copertina</label>
-          <input type="text" class="form-control" id="address" placeholder="" required>
+          <input type="text" class="form-control" name="pictureUrl" id="pictureUrl" placeholder="" required>
           <div class="invalid-feedback">
             Inserisci un link alla tua immagine di copertina.
           </div>
@@ -58,17 +58,17 @@
 
           <div class="col-md-4 mb-3">
             <label for="nickname">Facebook</label>
-            <input type="text" class="form-control" id="lastName" placeholder="" value="" >
+            <input type="text" class="form-control" name="facebook" id="facebook" placeholder="" value="" >
           </div>
 
           <div class="col-md-4 mb-3">
             <label for="nickname">Instagram</label>
-            <input type="text" class="form-control" id="lastName" placeholder="" value="" >
+            <input type="text" class="form-control" name="instagram" id="instagram" placeholder="" value="" >
           </div>
 
           <div class="col-md-4 mb-3">
             <label for="nickname">Twitter</label>
-            <input type="text" class="form-control" id="lastName" placeholder="" value="" >
+            <input type="text" class="form-control" name="twitter" id="twitter" placeholder="" value="" >
           </div>
 
         </div>
