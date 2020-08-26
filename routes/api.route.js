@@ -50,4 +50,18 @@ router.get("/mixList", async function(req, res){
   }
 });
 
+router.get("/userInfo", auth, async function(req, res){
+  try{
+    let sqlUserInfo = 'SELECT * FROM users WHERE id = ?';
+    const user = await query(sqlUserInfo, req.user.id);
+    var foundUser = user.map(v => Object.assign({}, v));
+    foundUser = foundUser[0];
+    delete foundUser.password;
+    res.json(foundUser);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+})
+
 module.exports = router;

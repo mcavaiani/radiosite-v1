@@ -45,11 +45,18 @@ router.get("/login", function(req, res) {
 
 router.post("/login", async (req, res) => {
 
-  let user = await User.findOne({
-    username: req.body.username
-  });
+  try{
+    let sqlUser = 'SELECT * FROM users WHERE userName = ?';
+    const user = await query(sqlUser, req.body.username);
+    var foundUser = user.map(v => Object.assign({}, v));
+    foundUser = foundUser[0];
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+  console.log("Found user", foundUser);
 
-  if (!user){
+  if (!foundUser){
     return res.status(401).send({
       accessToken: null,
       message: "Invalid username!"
@@ -57,7 +64,7 @@ router.post("/login", async (req, res) => {
   }
   var passwordIsValid = bcrypt.compareSync(
     req.body.password,
-    user.password
+    foundUser.password
   );
 
   if (!passwordIsValid) {
@@ -67,11 +74,11 @@ router.post("/login", async (req, res) => {
     });
   };
   var token = jwt.sign({
-    id: user.id
+    id: foundUser.id
   }, process.env.SECRETKEY, {
     expiresIn: 3600 // 1 hour
   });
-  res.cookie("access-token", token, { httpOnly: true, secure: false});
+  res.cookie("access-token", token, { httpOnly: true, secure: true});
   res.redirect("/console/admin-console");
 });
 
@@ -87,11 +94,17 @@ router.get("/admin-console", auth, async (req, res)=>{
 
 router.get("/admin-console/user", auth, async (req, res)=>{
 
-  let user = await User.findOne({
-    _id: req.user.id
-  });
+  try{
+    let sqlUser = 'SELECT * FROM users WHERE id = ?';
+    const user = await query(sqlUser, req.user.id);
+    var foundUser = user.map(v => Object.assign({}, v));
+    foundUser = foundUser[0];
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
 
-  res.render("user", {userInfo:user});
+  res.render("user", {userInfo:foundUser});
 })
 
 
