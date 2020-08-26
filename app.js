@@ -25,8 +25,8 @@ const https = require("https");
 const fs = require("fs");
 const helmet = require("helmet");
 const options = {
-  key: fs.readFileSync("ead7f_26eb7_6a85b9258a328aa39499cc46bcb42445.key"),
-  cert: fs.readFileSync("www_futuradio_it_fc1ab_e3773_1629935999_9377561114728d417c10a7854aa9f356.crt")
+  key: fs.readFileSync("server.key"),
+  cert: fs.readFileSync("server.crt")
 };
 // const moment = require("moment");
 
