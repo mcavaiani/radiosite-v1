@@ -1,25 +1,77 @@
 <%- include("partials/header-console", {pageTitle:"Console"}); %>
 <%- include("partials/navbar-console"); %>
 
+
+
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
 
 <div class="container">
   <div class="py-5 text-center">
     <img class="d-block mx-auto mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h2>Gestisci la tua utenza</h2>
-    <p class="lead">In questa pagina potrai inserire le tue informazioni principali.</p>
+    <h2>Gestisci le tue pagine</h2>
+    <p class="lead">In questa sezione potrai gestire le tue pagine.</p>
   </div>
 
+
+
+
+
+
+  <%  pagesInfo.forEach(function(page){ %>
+    <div class="accordion" id="accordionExample">
+    <div class="card">
+      <%  var headingN = "heading"+page.id %>
+      <%  var collapseN = "collapse"+page.id %>
+      <%  var collapseNHash = "#collapse"+page.id %>
+      <%  var modifyN = "modify"+page.id %>
+      <%  var modifyNHash = "#modify"+page.id %>
+      <%  var deleteN = "delete"+page.id %>
+      <%  var deleteNHash = "#delete"+page.id %>
+
+
+      <div class="card-header" id=<%=headingN%>>
+        <h2 class="mb-0">
+          <button class="btn btn-link text-left col-lg-10" type="button" data-toggle="collapse" data-target=<%=collapseNHash%> aria-expanded="true" aria-controls=<%=collapseN%>>
+            <%=page.name%>
+          </button>
+          <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target=<%=modifyNHash%> aria-expanded="true" aria-controls=<%=modifyN%>>
+            <span data-feather="edit-2"></span>
+          </button>
+          <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target=<%=deleteNHash%> aria-expanded="true" aria-controls=<%=deleteN%>>
+            <span data-feather="trash-2"></span>
+          </button>
+        </h2>
+      </div>
+
+      <div id=<%=collapseN%> class="collapse show" aria-labelledby=<%=headingN%> data-parent="#accordionExample">
+        <div class="card-body">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+      </div>
+      <div id=<%=modifyN%> class="collapse" aria-labelledby=<%=headingN%> data-parent="#accordionExample">
+        <div class="card-body">
+          Prova prova prova prova
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+      </div>
+
+    </div>
+</div>
   <hr class="featurette-divider">
+  <% }) %>
 
-  <div class="">
-    <h3>Ciao <%= userInfo.nickName %>, ecco le tue informazioni attuali</h3>
-    <p>Ciao</p>
 
-  </div>
 
-  <hr class="featurette-divider">
+
+
+
+
+
+
+
+
+
 
   <div class="row">
     <div class="col-md-12 order-md-1">
@@ -206,7 +258,7 @@
       });
     </script>
 
-    <script src="/js/user.js"></script>
+    <script src="/js/pages.js"></script>
 
   </body>
 </html>

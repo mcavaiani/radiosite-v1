@@ -141,4 +141,59 @@ router.put("/user/:id?", auth, async function(req, res){
   }
 });
 
+router.put("/user/:id?/credentials", auth, async function(req, res){
+
+  var userId = "";
+  if (req.params.id){
+    userId = req.params.id;
+  }else{
+    userId =  req.user.id;
+  }
+
+  try{
+    let sqlUpUser = 'SELECT * FROM users WHERE id = ?';
+    const user = await query(sqlUpUser,userId);
+    var foundUser = user.map(v => Object.assign({}, v));
+    foundUser = foundUser[0];
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  if(!foundUser)
+    res.status(404).send("User not found");
+
+  var passwordIsValid = bcrypt.compareSync(
+    req.body.oldPassword,
+    foundUser.password
+  );
+
+  if (!passwordIsValid) {
+    return res.status(401).send({
+      message: "Invalid old password!"
+    });
+  };
+
+  if (req.body.newPassword != req.body.newPasswordRepeat){
+    return res.status(401).send({
+      message: "New passwords are different!"
+    });
+  };
+
+  var updatedUser = foundUser;
+  updatedUser.password = await bcrypt.hash(req.body.newPassword, 10);
+
+  try{
+    let sqlUpdateUser = "UPDATE users SET password = ? WHERE id = ?";
+    const userToUpdate = await query(sqlUpdateUser,[updatedUser.password, updatedUser.id], function (err, result) {
+      if (err) throw err;
+      console.log(result.affectedRows + " record(s) updated");
+      res.status(200).send("OK");
+    });
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+});
+
 module.exports = router;

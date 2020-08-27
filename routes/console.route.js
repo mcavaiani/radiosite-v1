@@ -109,5 +109,48 @@ router.get("/admin-console/user", auth, async (req, res)=>{
   res.render("user", {userInfo:foundUser});
 })
 
+router.get("/admin-console/pages", auth, async (req, res)=>{
+
+  try{
+    let sqlUser = 'SELECT * FROM users WHERE id = ?';
+    const user = await query(sqlUser, req.user.id);
+    var foundUser = user.map(v => Object.assign({}, v));
+    foundUser = foundUser[0];
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  try{
+    let sqlShowIds = 'SELECT showId FROM usersShows WHERE userId = ?';
+    const showIds = await query(sqlShowIds, req.user.id);
+    var foundIds = showIds.map(v => Object.assign({}, v));
+    console.log("Gli id sono: ", foundIds);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  var ids = [];
+  foundIds.forEach(function(foundId){
+    ids.push(foundId.showId);
+  });
+  console.log("Il nuovo array ids è: ", ids.toString());
+
+  try{
+    let sqlShows = 'SELECT * FROM shows WHERE id IN ('+ids.toString()+')';
+    const shows = await query(sqlShows);
+    console.log(shows);
+    var foundShows = shows.map(v => Object.assign({}, v));
+    console.log("Gli shows sono: ", foundShows);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+
+  res.render("pages", {userInfo:foundUser, pagesInfo: foundShows});
+})
+
 
 module.exports = router;
