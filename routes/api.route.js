@@ -206,7 +206,7 @@ router.delete("/page/:pageId", auth, async function(req, res){
 
   try{
     let sqlPage = 'SELECT * FROM shows WHERE id = ?';
-    const page = await query(sqlPage,userId);
+    const page = await query(sqlPage,req.params.pageId);
     var foundPage = page.map(v => Object.assign({}, v));
     foundPage = foundPage[0];
   }catch(e){
@@ -248,7 +248,7 @@ router.put("/page/:pageId", auth, async function(req, res){
 
   try{
     let sqlPage = 'SELECT * FROM shows WHERE id = ?';
-    const page = await query(sqlPage,userId);
+    const page = await query(sqlPage,req.params.pageId);
     var foundPage = page.map(v => Object.assign({}, v));
     foundPage = foundPage[0];
   }catch(e){
@@ -264,11 +264,11 @@ router.put("/page/:pageId", auth, async function(req, res){
   if(req.body.name) updatedPage.name = req.body.name;
   if(req.body.description) updatedPage.description = req.body.description;
   if(req.body.stateName) updatedPage.stateName = req.body.stateName;
-  if(req.body.source) updatedPage.source = req.body.source;
+  if(req.body.sourceLink) updatedPage.source = req.body.sourceLink;
   if(req.body.type) updatedPage.type = req.body.type;
 
   try{
-    let sqlUpdatePage = "UPDATE users SET name = ?, description = ?, stateName = ?, source = ?, type = ? WHERE id = ?";
+    let sqlUpdatePage = "UPDATE shows SET name = ?, description = ?, stateName = ?, source = ?, type = ? WHERE id = ?";
     const userToUpdate = await query(sqlUpdatePage,[updatedPage.name, updatedPage.description, updatedPage.stateName, updatedPage.source, updatedPage.type, updatedPage.id], function (err, result) {
       if (err) throw err;
         console.log(result.affectedRows + " record(s) updated");

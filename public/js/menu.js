@@ -11,3 +11,9 @@ $(document).ready(function() {
 
   });
 });
+
+//
+// $('#inputGroupSelect option').on('click', function (e) {
+//   e.preventDefault()
+//   $(this).tab('show')
+// })

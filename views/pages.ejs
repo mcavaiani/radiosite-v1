@@ -32,11 +32,8 @@
 
       <div class="card-header" id=<%=headingN%>>
         <h2 class="mb-0">
-          <button class="btn btn-link text-left col-lg-10" type="button" data-toggle="collapse" data-target=<%=collapseNHash%> aria-expanded="true" aria-controls=<%=collapseN%>>
+          <button class="btn btn-link text-left col-lg-11" type="button" data-toggle="collapse" data-target=<%=collapseNHash%> aria-expanded="true" aria-controls=<%=collapseN%>>
             <%=page.name%>
-          </button>
-          <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target=<%=modifyNHash%> aria-expanded="true" aria-controls=<%=modifyN%>>
-            <span data-feather="edit-2"></span>
           </button>
           <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target=<%=deleteNHash%> aria-expanded="true" aria-controls=<%=deleteN%>>
             <span data-feather="trash-2"></span>
@@ -65,10 +62,9 @@
   <hr class="featurette-divider">
   <% }) %>
 
-
-
-
-
+  <div class="py-5 text-center">
+    <h2>Modifica le tue pagine</h2>
+  </div>
 
 
 
@@ -78,38 +74,25 @@
 
 
   <div class="row">
+    <div class="input-group mb-3 col-md-12">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect">Scegli la pagina</label>
+      </div>
+      <select class="custom-select" id="inputGroupSelect">
+        <option selected>Choose...</option>
+        <% var ii = 0; %>
+        <%  pagesInfo.forEach(function(page){ %>
+        <option value="<%= page.id %>"><%=page.name%></option>
+        <% ii++; %>
+        <% }) %>
+      </select>
+    </div>
+  </div>
+
+
+  <div class="row">
     <div class="col-md-12 order-md-1">
-      <form class="needs-validation" novalidate action="/api/user" method="POST" id="update-user-info">
-
-        <div class="row">
-          <div class="input-group mb-3 col-md-12">
-            <div class="input-group-prepend">
-              <label class="input-group-text" for="inputGroupSelect01">Scegli la pagina</label>
-            </div>
-            <select class="custom-select" id="inputGroupSelect">
-              <option selected>Choose...</option>
-              <% var ii = 0; %>
-              <%  pagesInfo.forEach(function(page){ %>
-              <option value="<%= page.id %>"><%=page.name%></option>
-              <% ii++; %>
-              <% }) %>
-            </select>
-          </div>
-        </div>
-
-        <p id="p-prova"></p>
-
-        <div class="row">
-
-          <div class="col-md-4 mb-3">
-            <label for="nickname">Il tuo nickname</label>
-            <input type="text" class="form-control" name="nickName" id="nickName" placeholder="" value="" required>
-            <div class="invalid-feedback">
-              Inserisci il tuo nickname.
-            </div>
-          </div>
-
-        </div>
+      <form class="needs-validation" novalidate action="/api/page" method="POST" id="update-page-info">
 
         <div class="mb-3">
           <label>Descrizione</label>
@@ -120,35 +103,15 @@
         </div>
 
         <div class="mb-3">
-          <label for="address">Immagine di copertina</label>
-          <input type="text" class="form-control" name="pictureUrl" id="pictureUrl" placeholder="" required>
+          <label>Link Spreaker/Soundcloud</label>
+          <textarea class="form-control" name="sourceLink" rows="5" cols="30" id="sourceLink"></textarea>
           <div class="invalid-feedback">
-            Inserisci un link alla tua immagine di copertina.
+            Inserisci il link al tuo programma soundcloud/spreaker
           </div>
         </div>
-
-        <div class="row">
-
-          <div class="col-md-4 mb-3">
-            <label for="nickname">Facebook</label>
-            <input type="text" class="form-control" name="facebook" id="facebook" placeholder="" value="" >
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <label for="nickname">Instagram</label>
-            <input type="text" class="form-control" name="instagram" id="instagram" placeholder="" value="" >
-          </div>
-
-          <div class="col-md-4 mb-3">
-            <label for="nickname">Twitter</label>
-            <input type="text" class="form-control" name="twitter" id="twitter" placeholder="" value="" >
-          </div>
-
-        </div>
-
 
         <hr class="mb-4">
-          <button class=" btn btn-primary btn-lg btn-block" type="submit">Aggiorna le mie informazioni</button>
+          <button class=" btn btn-primary btn-lg btn-block" type="submit">Aggiorna le informazioni della pagina</button>
 
 
       </form>
@@ -169,7 +132,6 @@
   </footer>
 </div>
 
-<script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
 <script src="form-validation.js"></script>
 
 <script type="text/javascript">
