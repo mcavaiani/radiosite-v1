@@ -81,10 +81,12 @@ app.use(helmet()); // Add Helmet as a middleware
 
 app.use(helmet.contentSecurityPolicy({
 				 directives:{
-				   defaultSrc:["'self'"],
-				   scriptSrc:["'self'","'unsafe-inline'","'unsafe-eval'","https://code.jquery.com","https://cdn.jsdelivr.net","https://cdnjs.cloudflare.com","https://stackpath.bootstrapcdn.com"],
-				   styleSrc:["'self'",'maxcdn.bootstrapcdn.com'],
-				   fontSrc:["'self'",'maxcdn.bootstrapcdn.com']}}));
+				   defaultSrc:["'self'", "'unsafe-eval'"],
+				   scriptSrc:["'self'","'unsafe-inline'","'unsafe-eval'","https://ajax.googleapis.com/","https://cdn.jsdelivr.net","https://cdnjs.cloudflare.com","https://stackpath.bootstrapcdn.com"],
+				   styleSrc:["'self'","https://stackpath.bootstrapcdn.com/","'unsafe-inline'","https://pro.fontawesome.com/","https://cdnjs.cloudflare.com/","https://fonts.googleapis.com/"],
+				   fontSrc:["'self'",'https://fonts.googleapis.com/',"https://pro.fontawesome.com/", "https://fonts.gstatic.com/"],
+           imgSrc:["'self'", "'unsafe-eval'", "data:","https://upload.wikimedia.org/"]}}));
+
 
 mongoose.connect('mongodb+srv://admin-cava:admin123@cluster0-kuomu.mongodb.net/futuradioDB', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
