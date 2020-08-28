@@ -79,6 +79,13 @@ app.use("/api", apiRoute);
 app.use(express.static("public"));
 app.use(helmet()); // Add Helmet as a middleware
 
+app.use(helmet.contentSecurityPolicy({
+				 directives:{
+				   defaultSrc:["'self'"],
+				   scriptSrc:["'self'","'unsafe-inline'","'unsafe-eval'","https://code.jquery.com","https://cdn.jsdelivr.net","https://cdnjs.cloudflare.com","https://stackpath.bootstrapcdn.com"],
+				   styleSrc:["'self'",'maxcdn.bootstrapcdn.com'],
+				   fontSrc:["'self'",'maxcdn.bootstrapcdn.com']}}));
+
 mongoose.connect('mongodb+srv://admin-cava:admin123@cluster0-kuomu.mongodb.net/futuradioDB', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);
 const importedUser = require('./models/user.model');

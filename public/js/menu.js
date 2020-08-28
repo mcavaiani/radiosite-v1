@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function() {
   $(".menu-button").click(function() {
     $(this).siblings().removeClass("active");
     $(this).addClass("active");

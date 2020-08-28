@@ -46,7 +46,11 @@
 
       <div id=<%=collapseN%> class="collapse show" aria-labelledby=<%=headingN%> data-parent="#accordionExample">
         <div class="card-body">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          <p><b>Nome:</b> <%=page.name%></p>
+          <p><b>Descrizione:</b> <%=page.description%></p>
+          <p><b>StateName:</b> <%=page.stateName%></p>
+          <p><b>Link Spreaker/Soundcloud:</b> <%=page.source%></p>
+          <p><b>Type:</b> <%=page.type%></p>
         </div>
       </div>
       <div id=<%=modifyN%> class="collapse" aria-labelledby=<%=headingN%> data-parent="#accordionExample">
@@ -76,6 +80,25 @@
   <div class="row">
     <div class="col-md-12 order-md-1">
       <form class="needs-validation" novalidate action="/api/user" method="POST" id="update-user-info">
+
+        <div class="row">
+          <div class="input-group mb-3 col-md-12">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Scegli la pagina</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect">
+              <option selected>Choose...</option>
+              <% var ii = 0; %>
+              <%  pagesInfo.forEach(function(page){ %>
+              <option value="<%= page.id %>"><%=page.name%></option>
+              <% ii++; %>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <p id="p-prova"></p>
+
         <div class="row">
 
           <div class="col-md-4 mb-3">
@@ -134,44 +157,7 @@
 
 <hr class="featurette-divider">
 
-  <div class="container">
-    <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-      <h2>Cambia la tua password</h2>
-    </div>
 
-
-    <div class="row">
-      <div class="col-md-12 order-md-1">
-        <form class="needs-validation" novalidate action="/api/user" method="POST" id="update-user-psw">
-
-
-          <div class="row">
-
-            <div class="col-md-4 mb-3">
-              <label for="nickname">Vecchia password</label>
-              <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="" value="" >
-            </div>
-
-            <div class="col-md-4 mb-3">
-              <label for="nickname">Nuova password</label>
-              <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="" value="" >
-            </div>
-
-            <div class="col-md-4 mb-3">
-              <label for="nickname">Ripeti la nuova password</label>
-              <input type="password" class="form-control" id="newPasswordRepeat" name="newPasswordRepeat" placeholder="" value="" >
-            </div>
-
-          </div>
-
-
-          <hr class="mb-4">
-            <button class=" btn btn-primary btn-lg btn-block" type="submit">Aggiorna la mia password</button>
-          </div>
-
-      </div>
-    </div>
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
     <p class="mb-1">&copy; 2017-2020 Company Name</p>

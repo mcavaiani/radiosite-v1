@@ -75,3 +75,9 @@ $(document).ready(function() {
       });
     });
 });
+
+$(document).ready(function() {
+    // Get the form.
+    var value = $('#inputGroupSelect').val();
+    $( "#p-prova" ).append( value );
+});

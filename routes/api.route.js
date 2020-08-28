@@ -196,4 +196,89 @@ router.put("/user/:id?/credentials", auth, async function(req, res){
   }
 });
 
+router.delete("/page/:pageId", auth, async function(req, res){
+
+  if (!req.params.pageId){
+    return res.status(401).send({
+      message: "Missing page id!"
+    });
+  }
+
+  try{
+    let sqlPage = 'SELECT * FROM shows WHERE id = ?';
+    const page = await query(sqlPage,userId);
+    var foundPage = page.map(v => Object.assign({}, v));
+    foundPage = foundPage[0];
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  if(!foundPage)
+    res.status(404).send("Page not found");
+
+  try{
+    let sqlPageDeletd = "DELETE FROM shows WHERE id = ?";
+    const pageDeleted = await query(sqlPageDeletd, req.params.pageId, function (err, result) {
+      if (err) throw err;
+      console.log(result.affectedRows + " record(s) updated");
+    });
+
+    let sqlUserPage = "DELETE FROM usersShows WHERE showId = ?";
+    const userPageDeleted = await query(sqlUserPage, req.params.pageId, function (err, result) {
+      if (err) throw err;
+      console.log(result.affectedRows + " record(s) updated");
+      res.status(200).send("OK");
+    });
+
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+});
+
+router.put("/page/:pageId", auth, async function(req, res){
+
+  if (!req.params.pageId){
+    return res.status(401).send({
+      message: "Page does not exists!"
+    });
+  }
+
+  try{
+    let sqlPage = 'SELECT * FROM shows WHERE id = ?';
+    const page = await query(sqlPage,userId);
+    var foundPage = page.map(v => Object.assign({}, v));
+    foundPage = foundPage[0];
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  if(!foundPage)
+    res.status(404).send("Page not found");
+
+  var updatedPage = foundPage;
+  console.log("Request body: ", req.body);
+  if(req.body.name) updatedPage.name = req.body.name;
+  if(req.body.description) updatedPage.description = req.body.description;
+  if(req.body.stateName) updatedPage.stateName = req.body.stateName;
+  if(req.body.source) updatedPage.source = req.body.source;
+  if(req.body.type) updatedPage.type = req.body.type;
+
+  try{
+    let sqlUpdatePage = "UPDATE users SET name = ?, description = ?, stateName = ?, source = ?, type = ? WHERE id = ?";
+    const userToUpdate = await query(sqlUpdatePage,[updatedPage.name, updatedPage.description, updatedPage.stateName, updatedPage.source, updatedPage.type, updatedPage.id], function (err, result) {
+      if (err) throw err;
+        console.log(result.affectedRows + " record(s) updated");
+      res.status(200).send("OK");
+    });
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+});
+
 module.exports = router;
