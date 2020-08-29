@@ -28,14 +28,14 @@
       <%  var modifyNHash = "#modify"+page.id %>
       <%  var deleteN = "delete"+page.id %>
       <%  var deleteNHash = "#delete"+page.id %>
-
+      <%  var buttonId = "delete"+page.id %>
 
       <div class="card-header" id=<%=headingN%>>
         <h2 class="mb-0">
           <button class="btn btn-link text-left col-lg-11" type="button" data-toggle="collapse" data-target=<%=collapseNHash%> aria-expanded="true" aria-controls=<%=collapseN%>>
             <%=page.name%>
           </button>
-          <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target=<%=deleteNHash%> aria-expanded="true" aria-controls=<%=deleteN%>>
+          <button class="btn btn-link delete-button" id=<%=page.id%> type="button" >
             <span data-feather="trash-2"></span>
           </button>
         </h2>

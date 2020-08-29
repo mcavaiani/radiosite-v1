@@ -204,7 +204,7 @@ router.delete("/page/:pageId", auth, async function(req, res){
       message: "Missing page id!"
     });
   }
-
+  console.log("Siamo entrati nella apiiiii");
   try{
     let sqlPage = 'SELECT * FROM shows WHERE id = ?';
     const page = await query(sqlPage,req.params.pageId);
@@ -214,29 +214,30 @@ router.delete("/page/:pageId", auth, async function(req, res){
     console.log(e);
     next(err);
   }
+  console.log("select ok")
 
   if(!foundPage)
     res.status(404).send("Page not found");
-
   try{
-    let sqlPageDeletd = "DELETE FROM shows WHERE id = ?";
-    const pageDeleted = await query(sqlPageDeletd, req.params.pageId, function (err, result) {
-      if (err) throw err;
-      console.log(result.affectedRows + " record(s) updated");
-    });
-
     let sqlUserPage = "DELETE FROM usersShows WHERE showId = ?";
-    const userPageDeleted = await query(sqlUserPage, req.params.pageId, function (err, result) {
-      if (err) throw err;
-      console.log(result.affectedRows + " record(s) updated");
-      res.status(200).send("OK");
-    });
-
+    const userPageDeleted = await query(sqlUserPage, req.params.pageId);
+    console.log(userPageDeleted.affectedRows + " record(s) updated");
   }catch(e){
     console.log(e);
     next(err);
   }
+    console.log("Eliminato da usersShows");
+  try{
+    let sqlPageDeleted = "DELETE FROM shows WHERE id = ?";
+    const pageDeleted = await query(sqlPageDeleted, req.params.pageId);
+    console.log(pageDeleted.affectedRows + " record(s) updated");
+    console.log("Eliminato da shows");
 
+    res.status(200).send("OK");
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
 });
 
 router.put("/page/:pageId", auth, async function(req, res){

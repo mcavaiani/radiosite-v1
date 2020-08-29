@@ -84,3 +84,30 @@ $(document).ready(function() {
       });
     });
 });
+
+$(document).ready(function() {
+    // Get the form.
+
+    $(".delete-button").on("click",function(){
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      var request = $.ajax({
+        type: 'DELETE',
+        url: "/api/page/"+$(this).attr('id')
+      });
+
+      request.done(function(response) {
+        // Make sure that the formMessages div has the 'success' class.
+        alert("Informazioni aggiornate!");
+        window.location = '/console/admin-console/pages';
+
+      });
+      request.fail(function(data) {
+        // Make sure that the formMessages div has the 'error' class.
+        alert("Qualcosa è andato storto! Riprova!");
+      });
+
+    });
+
+});
