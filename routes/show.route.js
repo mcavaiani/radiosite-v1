@@ -20,6 +20,7 @@ router.get("/:show", momentMiddleware, async function(req, res){
     let sqlShow = 'SELECT * FROM shows WHERE stateName = ?';
     const show = await query(sqlShow, req.params.show);
     var foundShow = show.map(v => Object.assign({}, v));
+    console.log("Il programma cercato è: ",foundShow);
     if (!foundShow.length){res.redirect("/");}
     foundShow = foundShow[0];
   }catch(e){

@@ -10,6 +10,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const momentMiddleware = require("../middleware/momentMiddleware");
 const util = require('util');
+const _ = require('lodash');
 
 router.get("/podcastList", async function(req, res){
 
@@ -278,6 +279,61 @@ router.put("/page/:pageId", auth, async function(req, res){
     console.log(e);
     next(err);
   }
+
+});
+
+router.post("/page/create", auth, async function(req, res){
+
+// kebabcase
+var stateName = _.kebabCase(req.body.programName);
+
+  try{
+    let sqlPage = 'SELECT * FROM shows WHERE stateName = ?';
+    const show = await query(sqlPage,stateName);
+    var foundShow = show.map(v => Object.assign({}, v));
+    if (foundShow.length){res.status(406).send("Pagina già esistente");}
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  var newShow = "";
+  try{
+    let sqlNewPage = 'INSERT INTO shows(name, description, stateName, source, type) VALUES ('+"'"+ req.body.programName+"'"+','+ "'"+req.body.description+"'"+','+"'"+ stateName+"'"+','+"'"+ req.body.sourceLink +"'"+','+"'"+req.body.type +"'"+ ')';
+    console.log("INSERT per il nuovo programma: ", sqlNewPage);
+    newShow = await query(sqlNewPage);
+    // FIX ME
+    console.log("vediamo cosa restituisce", newShow);
+
+  }catch(e){
+    console.log(e);
+    next(err);
+    res.status(500).send("Qualcosa è andato storto");
+  }
+
+  try{
+    let sqlUser = 'SELECT id FROM users WHERE nickName = ?';
+    const user = await query(sqlUser,req.body.nickName);
+    var foundUserId = user.map(v => Object.assign({}, v));
+    foundUserId = foundUserId[0];
+    console.log(foundUserId);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  try{
+    let sqlNewLink = 'INSERT INTO usersShows(userId, showId) VALUES ('+"'"+ foundUserId.id+"'"+','+ "'"+newShow.insertId+"'"+ ')';
+    console.log("INSERT per il nuovo programma: ", sqlNewLink);
+    const newLink = await query(sqlNewLink);
+    console.log("vediamo cosa restituisce", newLink);
+  }catch(e){
+    console.log(e);
+    next(err);
+    res.status(500).send("Qualcosa è andato storto");
+  }
+
+  res.status(200).send("OK");
 
 });
 

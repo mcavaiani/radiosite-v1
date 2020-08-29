@@ -152,5 +152,8 @@ router.get("/admin-console/pages", auth, async (req, res)=>{
   res.render("pages", {userInfo:foundUser, pagesInfo: foundShows});
 })
 
+router.get("/admin-console/pages/create", function(req,res){
+  res.render("createPage");
+});
 
 module.exports = router;

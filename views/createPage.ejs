@@ -56,12 +56,12 @@
     <div class="row">
       <div class="col-md-12 order-md-1">
         <h4 class="mb-3">Iniziamo</h4>
-        <form class="needs-validation" novalidate>
+        <form class="needs-validation" novalidate id="create-page-form" action="/api/page/create" method="POST">
           <div class="row">
 
             <div class="col-md-4 mb-3">
-              <label for="nickname">Il tuo nickname</label>
-              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+              <label for="nickName">Il tuo nickname</label>
+              <input type="text" class="form-control" id="nickName" name="nickName" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Inserisci il tuo nickname.
               </div>
@@ -69,7 +69,7 @@
 
             <div class="col-md-4 mb-3">
               <label for="programName">Nome del programma</label>
-              <input type="text" class="form-control" id="programName" placeholder="" value="" required>
+              <input type="text" class="form-control" id="programName" name="programName" placeholder="" value="" required>
               <div class="invalid-feedback">
                 Nome del programma obbligatorio.
               </div>
@@ -78,13 +78,13 @@
 
 
             <div class="col-md-4 mb-3">
-              <label for="programType">Tipo di programma</label>
+              <label for="program-sel">Tipo di programma</label>
               <div class="form-group">
-                <select class="custom-select d-block w-100" id="program-sel" required>
+                <select class="custom-select d-block w-100" id="program-sel" name="type" required>
                   <option value="">Scegli...</option>
-                  <option value="option1">Show</option>
-                  <option value="option2">Music</option>
-                  <option value="option3">Blog</option>
+                  <option value="show">Show</option>
+                  <option value="mix">Music</option>
+                  <option value="blog">Blog</option>
                 </select>
               </div>
             </div>
@@ -92,7 +92,7 @@
 
           <div class="mb-3">
             <label>Descrizione</label>
-            <textarea class="form-control" name="postBody" rows="5" cols="30"></textarea>
+            <textarea class="form-control" name="description" id="description" rows="5" cols="30"></textarea>
             <div class="invalid-feedback">
               Inserisci la descrizione. Apparirà sulla tua pagina!
             </div>
@@ -100,17 +100,8 @@
 
           <div class="mb-3">
             <label>Spreaker/Mixcloud link</label>
-            <textarea class="form-control" name="postBody" rows="5" cols="30"></textarea>
+            <textarea class="form-control" name="sourceLink" id="sourceLink" rows="5" cols="30"></textarea>
           </div>
-
-          <div class="mb-3">
-            <label for="address">Immagine di copertina</label>
-            <input type="text" class="form-control" id="address" placeholder="" required>
-            <div class="invalid-feedback">
-              Inserisci un link alla tua immagine di copertina.
-            </div>
-          </div>
-
 
           <hr class="mb-4">
             <button class=" btn btn-primary btn-lg btn-block" type="submit">Crea la mia pagina</button>
