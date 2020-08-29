@@ -327,13 +327,12 @@ var stateName = _.kebabCase(req.body.programName);
     console.log("INSERT per il nuovo programma: ", sqlNewLink);
     const newLink = await query(sqlNewLink);
     console.log("vediamo cosa restituisce", newLink);
+    res.status(200).send("OK");
   }catch(e){
     console.log(e);
     next(err);
     res.status(500).send("Qualcosa è andato storto");
   }
-
-  res.status(200).send("OK");
 
 });
 
