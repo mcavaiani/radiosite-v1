@@ -1,146 +1,158 @@
-<!doctype html>
-<html lang="en">
+<%- include("partials/header-console", {pageTitle:"Console"}); %>
+<%- include("partials/navbar-console"); %>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-  <meta name="generator" content="Jekyll v4.0.1">
-  <title>Checkout example · Bootstrap</title>
-
-  <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/checkout/">
-
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-  <!-- Favicons -->
-  <link rel="apple-touch-icon" href="/docs/4.5/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-  <link rel="icon" href="/docs/4.5/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="/docs/4.5/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-  <link rel="manifest" href="/docs/4.5/assets/img/favicons/manifest.json">
-  <link rel="mask-icon" href="/docs/4.5/assets/img/favicons/safari-pinned-tab.svg" color="#563d7c">
-  <link rel="icon" href="/docs/4.5/assets/img/favicons/favicon.ico">
-  <meta name="msapplication-config" content="/docs/4.5/assets/img/favicons/browserconfig.xml">
-  <meta name="theme-color" content="#563d7c">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
 
-  <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
+          <div class="container">
+            <div class="py-5 text-center">
+              <img class="d-block mx-auto mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+              <h2>Crea la tua nuova pagina</h2>
+              <p class="lead">In questa pagina potrai inserire le informazioni necessarie a creare la pagina del tuo programma, mix o blog.</p>
+            </div>
 
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
-    }
-  </style>
-  <!-- Custom styles for this template -->
-  <link href="form-validation.css" rel="stylesheet">
-</head>
+            <div class="row">
+              <div class="col-md-12 order-md-1">
+                <h4 class="mb-3">Iniziamo</h4>
+                <form class="needs-validation" novalidate id="create-page-form" action="/api/page/create" method="POST">
+                  <div class="row">
 
-<body class="bg-light">
-  <div class="container">
-    <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-      <h2>Crea la tua nuova pagina</h2>
-      <p class="lead">In questa pagina potrai inserire le informazioni necessarie a creare la pagina del tuo programma, mix o blog.</p>
-    </div>
+                    <div class="col-md-4 mb-3">
+                      <label for="nickName">Il tuo nickname</label>
+                      <input type="text" class="form-control" id="nickName" name="nickName" placeholder="" value="" required>
+                      <div class="invalid-feedback">
+                        Inserisci il tuo nickname.
+                      </div>
+                    </div>
 
-    <div class="row">
-      <div class="col-md-12 order-md-1">
-        <h4 class="mb-3">Iniziamo</h4>
-        <form class="needs-validation" novalidate id="create-page-form" action="/api/page/create" method="POST">
-          <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <label for="programName">Nome del programma</label>
+                      <input type="text" class="form-control" id="programName" name="programName" placeholder="" value="" required>
+                      <div class="invalid-feedback">
+                        Nome del programma obbligatorio.
+                      </div>
+                    </div>
 
-            <div class="col-md-4 mb-3">
-              <label for="nickName">Il tuo nickname</label>
-              <input type="text" class="form-control" id="nickName" name="nickName" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Inserisci il tuo nickname.
+
+
+                    <div class="col-md-4 mb-3">
+                      <label for="program-sel">Tipo di programma</label>
+                      <div class="form-group">
+                        <select class="custom-select d-block w-100" id="program-sel" name="type" required>
+                          <option value="">Scegli...</option>
+                          <option value="show">Show</option>
+                          <option value="mix">Music</option>
+                          <option value="blog">Blog</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label>Descrizione</label>
+                    <textarea class="form-control" name="description" id="description" rows="5" cols="30"></textarea>
+                    <div class="invalid-feedback">
+                      Inserisci la descrizione. Apparirà sulla tua pagina!
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label>Spreaker/Mixcloud link</label>
+                    <textarea class="form-control" name="sourceLink" id="sourceLink" rows="5" cols="30"></textarea>
+                  </div>
+
+                  <hr class="mb-4">
+                    <button class=" btn btn-primary btn-lg btn-block" type="submit">Crea la mia pagina</button>
+                  </div>
+
+                </form>
               </div>
+              <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">&copy; 2017-2020 Company Name</p>
+                <ul class="list-inline">
+                  <li class="list-inline-item"><a href="#">Privacy</a></li>
+                  <li class="list-inline-item"><a href="#">Terms</a></li>
+                  <li class="list-inline-item"><a href="#">Support</a></li>
+                </ul>
+              </footer>
             </div>
 
-            <div class="col-md-4 mb-3">
-              <label for="programName">Nome del programma</label>
-              <input type="text" class="form-control" id="programName" name="programName" placeholder="" value="" required>
-              <div class="invalid-feedback">
-                Nome del programma obbligatorio.
-              </div>
-            </div>
+<script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
+<script src="form-validation.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    //hides dropdown content
+    $(".url-text").hide();
+
+    //unhides first option content
+    $("#option1").show();
+
+    //listen to dropdown for change
+    $("#program-sel").change(function() {
+      //rehide content on change
+      $('.url-text').hide();
+      //unhides current item
+      $('#' + $(this).val()).show();
+    });
+
+  });
+</script>
 
 
-
-            <div class="col-md-4 mb-3">
-              <label for="program-sel">Tipo di programma</label>
-              <div class="form-group">
-                <select class="custom-select d-block w-100" id="program-sel" name="type" required>
-                  <option value="">Scegli...</option>
-                  <option value="show">Show</option>
-                  <option value="mix">Music</option>
-                  <option value="blog">Blog</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label>Descrizione</label>
-            <textarea class="form-control" name="description" id="description" rows="5" cols="30"></textarea>
-            <div class="invalid-feedback">
-              Inserisci la descrizione. Apparirà sulla tua pagina!
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <label>Spreaker/Mixcloud link</label>
-            <textarea class="form-control" name="sourceLink" id="sourceLink" rows="5" cols="30"></textarea>
-          </div>
-
-          <hr class="mb-4">
-            <button class=" btn btn-primary btn-lg btn-block" type="submit">Crea la mia pagina</button>
-          </div>
-
-        </form>
+        </main>
       </div>
     </div>
 
-    <footer class="my-5 pt-5 text-muted text-center text-small">
-      <p class="mb-1">&copy; 2017-2020 Company Name</p>
-      <ul class="list-inline">
-        <li class="list-inline-item"><a href="#">Privacy</a></li>
-        <li class="list-inline-item"><a href="#">Terms</a></li>
-        <li class="list-inline-item"><a href="#">Support</a></li>
-      </ul>
-    </footer>
-  </div>
-    <script src="form-validation.js"></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
 
-  <script type="text/javascript">
-    $(document).ready(function() {
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script> -->
 
-      //hides dropdown content
-      $(".url-text").hide();
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
 
-      //unhides first option content
-      $("#option1").show();
-
-      //listen to dropdown for change
-      $("#program-sel").change(function() {
-        //rehide content on change
-        $('.url-text').hide();
-        //unhides current item
-        $('#' + $(this).val()).show();
+    <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+      var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          datasets: [{
+            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#007bff',
+            borderWidth: 4,
+            pointBackgroundColor: '#007bff'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        }
       });
+    </script>
 
-    });
-  </script>
-</body>
+    <script src="/js/pages.js"></script>
 
+  </body>
 </html>

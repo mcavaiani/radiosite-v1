@@ -1,0 +1,215 @@
+<%- include("partials/header-console", {pageTitle:"Console"}); %>
+<%- include("partials/navbar-console"); %>
+
+
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+
+<div class="container">
+  <div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h2>Gestisci le tue pagine</h2>
+    <p class="lead">In questa sezione potrai gestire le tue pagine.</p>
+  </div>
+
+
+
+
+
+
+  <%  pagesInfo.forEach(function(page){ %>
+    <div class="accordion" id="accordionExample">
+    <div class="card">
+      <%  var headingN = "heading"+page.id %>
+      <%  var collapseN = "collapse"+page.id %>
+      <%  var collapseNHash = "#collapse"+page.id %>
+      <%  var modifyN = "modify"+page.id %>
+      <%  var modifyNHash = "#modify"+page.id %>
+      <%  var deleteN = "delete"+page.id %>
+      <%  var deleteNHash = "#delete"+page.id %>
+      <%  var buttonId = "delete"+page.id %>
+
+      <div class="card-header" id=<%=headingN%>>
+        <h2 class="mb-0">
+          <button class="btn btn-link text-left col-lg-11" type="button" data-toggle="collapse" data-target=<%=collapseNHash%> aria-expanded="true" aria-controls=<%=collapseN%>>
+            <%=page.name%>
+          </button>
+          <button class="btn btn-link delete-button" id=<%=page.id%> type="button" >
+            <span data-feather="trash-2"></span>
+          </button>
+        </h2>
+      </div>
+
+      <div id=<%=collapseN%> class="collapse show" aria-labelledby=<%=headingN%> data-parent="#accordionExample">
+        <div class="card-body">
+          <p><b>Nome:</b> <%=page.name%></p>
+          <p><b>Descrizione:</b> <%=page.description%></p>
+          <p><b>StateName:</b> <%=page.stateName%></p>
+          <p><b>Link Spreaker/Soundcloud:</b> <%=page.source%></p>
+          <p><b>Type:</b> <%=page.type%></p>
+        </div>
+      </div>
+      <div id=<%=modifyN%> class="collapse" aria-labelledby=<%=headingN%> data-parent="#accordionExample">
+        <div class="card-body">
+          Prova prova prova prova
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        </div>
+      </div>
+
+    </div>
+</div>
+  <hr class="featurette-divider">
+  <% }) %>
+
+<a class="btn btn-link btn-outline-primary" href="pages/create" role="button">Crea una nuova pagina <span data-feather="plus-circle"></span></a>
+
+  <hr class="featurette-divider">
+  <div class="py-5 text-center">
+    <h2>Modifica le tue pagine</h2>
+  </div>
+
+
+
+
+
+
+
+
+  <div class="row">
+    <div class="input-group mb-3 col-md-12">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="inputGroupSelect">Scegli la pagina</label>
+      </div>
+      <select class="custom-select" id="inputGroupSelect">
+        <option selected>Choose...</option>
+        <% var ii = 0; %>
+        <%  pagesInfo.forEach(function(page){ %>
+        <option value="<%= page.id %>"><%=page.name%></option>
+        <% ii++; %>
+        <% }) %>
+      </select>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-12 order-md-1">
+      <form class="needs-validation" novalidate action="/api/page" method="POST" id="update-page-info">
+
+        <div class="mb-3">
+          <label>Descrizione</label>
+          <textarea class="form-control" name="description" rows="5" cols="30" id="description"></textarea>
+          <div class="invalid-feedback">
+            Inserisci la descrizione. Apparirà sulla tua pagina!
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label>Link Spreaker/Soundcloud</label>
+          <textarea class="form-control" name="sourceLink" rows="5" cols="30" id="sourceLink"></textarea>
+          <div class="invalid-feedback">
+            Inserisci il link al tuo programma soundcloud/spreaker
+          </div>
+        </div>
+
+        <hr class="mb-4">
+          <button class=" btn btn-primary btn-lg btn-block" type="submit">Aggiorna le informazioni della pagina</button>
+
+
+      </form>
+    </div>
+  </div>
+
+<hr class="featurette-divider">
+
+
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017-2020 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+</div>
+
+<script src="form-validation.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    //hides dropdown content
+    $(".url-text").hide();
+
+    //unhides first option content
+    $("#option1").show();
+
+    //listen to dropdown for change
+    $("#program-sel").change(function() {
+      //rehide content on change
+      $('.url-text').hide();
+      //unhides current item
+      $('#' + $(this).val()).show();
+    });
+
+  });
+</script>
+
+
+        </main>
+      </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../../assets/js/vendor/popper.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script> -->
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+
+    <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script>
+      var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          datasets: [{
+            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+            lineTension: 0,
+            backgroundColor: 'transparent',
+            borderColor: '#007bff',
+            borderWidth: 4,
+            pointBackgroundColor: '#007bff'
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: false
+              }
+            }]
+          },
+          legend: {
+            display: false,
+          }
+        }
+      });
+    </script>
+
+    <script src="/js/userPosts.js"></script>
+
+  </body>
+</html>
