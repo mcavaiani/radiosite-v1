@@ -28,9 +28,9 @@ const options = {
   key: fs.readFileSync("server.key"),
   cert: fs.readFileSync("server.crt")
 };
-const fileUpload = require('express-fileupload');
+
 const cors = require('cors');
-const morgan = require('morgan');
+const multer = require('multer');
 // const moment = require("moment");
 
 let host = process.env.SERVER;
@@ -72,10 +72,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
 app.use(cookieParser())
 app.use(express.json());
 app.use(cors());
-app.use(morgan('dev'));
+
 //use users route for api/users
 app.use("/console", usersRoute);
 app.use("/shows", showsRoute);
@@ -93,11 +94,6 @@ app.use(helmet.contentSecurityPolicy({
 				   fontSrc:["'self'",'https://fonts.googleapis.com/',"https://pro.fontawesome.com/", "https://fonts.gstatic.com/"],
            imgSrc:["'self'", "'unsafe-eval'", "data:","https://upload.wikimedia.org/"]}
 }));
-
-app.use(fileUpload({
-  createParentPath: true
-}));
-
 
 mongoose.connect('mongodb+srv://admin-cava:admin123@cluster0-kuomu.mongodb.net/futuradioDB', {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.set("useCreateIndex", true);

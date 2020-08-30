@@ -9,6 +9,17 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const _ = require('lodash');
+const multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/images/posts');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + file.originalname);
+  }
+});
+
+var upload = multer({ storage: storage });
 
 router.get("/register", function(req, res) {
   res.render("register");
@@ -208,8 +219,12 @@ router.get("/admin-console/posts/create", auth, async function(req,res){
   res.render("compose");
 });
 
-router.post("/admin-console/posts/create", auth, async function(req,res){
-  console.log(req.files);
+router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview', maxCount: 1}, {name: 'photos', maxCount: 10}]), async function(req,res){
+
+  console.log("L'autore è: ", req.body.postAuthor);
+  console.log(req.body);
+  console.log(req.files.preview);
+  console.log(req.files.photos);
 
   try {
         if(!req.body.files) {
