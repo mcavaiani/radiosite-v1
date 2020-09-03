@@ -1,10 +1,14 @@
 $(function(){
   $("#dashboard-nav-item").removeClass("active");
   $("#user-nav-item").removeClass("active");
-  $("#pages-nav-item").addClass("active");
-  $("#posts-nav-item").removeClass("active");
+  $("#pages-nav-item").removeClass("active");
+  $("#posts-nav-item").addClass("active");
 });
 
+
+$(document).ready(function(){
+  $('.file-upload').file_upload();
+});
 
 
 $(document).ready(function() {

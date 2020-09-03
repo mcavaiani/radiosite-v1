@@ -10,16 +10,37 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const _ = require('lodash');
 const multer = require('multer');
-var storage = multer.diskStorage({
+
+const app = express();
+app.use(express.static("public"));
+
+const fileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './public/images/posts');
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
+    if (file.fieldname === "preview"){
+      cb(null, "preview_" + Date.now() + "_" + file.originalname);
+    }else if(file.fieldname === "pics"){
+      cb(null, "post_" + Date.now() + "_" + file.originalname);
+    }
   }
 });
 
-var upload = multer({ storage: storage });
+// const fileStorage = multer.diskStorage({
+//   destination: (req, file, cb) => { // setting destination of uploading files
+//     if (file.fieldname === "resume") { // if uploading resume
+//       cb(null, 'resumes');
+//     } else { // else uploading image
+//       cb(null, 'images');
+//     }
+//   },
+//   filename: (req, file, cb) => { // naming file
+//     cb(null, file.fieldname+"-"+uuidv4()+path.extname(file.originalname));
+//   }
+// });
+//
+var upload = multer({ storage: fileStorage });
 
 router.get("/register", function(req, res) {
   res.render("register");
@@ -92,6 +113,7 @@ router.post("/login", async (req, res) => {
   var token = jwt.sign({
     id: foundUser.id,
     username: foundUser.username,
+    nickName: foundUser.nickName,
     isAdmin: foundUser.isAdmin
   }, process.env.SECRETKEY, {
     expiresIn: 3600 // 1 hour
@@ -216,52 +238,108 @@ router.get("/admin-console/posts", auth, async (req, res)=>{
 })
 
 router.get("/admin-console/posts/create", auth, async function(req,res){
-  res.render("compose");
+
+  try{
+    let sqlShowsId = 'SELECT showId FROM usersShows WHERE userId = ?';
+    const showsId = await query(sqlShowsId, req.user.id);
+    console.log(showsId);
+    var foundShowsId = showsId.map(v => Object.assign({}, v));
+    console.log("Gli shows sono: ", foundShowsId);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  var idList = [];
+  foundShowsId.forEach(function(show){
+    idList.push(show.showId);
+  });
+
+  try{
+    let sqlShows = 'SELECT * FROM shows WHERE id IN ('+idList.toString()+')';
+    const shows = await query(sqlShows);
+    console.log(shows);
+    var foundShows = shows.map(v => Object.assign({}, v));
+    console.log("Gli shows sono: ", foundShows);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+
+  res.render("compose", {showList: foundShows});
 });
 
-router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview', maxCount: 1}, {name: 'photos', maxCount: 10}]), async function(req,res){
+router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'}, {name: 'pics'}]), async function(req,res){
 
-  console.log("L'autore è: ", req.body.postAuthor);
   console.log(req.body);
   console.log(req.files.preview);
-  console.log(req.files.photos);
+  console.log(req.files.pics);
 
-  try {
-        if(!req.body.files) {
-            res.send({
-                status: false,
-                message: 'No file uploaded'
-            });
-        } else {
-            let data = [];
+  var newPost = "";
+  try{
+    var dateString = new Date().toISOString();
+    var pathImg = "../images/posts/" + req.files.preview[0].filename;
+    let sqlNewPost = 'INSERT INTO posts(title, content, author, postDate, program, previewPicture) VALUES ('+"'"+ req.body.postTitle+"'"+','+ "'"+req.body.postContent+"'"+','+"'"+ req.user.nickName+"'"+','+"'"+ dateString +"'"+','+"'"+req.body.programName +"'"+','+"'"+ pathImg+"'" +')';
+    console.log("INSERT per il nuovo programma: ", sqlNewPost);
+    newPost = await query(sqlNewPost);
+    console.log(newPost);
+  }catch(e){
+    console.log(e);
+    next(err);
+    res.status(500).send("Qualcosa è andato storto");
+  }
 
-            //loop all files
-            _.forEach(_.keysIn(req.files.files), (key) => {
-                let photo = req.files.photos[key];
+  newPostId = newPost.insertId;
 
-                //move photo to uploads directory
-                photo.mv('/images/posts' + photo.name);
+  req.files.pics.forEach(async function(pic){
 
-                //push file details
-                data.push({
-                    name: photo.name,
-                    mimetype: photo.mimetype,
-                    size: photo.size
-                });
-            });
+    try{
 
-            //return response
-            res.send({
-                status: true,
-                message: 'Files are uploaded',
-                data: data
-            });
-        }
-    } catch (err) {
-        res.status(500).send(err);
+      var pathImg = "../images/posts/" + pic.filename;
+      let sqlPostImage = 'INSERT INTO postImages(post, imgPath) VALUES ('+"'"+ newPostId+"'"+','+ "'"+pathImg+"'"+ ')';
+      console.log("INSERT per il nuovo programma: ", sqlPostImage);
+      postImage = await query(sqlPostImage);
+      console.log(postImage);
+    }catch(e){
+      console.log(e);
+      next(err);
+      res.status(500).send("Qualcosa è andato storto");
     }
 
-  res.render("compose");
+
+  });
+
+  try{
+    let sqlShowsId = 'SELECT showId FROM usersShows WHERE userId = ?';
+    const showsId = await query(sqlShowsId, req.user.id);
+    console.log(showsId);
+    var foundShowsId = showsId.map(v => Object.assign({}, v));
+    console.log("Gli shows sono: ", foundShowsId);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  var idList = [];
+  foundShowsId.forEach(function(show){
+    idList.push(show.showId);
+  });
+
+  try{
+    let sqlShows = 'SELECT * FROM shows WHERE id IN ('+idList.toString()+')';
+    const shows = await query(sqlShows);
+    console.log(shows);
+    var foundShows = shows.map(v => Object.assign({}, v));
+    console.log("Gli shows sono: ", foundShows);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+
+  res.render("compose", {showList: foundShows});
+
 });
 
 module.exports = router;
