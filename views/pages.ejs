@@ -32,12 +32,13 @@
 
       <div class="card-header" id=<%=headingN%>>
         <h2 class="mb-0">
-          <button class="btn btn-link text-left col-lg-11" type="button" data-toggle="collapse" data-target=<%=collapseNHash%> aria-expanded="true" aria-controls=<%=collapseN%>>
+          <button class="btn btn-link text-left col-lg-9" type="button" data-toggle="collapse" data-target=<%=collapseNHash%> aria-expanded="true" aria-controls=<%=collapseN%>>
             <%=page.name%>
           </button>
-          <button class="btn btn-link delete-button" id=<%=page.id%> type="button" >
-            <span data-feather="trash-2"></span>
+          <button class="btn btn-link delete-button btn-outline-primary" id=<%=page.id%> type="button" >
+            Elimina <span data-feather="trash-2"></span>
           </button>
+          <a class="btn btn-link btn-outline-primary" href="<%=page.stateName%>/posts" role="button"> Vedi post <span data-feather="file-text"></span></a>
         </h2>
       </div>
 

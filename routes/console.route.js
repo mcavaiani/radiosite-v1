@@ -194,48 +194,86 @@ router.get("/admin-console/pages/create", function(req,res){
   res.render("createPage");
 });
 
-router.get("/admin-console/posts", auth, async (req, res)=>{
+router.get("/admin-console/:page/posts", auth, async (req, res)=>{
 
+  // try{
+  //   let sqlUser = 'SELECT * FROM users WHERE id = ?';
+  //   const user = await query(sqlUser, req.user.id);
+  //   var foundUser = user.map(v => Object.assign({}, v));
+  //   foundUser = foundUser[0];
+  // }catch(e){
+  //   console.log(e);
+  //   next(err);
+  // }
+  //
+  // try{
+  //   let sqlShowIds = 'SELECT showId FROM usersShows WHERE userId = ?';
+  //   const showIds = await query(sqlShowIds, req.user.id);
+  //   var foundIds = showIds.map(v => Object.assign({}, v));
+  //   console.log("Gli id sono: ", foundIds);
+  // }catch(e){
+  //   console.log(e);
+  //   next(err);
+  // }
+  //
+  // var ids = [];
+  // foundIds.forEach(function(foundId){
+  //   ids.push(foundId.showId);
+  // });
+  // console.log("Il nuovo array ids è: ", ids.toString());
+  //
+
+
+  var foundShow = "";
   try{
-    let sqlUser = 'SELECT * FROM users WHERE id = ?';
-    const user = await query(sqlUser, req.user.id);
-    var foundUser = user.map(v => Object.assign({}, v));
-    foundUser = foundUser[0];
+    let sqlShow = 'SELECT * FROM shows WHERE stateName = ?';
+    const show = await query(sqlShow, req.params.page);
+    console.log(show);
+    foundShow = show.map(v => Object.assign({}, v));
+    foundShow = foundShow[0];
+    console.log("Gli shows sono: ", foundShow);
   }catch(e){
     console.log(e);
     next(err);
   }
 
+  var foundPosts = "";
   try{
-    let sqlShowIds = 'SELECT showId FROM usersShows WHERE userId = ?';
-    const showIds = await query(sqlShowIds, req.user.id);
-    var foundIds = showIds.map(v => Object.assign({}, v));
-    console.log("Gli id sono: ", foundIds);
-  }catch(e){
-    console.log(e);
-    next(err);
-  }
-
-  var ids = [];
-  foundIds.forEach(function(foundId){
-    ids.push(foundId.showId);
-  });
-  console.log("Il nuovo array ids è: ", ids.toString());
-
-  try{
-    let sqlShows = 'SELECT * FROM shows WHERE id IN ('+ids.toString()+')';
-    const shows = await query(sqlShows);
-    console.log(shows);
-    var foundShows = shows.map(v => Object.assign({}, v));
-    console.log("Gli shows sono: ", foundShows);
+    let sqlPosts = 'SELECT * FROM posts WHERE author = ? and program = ?';
+    const posts = await query(sqlPosts, [req.user.nickName, req.params.page]);
+    console.log(posts);
+    foundPosts = posts.map(v => Object.assign({}, v));
+    console.log("Gli shows sono: ", foundPosts);
   }catch(e){
     console.log(e);
     next(err);
   }
 
 
-  res.render("pages", {userInfo:foundUser, pagesInfo: foundShows});
+
+
+  res.render("userPosts", {page: foundShow, postsInfo: foundPosts});
 })
+
+
+router.get("/admin-console/:page/posts/:postId", auth, async (req, res)=>{
+
+  var foundPost = "";
+  try{
+    let sqlPost = 'SELECT * FROM posts WHERE id = ?';
+    const post = await query(sqlPost, req.params.postId);
+    console.log(post);
+    foundPost = post.map(v => Object.assign({}, v));
+    foundPost = foundPost[0];
+    console.log("Gli shows sono: ", foundPost);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  res.render("editPost", {post: foundPost});
+})
+
 
 router.get("/admin-console/posts/create", auth, async function(req,res){
 

@@ -9,29 +9,54 @@
 <div class="container">
   <div class="py-5 text-center">
     <img class="d-block mx-auto mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h2>I post di <%= page.name%></h2>
-    <p class="lead">In questa sezione potrai gestire i tuoi post.</p>
+    <h2>Gestisci le tue pagine</h2>
+    <p class="lead">In questa sezione potrai gestire le tue pagine.</p>
   </div>
 
-
-
-<div class="row row-cols-1 row-cols-md-3">
-  <%  postsInfo.forEach(function(post){ %>
-  <div class="col mb-4">
-    <div class="card">
-      <% console.log(post.previewPicture) %>
-      <div class="card-body">
-        <h5 class="card-title"><%=post.title%></h5>
-        <p class="card-text"><%=post.content.substring(0,100)%>...</p>
-        <a class="btn btn-link btn-outline-primary" href="posts/<%= post.id %>" role="button"> Modifica <span data-feather="edit-2"></span></a>
-      </div>
+  <div id="postInfo" class="">
+    <div class="card-body">
+      <p><b>Nome:</b> <%=post.title%></p>
+      <p><b>Contenuto:</b> <%=post.content%></p>
+      <p><b>Immagine di copertina:</b> <%=post.previewPicture%></p>
+      <img src="<%=post.previewPicture.substring(2)%>" alt="" height="120">
     </div>
   </div>
-  <% }) %>
 
+  <hr class="featurette-divider">
+  <div class="py-5 text-center">
+    <h2>Modifica il tuo post</h2>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 order-md-1">
+      <form class="needs-validation" novalidate action="/" method="POST" id="update-post-info">
+
+        <div class="mb-3">
+          <label>Titolo</label>
+          <input class="form-control" name="title" id="title"></input>
+          <div class="invalid-feedback">
+            Inserisci il titolo del post.
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label>Contenuto</label>
+          <textarea class="form-control" name="content" rows="5" cols="30" id="content"></textarea>
+          <div class="invalid-feedback">
+            Inserisci il testo.
+          </div>
+        </div>
+
+        <hr class="mb-4">
+          <button class=" btn btn-primary btn-lg btn-block" type="submit">Aggiorna le informazioni della pagina</button>
+
+
+      </form>
+    </div>
   </div>
 
 <hr class="featurette-divider">
+
 
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -118,7 +143,7 @@
       });
     </script>
 
-    <script src="/js/userPosts.js"></script>
+    <script src="/js/pages.js"></script>
 
   </body>
 </html>
