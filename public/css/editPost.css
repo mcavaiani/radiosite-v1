@@ -1,0 +1,22 @@
+.thumbnail {
+width:120px;
+/* height:50px; */
+position:relative;
+}
+
+.thumbnail img {
+max-width:100%;
+max-height:100%;
+}
+
+.thumbnail a {
+display:block;
+width:10px;
+height:10px;
+position:absolute;
+top:3px;
+right:3px;
+background:#c00;
+overflow:hidden;
+text-indent:-9999px;
+}

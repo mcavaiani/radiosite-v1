@@ -17,7 +17,7 @@
                 <form class="needs-validation" novalidate id="create-post-form" action="create" method="POST" enctype="multipart/form-data">
                   <div class="row">
 
-                      <div class="col-md-6 mb-3">
+                      <div class="col-lg-12 mb-3">
                       <div class="input-group">
                         <div class="input-group-prepend">
                           <label class="input-group-text" for="inputGroupSelect">Scegli la pagina</label>
@@ -26,7 +26,7 @@
                           <option selected>Choose...</option>
                           <% var ii = 0; %>
                           <%  showList.forEach(function(show){ %>
-                          <option value="<%= show.stateName %>"><%=show.name%></option>
+                          <option value="<%= show.stateName %>"><%=show.name%> - <%=show.type%></option>
                           <% ii++; %>
                           <% }) %>
                         </select>
@@ -50,14 +50,14 @@
                     </div>
                   </div>
 
-                  <div class="mb-3"
+                  <div class="mb-3">
                     <label for="preview">Scegli l'immagine di anteprima</label>
                     <div class="">
                       <input type="file" class="" id="preview" name="preview" required>
                     </div>
                   </div>
 
-                  <div class="mb-3"
+                  <div class="mb-3" id="div-upload-pics">
                     <label for="preview">Carica le immagini nella galleria</label>
                     <div class="">
                       <input type="file" class="" id="pics" name="pics" multiple>
@@ -66,9 +66,10 @@
 
                   <hr class="mb-4">
                     <button class=" btn btn-primary btn-lg btn-block" type="submit">Crea il tuo post</button>
-                  </div>
+
 
                 </form>
+                </div>
               </div>
               <footer class="my-5 pt-5 text-muted text-center text-small">
                 <p class="mb-1">&copy; 2017-2020 Company Name</p>
@@ -80,8 +81,6 @@
               </footer>
             </div>
 
-<script src="/docs/4.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
-<script src="form-validation.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function() {

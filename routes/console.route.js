@@ -249,31 +249,130 @@ router.get("/admin-console/:page/posts", auth, async (req, res)=>{
     next(err);
   }
 
-
-
+  var isBlog = false;
+  if(foundShow.type ==='blog'){
+    isBlog = true;
+  }
 
   res.render("userPosts", {page: foundShow, postsInfo: foundPosts});
 })
 
 
-router.get("/admin-console/:page/posts/:postId", auth, async (req, res)=>{
+router.get("/admin-console/:page/posts/:id", auth, async (req, res)=>{
 
-  var foundPost = "";
+  console.log(req.params);
+
+  var foundType = "";
   try{
-    let sqlPost = 'SELECT * FROM posts WHERE id = ?';
-    const post = await query(sqlPost, req.params.postId);
-    console.log(post);
-    foundPost = post.map(v => Object.assign({}, v));
-    foundPost = foundPost[0];
-    console.log("Gli shows sono: ", foundPost);
+    let sqlShow = 'SELECT type FROM shows WHERE stateName = ?';
+    const showType = await query(sqlShow, req.params.page);
+    console.log(showType);
+    foundType = showType.map(v => Object.assign({}, v));
+    foundType = foundType[0];
+    console.log(foundType.type);
   }catch(e){
     console.log(e);
     next(err);
   }
 
-  res.render("editPost", {post: foundPost});
+  // console.log(isBlog);
+
+  var foundPost = "";
+  try{
+    console.log("il parametro id è ",req.params.id);
+    let sqlPost = 'SELECT * FROM posts WHERE id = ?';
+    const post = await query(sqlPost, req.params.id);
+    console.log(post);
+    foundPost = post.map(v => Object.assign({}, v));
+    foundPost = foundPost[0];
+    console.log("Il post è: ", foundPost);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  var foundImgs = "";
+  try{
+    let sqlImgs = 'SELECT * FROM postImages WHERE post = ? ';
+    const imgs = await query(sqlImgs, foundPost.id);
+    foundImgs = imgs.map(v => Object.assign({}, v));
+    console.log("Le images sono: ", foundImgs);
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  res.render("editPost", {post: foundPost, images: foundImgs, pageType: foundType.type.toString()});
 })
 
+router.post("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'preview'}, {name: 'pics'}]), async (req, res)=>{
+
+  console.log(req.body);
+  console.log(req.files.preview);
+  console.log(req.files.pics);
+
+  var foundPost = "";
+  try{
+    let sqlPost = 'SELECT * FROM posts WHERE id = ?';
+    newPost = await query(sqlPost, req.params.id);
+    var foundPost = newPost.map(v => Object.assign({}, v));
+    console.log(foundPost)
+  }catch(e){
+    console.log(e);
+    next(err);
+    res.status(500).send("Qualcosa è andato storto");
+  }
+
+  var updatePost = foundPost;
+  if(req.body.postTitle){updatePost.title = req.body.postTitle};
+  if(req.body.postContent){updatePost.content = req.body.postContent};
+  if(req.files.preview[0].filename){updatePost.previewPicture = req.files.preview[0].filename};
+
+
+  try{
+    let sqlUpdatePost = 'UPDATE posts SET title = ?, content = ?, previewPicture = ? WHERE id = ?';
+    updatedPost = await query(sqlUpdatePost,[updatePost.title, updatePost.content, updatePost.previewPicture, updatePost.id]);
+    console.log(updatedPost);
+  }catch(e){
+    console.log(e);
+    next(err);
+    res.status(500).send("Qualcosa è andato storto");
+  }
+
+  if(req.files.pics){
+    try{
+      let sqlPostImgs = "DELETE FROM postImages WHERE post = ?";
+      const imgsDel = await query(sqlPostImgs, req.params.id);
+      console.log(imgsDel.affectedRows + " record(s) updated");
+    }catch(e){
+      console.log(e);
+      next(err);
+      res.status(500).send("Qualcosa è andato storto");
+    }
+    // INSERT A DB
+
+    req.files.pics.forEach(async function(pic){
+
+      try{
+        var pathImg = "../images/posts/" + pic.filename;
+        let sqlPostImage = 'INSERT INTO postImages(post, imgPath) VALUES ('+"'"+ req.params.id+"'"+','+ "'"+pathImg+"'"+ ')';
+        console.log("INSERT per il nuovo programma: ", sqlPostImage);
+        postImage = await query(sqlPostImage);
+        console.log(postImage);
+      }catch(e){
+        console.log(e);
+        next(err);
+        res.status(500).send("Qualcosa è andato storto");
+      }
+
+      });
+  }
+
+  res.redirect("pages");
+
+
+
+})
 
 router.get("/admin-console/posts/create", auth, async function(req,res){
 
