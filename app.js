@@ -229,7 +229,4 @@ https.createServer(options, app).listen(port, function(){
   chalk.magenta(figlet.textSync('FutuRadio', { horizontalLayout: 'full' })) +
   chalk.magenta("\nWelcome to FutuRadio website!")
   );
-  if(err){
-    console.log(err);
-  }
 });
