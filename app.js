@@ -33,20 +33,17 @@ const cors = require('cors');
 const multer = require('multer');
 // const moment = require("moment");
 
-let host = process.env.SERVER;
-if (host == null || host == "") {
-  host = 'localhost';
-  database = 'futuradiodb';
-  user = 'root';
-  password = 'root'
-}else{
+//   Per i test in locale
+//   host = 'localhost';
+//   database = 'futuradiodb';
+//   user = 'root';
+//   password = 'root'
+
   database = process.env.DATABASE;
   user = process.env.DBUSER;
   password = process.env.DBPSW;
-}
 
 var db = mysql.createConnection({
-    host     : host,
     database : database,
     user     : user,
     password : password
