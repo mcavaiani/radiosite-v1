@@ -39,14 +39,10 @@ const multer = require('multer');
 //   user = 'root';
 //   password = 'root'
 
-  database = process.env.DATABASE;
-  user = process.env.DBUSER;
-  password = process.env.DBPSW;
-
 var db = mysql.createConnection({
-    database : database,
-    user     : user,
-    password : password
+    database : process.env.DATABASE,
+    user     : process.env.DBUSER,
+    password : process.env.DBPSW
 });
 
 db.connect(function(err) {
