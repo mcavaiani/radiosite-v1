@@ -53,7 +53,6 @@ db.connect(function(err) {
         console.error('Error connecting: ' + err.stack);
         return;
     }
-
     console.log('Connected as id ' + db.threadId);
 });
 
@@ -222,14 +221,20 @@ if (port == null || port == "") {
   port = 3000;
 }
 
+app.listen(port);
+
 // app.listen(port, function() {
 //
 // });
 
-https.createServer(options, app).listen(port, function(){
-  console.log("Server have started");
+https.createServer(options, app).listen(8080, function(){
   console.log(
   chalk.magenta(figlet.textSync('FutuRadio', { horizontalLayout: 'full' })) +
   chalk.magenta("\nWelcome to FutuRadio website!")
   );
+  console.log("\n");
+  console.log("------------------------------"+"\nStartup log"+"\n------------------------------");
+  console.log("APPLICATION VARIABLES")
+  console.table([{variable: "prova", value: "prova"},{variable: "prova", value: "prova"}])
+
 });
