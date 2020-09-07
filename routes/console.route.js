@@ -54,23 +54,38 @@ router.post("/register", async (req, res) => {
   } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  //find an existing user
-  let user = await User.findOne({
-    username: req.body.username
-  });
-  if (user) return res.status(400).send("User already registered.");
+  const user = "";
+  try{
+    let sqlUser = 'SELECT * FROM users WHERE userName = ?';
+    user = await query(sqlUser, req.body.username);
+  }catch(e){
+    console.log(e);
+    res.status(500).send();
+  }
 
-  user = new User({
-    username: req.body.username,
-    password: req.body.password
-  });
+  console.log(user);
+  if (user){
+    return res.status(401).send({
+      accessToken: null,
+      message: "Utente già registrato!"
+    });
+  }
 
-  user.password = await bcrypt.hash(user.password, 10);
-  await user.save();
+  const userPassword = await bcrypt.hash(req.body.password, 10);
 
-  const token = user.generateAuthToken();
-  res.set("x-access-token", token);
-  res.redirect("/console/admin-console");
+  var newUser = "";
+  try{
+    let sqlNewUser = 'INSERT INTO users(username, password) VALUES ('+"'"+req.body.username+"'"+","+"'"+userPassword+"'"+')';
+    const user = await query(sqlNewUser, req.body.username);
+    console.log(user);
+  }catch(e){
+    console.log(e);
+    res.status(500).send();
+  }
+
+  // const token = user.generateAuthToken();
+  // res.set("x-access-token", token);
+  res.redirect("/");
 
 });
 
