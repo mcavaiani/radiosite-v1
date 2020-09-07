@@ -1,0 +1,7 @@
+{
+  // Database configs
+  "dbConfig": {
+    "database": "futuradi_futuradiodb",
+    "user": "futuradi_user"
+  }
+}
