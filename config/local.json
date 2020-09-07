@@ -1,0 +1,7 @@
+{
+  // Database configs
+  "dbConfig": {
+    "database": "futuradiodb",
+    "user": "root"
+  }
+}

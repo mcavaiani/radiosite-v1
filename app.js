@@ -42,10 +42,16 @@ const multer = require('multer');
 const dbConfig = config.get('dbConfig');
 console.log(dbConfig);
 
+if (process.env.NODE_ENV=="local"){
+  password = "root";
+}else{
+  password = process.env.DBPSW;
+}
+
 var db = mysql.createConnection({
     database : dbConfig.database,
     user     : dbConfig.user,
-    password : process.env.DBPSW
+    password : password
 });
 
 db.connect(function(err) {
@@ -196,22 +202,20 @@ app.post("/compose", function(req, res){
   });
 });
 
-app.get("/about", function(req,res){
+app.get("/about", async function(req,res){
 
-  importedUser.User.find(function(err, foundUsers){
+  try{
+    let sqlUser = 'SELECT * FROM users';
+    const users = await query(sqlUser, req.body.username);
+    var foundUsers = users.map(v => Object.assign({}, v));
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
 
-    if(err){
-      console.log(err);
-    }else{
-      if(foundUsers){
-        console.log(foundUsers);
-        res.render("about",{users: foundUsers});
-      }else{
-        res.render("/");
-      }
-    }
+  console.log(foundUsers);
+  res.render("about",{users: foundUsers});
 
-  });
 });
 
 

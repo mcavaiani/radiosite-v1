@@ -75,7 +75,7 @@ router.post("/register", async (req, res) => {
 
   var newUser = "";
   try{
-    let sqlNewUser = 'INSERT INTO users(username, password) VALUES ('+"'"+req.body.username+"'"+","+"'"+userPassword+"'"+')';
+    let sqlNewUser = 'INSERT INTO users(username, password, isAdmin) VALUES ('+"'"+req.body.username+"'"+","+"'"+userPassword+"'"+"'"+"0"+"'"+')';
     const user = await query(sqlNewUser, req.body.username);
     console.log(user);
   }catch(e){
