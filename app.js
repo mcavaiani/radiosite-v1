@@ -48,20 +48,19 @@ if (process.env.NODE_ENV==="localdev"){
   password = process.env.DBPSW;
 }
 
-var db = mysql.createPool({
-  connectionLimit : 10,
-  database : dbConfig.database,
-  user     : dbConfig.user,
-  password : password
+var db = mysql.createConnection({
+    database : dbConfig.database,
+    user     : dbConfig.user,
+    password : password
 });
 
-// db.connect(function(err) {
-//     if (err) {
-//         console.error('Error connecting: ' + err.stack);
-//         return;
-//     }
-//     console.log('Connected as id ' + db.threadId);
-// });
+db.connect(function(err) {
+    if (err) {
+        console.error('Error connecting: ' + err.stack);
+        return;
+    }
+    console.log('Connected as id ' + db.threadId);
+});
 
 global.db = db;
 const query = util.promisify(db.query).bind(db);
