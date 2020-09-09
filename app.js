@@ -42,7 +42,7 @@ const multer = require('multer');
 const dbConfig = config.get('dbConfig');
 console.log(dbConfig);
 
-if (process.env.NODE_ENV=="local"){
+if (process.env.NODE_ENV=="localdev"){
   password = "root";
 }else{
   password = process.env.DBPSW;
