@@ -1,8 +1,40 @@
 
-<%- include("partials/header", {pageTitle: pageTitle}); %>
-<%- include("partials/navbar-post", {pageTitle:pageTitle, author: author}); %>
+<%- include("partials/header-post", {pageTitle: pageTitle, picture: postInfo.previewPicture.substring(2)}); %>
+<%- include("partials/navbar-post", {pageTitle:pageTitle, author: postInfo.author, picture: postInfo.previewPicture.substring(3)}); %>
 
-  <h1><%=title%></h1>
-  <p><%=content%></p>
+<div class="post-title-div">
+  <h3 class="programs-title-new"><%=postInfo.title%></h3>
+  <% var dateShort =postInfo.postDate %>
+  <p class="hello-p"><%= pageTitle %> - <%= moment(dateShort).format('DD-MM-YY') %></p>
+  <p class="hello-p">Edited by <%= postInfo.author %></p>
+</div>
+
+<div class="post-body-div">
+  <p><%=postInfo.content%></p>
+</div>
+
+
+
+
+<div class="post-title-div">
+  <p class="hello-p">Gallery</p>
+</div>
+<div class="post-gallery-div">
+  <div class="row row-cols-1 row-cols-md-3 justify-content-center">
+    <%  images.forEach(function(image){ %>
+    <div class="col mb-4">
+      <a href="<%=image.imgPath.substring(2)%>" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+          <img src="<%=image.imgPath.substring(2)%>" class="img-fluid">
+      </a>
+    </div>
+    <% }) %>
+
+    </div>
+</div>
+
+
+
+
+
 
 <%- include("partials/footer"); -%>

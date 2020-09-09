@@ -136,12 +136,15 @@ router.get("/:blog/posts/:postId", momentMiddleware, async function(req, res){
   console.log("Post info");
   console.log(foundPost);
 
+  let sqlPostImgs = 'SELECT * FROM postImages WHERE post = ?';
+  const images = await query(sqlPostImgs,req.params.postId);
+  var foundImgs = images.map(v => Object.assign({}, v));
+
   res.render("post", {
     pageTitle: foundBlog.name,
     stateName: req.params.blog,
-    title: foundPost.title,
-    content: foundPost.content,
-    author: foundPost.author
+    postInfo: foundPost,
+    images: foundImgs
   });
 
   //
