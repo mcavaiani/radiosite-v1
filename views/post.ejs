@@ -3,7 +3,7 @@
 <%- include("partials/navbar-post", {pageTitle:pageTitle, author: postInfo.author, picture: postInfo.previewPicture.substring(3)}); %>
 
 <div class="post-title-div">
-  <h3 class="programs-title-new"><%=postInfo.title%></h3>
+  <h3 class="programs-title-new" id="post-title"><%=postInfo.title%></h3>
   <% var dateShort =postInfo.postDate %>
   <p class="hello-p"><%= pageTitle %> - <%= moment(dateShort).format('DD-MM-YY') %></p>
   <p class="hello-p">Edited by <%= postInfo.author %></p>

@@ -54,6 +54,14 @@ var db = mysql.createConnection({
     password : password
 });
 
+const pool = mysql.createPool({
+  database : dbConfig.database,
+  user     : dbConfig.user,
+  password : password
+});
+
+global.pool = pool;
+
 db.connect(function(err) {
     if (err) {
         console.error('Error connecting: ' + err.stack);
