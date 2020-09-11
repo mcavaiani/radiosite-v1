@@ -10,6 +10,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const momentMiddleware = require("../middleware/momentMiddleware");
 const util = require('util');
+const dbModule = require('../db/dbModule');
 
 router.get("/:show", momentMiddleware, async function(req, res){
   // console.log(req.params);
@@ -18,7 +19,8 @@ router.get("/:show", momentMiddleware, async function(req, res){
 
   try{
     let sqlShow = 'SELECT * FROM shows WHERE stateName = ?';
-    const show = await query(sqlShow, req.params.show);
+    const show = await dbModule.query(sqlShow, req.params.show);
+    console.log(show)
     var foundShow = show.map(v => Object.assign({}, v));
     console.log("Il programma cercato è: ",foundShow);
     if (!foundShow.length){res.redirect("/");}
@@ -31,7 +33,7 @@ router.get("/:show", momentMiddleware, async function(req, res){
 
   // try{
     let sqlAuthor = 'SELECT userId FROM usersShows WHERE showId = ?';
-    const authorList = await query(sqlAuthor, foundShow.id);
+    const authorList = await dbModule.query(sqlAuthor, foundShow.id);
     const authors = authorList.map(v => Object.assign({}, v));
   // }catch(e){
   //   console.log(e);
@@ -42,7 +44,7 @@ router.get("/:show", momentMiddleware, async function(req, res){
   authors.forEach(element => authorsArray.push(element.userId));
 
   let sqlAuthorInfo = 'SELECT * FROM users WHERE id = ?';
-  const authorInfo = await query(sqlAuthorInfo, authorsArray);
+  const authorInfo = await dbModule.query(sqlAuthorInfo, authorsArray);
   const authorsInfoList = authorInfo.map(v => Object.assign({}, v));
 
   let authorNames = [];
@@ -50,7 +52,7 @@ router.get("/:show", momentMiddleware, async function(req, res){
 
   // try{
     let sqlPosts = 'SELECT * FROM posts WHERE program = ?';
-    const postList = await query(sqlPosts, req.params.show);
+    const postList = await dbModule.query(sqlPosts, req.params.show);
     const postListNew = postList.map(v => Object.assign({}, v));
   // }catch(e){
   //   console.log(e);

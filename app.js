@@ -2,6 +2,7 @@
 require('dotenv').config();
 const config = require("config");
 const express = require("express");
+const app = express();
 const usersRoute = require("./routes/console.route");
 const showsRoute = require("./routes/show.route");
 const mixesRoute = require("./routes/mix.route");
@@ -31,50 +32,35 @@ const options = {
 
 const cors = require('cors');
 const multer = require('multer');
-// const moment = require("moment");
+const dbModule = require('./db/dbModule');
 
-//   Per i test in locale
-//   host = 'localhost';
-//   database = 'futuradiodb';
-//   user = 'root';
-//   password = 'root'
+//
+// const dbConfig = config.get('dbConfig');
+// console.log(dbConfig);
+//
+// if (process.env.NODE_ENV==="localdev"){
+//   password = "root";
+// }else{
+//   password = process.env.DBPSW;
+// }
 
-const dbConfig = config.get('dbConfig');
-console.log(dbConfig);
-
-if (process.env.NODE_ENV==="localdev"){
-  password = "root";
-}else{
-  password = process.env.DBPSW;
-}
-
-var db = mysql.createConnection({
-    database : dbConfig.database,
-    user     : dbConfig.user,
-    password : password
-});
-
-const pool = mysql.createPool({
-  database : dbConfig.database,
-  user     : dbConfig.user,
-  password : password
-});
-
-global.pool = pool;
-
-db.connect(function(err) {
-    if (err) {
-        console.error('Error connecting: ' + err.stack);
-        return;
-    }
-    console.log('Connected as id ' + db.threadId);
-});
-
-global.db = db;
-const query = util.promisify(db.query).bind(db);
-global.query = query;
-
-const app = express();
+// var db = mysql.createConnection({
+//     database : dbConfig.database,
+//     user     : dbConfig.user,
+//     password : password
+// });
+//
+// db.connect(function(err) {
+//     if (err) {
+//         console.error('Error connecting: ' + err.stack);
+//         return;
+//     }
+//     console.log('Connected as id ' + db.threadId);
+// });
+//
+// global.db = db;
+// const query = util.promisify(db.query).bind(db);
+// global.query = query;
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
@@ -114,41 +100,43 @@ const importedPost = require('./models/post.model');
 
 app.get("/", async function(req, res){
 
-  try{
-    let sql = 'SELECT * FROM shows';
-    const programList = await query(sql);
-    const newProgramList = programList.map(v => Object.assign({}, v));
 
-    console.log(newProgramList);
+    try{
+      let sql = 'SELECT * FROM shows';
+      const programList = await dbModule.query(sql);
+      console.log(programList);
+      const newProgramList = programList.map(v => Object.assign({}, v));
 
-    var showList = newProgramList.filter(function (el) {
-      return el.type === 'podcast';
-    });
+      console.log(newProgramList);
 
-    var blogList = newProgramList.filter(function (el) {
-      return el.type === 'blog';
-    });
+      var showList = newProgramList.filter(function (el) {
+        return el.type === 'podcast';
+      });
 
-    var mixList = newProgramList.filter(function (el) {
-      return el.type === 'mix';
-    });
+      var blogList = newProgramList.filter(function (el) {
+        return el.type === 'blog';
+      });
 
-    console.log('showList è');
-    console.log(showList);
-    console.log('blogList è');
-    console.log(blogList);
-    console.log('mixList è');
-    console.log(mixList);
+      var mixList = newProgramList.filter(function (el) {
+        return el.type === 'mix';
+      });
 
-    res.render('home-new', {
-        shows: showList,
-        blogs: blogList,
-        mixes: mixList
-    });
+      console.log('showList è');
+      console.log(showList);
+      console.log('blogList è');
+      console.log(blogList);
+      console.log('mixList è');
+      console.log(mixList);
 
-  }catch(e){
-    res.status(500).send(e);
-  };
+      res.render('home-new', {
+          shows: showList,
+          blogs: blogList,
+          mixes: mixList
+      });
+
+    }catch(e){
+      res.status(500).send(e);
+    };
 
 });
 
@@ -214,7 +202,8 @@ app.get("/about", async function(req,res){
 
   try{
     let sqlUser = 'SELECT * FROM users';
-    const users = await query(sqlUser, req.body.username);
+    const users = await dbModule.query(sqlUser, req.body.username);
+    console.log(users);
     var foundUsers = users.map(v => Object.assign({}, v));
   }catch(e){
     console.log(e);
@@ -246,7 +235,13 @@ https.createServer(options, app).listen(8080, function(){
   );
   console.log("\n");
   console.log("------------------------------"+"\nStartup log"+"\n------------------------------");
-  console.log("APPLICATION VARIABLES")
-  console.table([{variable: "prova", value: "prova"},{variable: "prova", value: "prova"}])
-
+  console.log("APPLICATION VARIABLES");
+  console.table([{variable: "prova", value: "prova"},{variable: "prova", value: "prova"}]);
+  console.log("DB Pool creato con le seguenti configurazioni: "+
+              "\n{"+"\n  host: "+ dbModule.config.connectionConfig.host +
+              "\n  port:"+dbModule.config.connectionConfig.port+
+              "\n  database:"+dbModule.config.connectionConfig.database+
+              "\n  user:"+dbModule.config.connectionConfig.user+
+              "\n  connectionLimit:"+dbModule.config.connectionLimit+"\n}"
+            );
 });

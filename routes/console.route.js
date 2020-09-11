@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const _ = require('lodash');
 const multer = require('multer');
+const dbModule = require('../db/dbModule');
 
 const app = express();
 app.use(express.static("public"));
@@ -57,7 +58,7 @@ router.post("/register", async (req, res) => {
   const user = "";
   try{
     let sqlUser = 'SELECT * FROM users WHERE userName = ?';
-    user = await query(sqlUser, req.body.username);
+    user = await dbModule.query(sqlUser, req.body.username);
   }catch(e){
     console.log(e);
     res.status(500).send();
@@ -76,7 +77,7 @@ router.post("/register", async (req, res) => {
   var newUser = "";
   try{
     let sqlNewUser = 'INSERT INTO users(username, password, isAdmin) VALUES ('+"'"+req.body.username+"'"+","+"'"+userPassword+"'"+"'"+"0"+"'"+')';
-    const user = await query(sqlNewUser, req.body.username);
+    const user = await dbModule.query(sqlNewUser, req.body.username);
     console.log(user);
   }catch(e){
     console.log(e);
@@ -99,7 +100,7 @@ router.post("/login", async (req, res) => {
 
   try{
     let sqlUser = 'SELECT * FROM users WHERE userName = ?';
-    const user = await query(sqlUser, req.body.username);
+    const user = await dbModule.query(sqlUser, req.body.username);
     var foundUser = user.map(v => Object.assign({}, v));
     foundUser = foundUser[0];
   }catch(e){
@@ -151,7 +152,7 @@ router.get("/admin-console/user", auth, async (req, res)=>{
 
   try{
     let sqlUser = 'SELECT * FROM users WHERE id = ?';
-    const user = await query(sqlUser, req.user.id);
+    const user = await dbModule.query(sqlUser, req.user.id);
     var foundUser = user.map(v => Object.assign({}, v));
     foundUser = foundUser[0];
   }catch(e){
@@ -166,7 +167,7 @@ router.get("/admin-console/pages", auth, async (req, res)=>{
 
   try{
     let sqlUser = 'SELECT * FROM users WHERE id = ?';
-    const user = await query(sqlUser, req.user.id);
+    const user = await dbModule.query(sqlUser, req.user.id);
     var foundUser = user.map(v => Object.assign({}, v));
     foundUser = foundUser[0];
   }catch(e){
@@ -176,7 +177,7 @@ router.get("/admin-console/pages", auth, async (req, res)=>{
 
   try{
     let sqlShowIds = 'SELECT showId FROM usersShows WHERE userId = ?';
-    const showIds = await query(sqlShowIds, req.user.id);
+    const showIds = await dbModule.query(sqlShowIds, req.user.id);
     var foundIds = showIds.map(v => Object.assign({}, v));
     console.log("Gli id sono: ", foundIds);
   }catch(e){
@@ -192,7 +193,7 @@ router.get("/admin-console/pages", auth, async (req, res)=>{
 
   try{
     let sqlShows = 'SELECT * FROM shows WHERE id IN ('+ids.toString()+')';
-    const shows = await query(sqlShows);
+    const shows = await dbModule.query(sqlShows);
     console.log(shows);
     var foundShows = shows.map(v => Object.assign({}, v));
     console.log("Gli shows sono: ", foundShows);
@@ -213,7 +214,7 @@ router.get("/admin-console/:page/posts", auth, async (req, res)=>{
 
   // try{
   //   let sqlUser = 'SELECT * FROM users WHERE id = ?';
-  //   const user = await query(sqlUser, req.user.id);
+  //   const user = await dbModule.query(sqlUser, req.user.id);
   //   var foundUser = user.map(v => Object.assign({}, v));
   //   foundUser = foundUser[0];
   // }catch(e){
@@ -223,7 +224,7 @@ router.get("/admin-console/:page/posts", auth, async (req, res)=>{
   //
   // try{
   //   let sqlShowIds = 'SELECT showId FROM usersShows WHERE userId = ?';
-  //   const showIds = await query(sqlShowIds, req.user.id);
+  //   const showIds = await dbModule.query(sqlShowIds, req.user.id);
   //   var foundIds = showIds.map(v => Object.assign({}, v));
   //   console.log("Gli id sono: ", foundIds);
   // }catch(e){
@@ -242,7 +243,7 @@ router.get("/admin-console/:page/posts", auth, async (req, res)=>{
   var foundShow = "";
   try{
     let sqlShow = 'SELECT * FROM shows WHERE stateName = ?';
-    const show = await query(sqlShow, req.params.page);
+    const show = await dbModule.query(sqlShow, req.params.page);
     console.log(show);
     foundShow = show.map(v => Object.assign({}, v));
     foundShow = foundShow[0];
@@ -255,7 +256,7 @@ router.get("/admin-console/:page/posts", auth, async (req, res)=>{
   var foundPosts = "";
   try{
     let sqlPosts = 'SELECT * FROM posts WHERE author = ? and program = ?';
-    const posts = await query(sqlPosts, [req.user.nickName, req.params.page]);
+    const posts = await dbModule.query(sqlPosts, [req.user.nickName, req.params.page]);
     console.log(posts);
     foundPosts = posts.map(v => Object.assign({}, v));
     console.log("Gli shows sono: ", foundPosts);
@@ -280,7 +281,7 @@ router.get("/admin-console/:page/posts/:id", auth, async (req, res)=>{
   var foundType = "";
   try{
     let sqlShow = 'SELECT type FROM shows WHERE stateName = ?';
-    const showType = await query(sqlShow, req.params.page);
+    const showType = await dbModule.query(sqlShow, req.params.page);
     console.log(showType);
     foundType = showType.map(v => Object.assign({}, v));
     foundType = foundType[0];
@@ -296,7 +297,7 @@ router.get("/admin-console/:page/posts/:id", auth, async (req, res)=>{
   try{
     console.log("il parametro id è ",req.params.id);
     let sqlPost = 'SELECT * FROM posts WHERE id = ?';
-    const post = await query(sqlPost, req.params.id);
+    const post = await dbModule.query(sqlPost, req.params.id);
     console.log(post);
     foundPost = post.map(v => Object.assign({}, v));
     foundPost = foundPost[0];
@@ -309,7 +310,7 @@ router.get("/admin-console/:page/posts/:id", auth, async (req, res)=>{
   var foundImgs = "";
   try{
     let sqlImgs = 'SELECT * FROM postImages WHERE post = ? ';
-    const imgs = await query(sqlImgs, foundPost.id);
+    const imgs = await dbModule.query(sqlImgs, foundPost.id);
     foundImgs = imgs.map(v => Object.assign({}, v));
     console.log("Le images sono: ", foundImgs);
   }catch(e){
@@ -329,7 +330,7 @@ router.post("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'previ
   var foundPost = "";
   try{
     let sqlPost = 'SELECT * FROM posts WHERE id = ?';
-    newPost = await query(sqlPost, req.params.id);
+    newPost = await dbModule.query(sqlPost, req.params.id);
     var foundPost = newPost.map(v => Object.assign({}, v));
     console.log(foundPost)
   }catch(e){
@@ -346,7 +347,7 @@ router.post("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'previ
 
   try{
     let sqlUpdatePost = 'UPDATE posts SET title = ?, content = ?, previewPicture = ? WHERE id = ?';
-    updatedPost = await query(sqlUpdatePost,[updatePost.title, updatePost.content, updatePost.previewPicture, updatePost.id]);
+    updatedPost = await dbModule.query(sqlUpdatePost,[updatePost.title, updatePost.content, updatePost.previewPicture, updatePost.id]);
     console.log(updatedPost);
   }catch(e){
     console.log(e);
@@ -357,7 +358,7 @@ router.post("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'previ
   if(req.files.pics){
     try{
       let sqlPostImgs = "DELETE FROM postImages WHERE post = ?";
-      const imgsDel = await query(sqlPostImgs, req.params.id);
+      const imgsDel = await dbModule.query(sqlPostImgs, req.params.id);
       console.log(imgsDel.affectedRows + " record(s) updated");
     }catch(e){
       console.log(e);
@@ -372,7 +373,7 @@ router.post("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'previ
         var pathImg = "../images/posts/" + pic.filename;
         let sqlPostImage = 'INSERT INTO postImages(post, imgPath) VALUES ('+"'"+ req.params.id+"'"+','+ "'"+pathImg+"'"+ ')';
         console.log("INSERT per il nuovo programma: ", sqlPostImage);
-        postImage = await query(sqlPostImage);
+        postImage = await dbModule.query(sqlPostImage);
         console.log(postImage);
       }catch(e){
         console.log(e);
@@ -393,7 +394,7 @@ router.get("/admin-console/posts/create", auth, async function(req,res){
 
   try{
     let sqlShowsId = 'SELECT showId FROM usersShows WHERE userId = ?';
-    const showsId = await query(sqlShowsId, req.user.id);
+    const showsId = await dbModule.query(sqlShowsId, req.user.id);
     console.log(showsId);
     var foundShowsId = showsId.map(v => Object.assign({}, v));
     console.log("Gli shows sono: ", foundShowsId);
@@ -409,7 +410,7 @@ router.get("/admin-console/posts/create", auth, async function(req,res){
 
   try{
     let sqlShows = 'SELECT * FROM shows WHERE id IN ('+idList.toString()+')';
-    const shows = await query(sqlShows);
+    const shows = await dbModule.query(sqlShows);
     console.log(shows);
     var foundShows = shows.map(v => Object.assign({}, v));
     console.log("Gli shows sono: ", foundShows);
@@ -434,7 +435,7 @@ router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'
     var pathImg = "../images/posts/" + req.files.preview[0].filename;
     let sqlNewPost = 'INSERT INTO posts(title, content, author, postDate, program, previewPicture) VALUES ('+"'"+ req.body.postTitle+"'"+','+ "'"+req.body.postContent+"'"+','+"'"+ req.user.nickName+"'"+','+"'"+ dateString +"'"+','+"'"+req.body.programName +"'"+','+"'"+ pathImg+"'" +')';
     console.log("INSERT per il nuovo programma: ", sqlNewPost);
-    newPost = await query(sqlNewPost);
+    newPost = await dbModule.query(sqlNewPost);
     console.log(newPost);
   }catch(e){
     console.log(e);
@@ -451,7 +452,7 @@ router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'
       var pathImg = "../images/posts/" + pic.filename;
       let sqlPostImage = 'INSERT INTO postImages(post, imgPath) VALUES ('+"'"+ newPostId+"'"+','+ "'"+pathImg+"'"+ ')';
       console.log("INSERT per il nuovo programma: ", sqlPostImage);
-      postImage = await query(sqlPostImage);
+      postImage = await dbModule.query(sqlPostImage);
       console.log(postImage);
     }catch(e){
       console.log(e);
@@ -464,7 +465,7 @@ router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'
 
   try{
     let sqlShowsId = 'SELECT showId FROM usersShows WHERE userId = ?';
-    const showsId = await query(sqlShowsId, req.user.id);
+    const showsId = await dbModule.query(sqlShowsId, req.user.id);
     console.log(showsId);
     var foundShowsId = showsId.map(v => Object.assign({}, v));
     console.log("Gli shows sono: ", foundShowsId);
@@ -480,7 +481,7 @@ router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'
 
   try{
     let sqlShows = 'SELECT * FROM shows WHERE id IN ('+idList.toString()+')';
-    const shows = await query(sqlShows);
+    const shows = await dbModule.query(sqlShows);
     console.log(shows);
     var foundShows = shows.map(v => Object.assign({}, v));
     console.log("Gli shows sono: ", foundShows);

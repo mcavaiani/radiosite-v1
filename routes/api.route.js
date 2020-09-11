@@ -11,12 +11,13 @@ const jwt = require('jsonwebtoken');
 const momentMiddleware = require("../middleware/momentMiddleware");
 const util = require('util');
 const _ = require('lodash');
+const dbModule = require('../db/dbModule');
 
 router.get("/podcastList", async function(req, res){
 
   try{
     let sqlPodcastList = 'SELECT * FROM shows WHERE type = ?';
-    const podcasts = await query(sqlPodcastList, 'podcast');
+    const podcasts = await dbModule.query(sqlPodcastList, 'podcast');
     var foundPodcasts = podcasts.map(v => Object.assign({}, v));
     res.json(foundPodcasts);
   }catch(e){
@@ -29,7 +30,7 @@ router.get("/blogList", async function(req, res){
 
   try{
     let sqlBlogList = 'SELECT * FROM shows WHERE type = ?';
-    const blogs = await query(sqlBlogList, 'blog');
+    const blogs = await dbModule.query(sqlBlogList, 'blog');
     var foundBlog = blogs.map(v => Object.assign({}, v));
     res.json(foundBlog);
   }catch(e){
@@ -42,7 +43,7 @@ router.get("/mixList", async function(req, res){
 
   try{
     let sqlMixList = 'SELECT * FROM shows WHERE type = ?';
-    const mixes = await query(sqlMixList, 'mix');
+    const mixes = await dbModule.query(sqlMixList, 'mix');
     var foundMixes = mixes.map(v => Object.assign({}, v));
     res.json(foundMixes);
   }catch(e){
@@ -62,7 +63,7 @@ router.get("/user/:id?", auth, async function(req, res){
 
   try{
     let sqlUserInfo = 'SELECT * FROM users WHERE id = ?';
-    const user = await query(sqlUserInfo, userId);
+    const user = await dbModule.query(sqlUserInfo, userId);
     var foundUser = user.map(v => Object.assign({}, v));
     foundUser = foundUser[0];
 
@@ -85,7 +86,7 @@ router.get("/user/:id?", auth, async function(req, res){
 router.get("/users", auth, async function(req, res){
   try{
     let sqlUsers = 'SELECT * FROM users';
-    const users = await query(sqlUsers);
+    const users = await dbModule.query(sqlUsers);
     var foundUsers = users.map(v => Object.assign({}, v));
     foundUsers.forEach(user => delete user.password);
 
@@ -107,7 +108,7 @@ router.put("/user/:id?", auth, async function(req, res){
 
   try{
     let sqlUpUser = 'SELECT * FROM users WHERE id = ?';
-    const user = await query(sqlUpUser,userId);
+    const user = await dbModule.query(sqlUpUser,userId);
     var foundUser = user.map(v => Object.assign({}, v));
     foundUser = foundUser[0];
   }catch(e){
@@ -131,7 +132,7 @@ router.put("/user/:id?", auth, async function(req, res){
 
   try{
     let sqlUpdateUser = "UPDATE users SET nickName = ?, description = ?, pictureUrl = ?, facebook = ?, instagram = ?, twitter = ?, isAdmin = ?, toBeShown = ? WHERE id = ?";
-    const userToUpdate = await query(sqlUpdateUser,[updatedUser.nickName, updatedUser.description, updatedUser.pictureUrl, updatedUser.facebook, updatedUser.instagram, updatedUser.twitter, updatedUser.isAdmin, updatedUser.toBeShown, updatedUser.id], function (err, result) {
+    const userToUpdate = await dbModule.query(sqlUpdateUser,[updatedUser.nickName, updatedUser.description, updatedUser.pictureUrl, updatedUser.facebook, updatedUser.instagram, updatedUser.twitter, updatedUser.isAdmin, updatedUser.toBeShown, updatedUser.id], function (err, result) {
       if (err) throw err;
       console.log(result.affectedRows + " record(s) updated");
       res.status(200).send("OK");
@@ -153,7 +154,7 @@ router.put("/user/:id?/credentials", auth, async function(req, res){
 
   try{
     let sqlUpUser = 'SELECT * FROM users WHERE id = ?';
-    const user = await query(sqlUpUser,userId);
+    const user = await dbModule.query(sqlUpUser,userId);
     var foundUser = user.map(v => Object.assign({}, v));
     foundUser = foundUser[0];
   }catch(e){
@@ -186,7 +187,7 @@ router.put("/user/:id?/credentials", auth, async function(req, res){
 
   try{
     let sqlUpdateUser = "UPDATE users SET password = ? WHERE id = ?";
-    const userToUpdate = await query(sqlUpdateUser,[updatedUser.password, updatedUser.id], function (err, result) {
+    const userToUpdate = await dbModule.query(sqlUpdateUser,[updatedUser.password, updatedUser.id], function (err, result) {
       if (err) throw err;
       console.log(result.affectedRows + " record(s) updated");
       res.status(200).send("OK");
@@ -207,7 +208,7 @@ router.delete("/page/:pageId", auth, async function(req, res){
   console.log("Siamo entrati nella apiiiii");
   try{
     let sqlPage = 'SELECT * FROM shows WHERE id = ?';
-    const page = await query(sqlPage,req.params.pageId);
+    const page = await dbModule.query(sqlPage,req.params.pageId);
     var foundPage = page.map(v => Object.assign({}, v));
     foundPage = foundPage[0];
   }catch(e){
@@ -220,7 +221,7 @@ router.delete("/page/:pageId", auth, async function(req, res){
     res.status(404).send("Page not found");
   try{
     let sqlUserPage = "DELETE FROM usersShows WHERE showId = ?";
-    const userPageDeleted = await query(sqlUserPage, req.params.pageId);
+    const userPageDeleted = await dbModule.query(sqlUserPage, req.params.pageId);
     console.log(userPageDeleted.affectedRows + " record(s) updated");
   }catch(e){
     console.log(e);
@@ -229,7 +230,7 @@ router.delete("/page/:pageId", auth, async function(req, res){
     console.log("Eliminato da usersShows");
   try{
     let sqlPageDeleted = "DELETE FROM shows WHERE id = ?";
-    const pageDeleted = await query(sqlPageDeleted, req.params.pageId);
+    const pageDeleted = await dbModule.query(sqlPageDeleted, req.params.pageId);
     console.log(pageDeleted.affectedRows + " record(s) updated");
     console.log("Eliminato da shows");
 
@@ -250,7 +251,7 @@ router.put("/page/:pageId", auth, async function(req, res){
 
   try{
     let sqlPage = 'SELECT * FROM shows WHERE id = ?';
-    const page = await query(sqlPage,req.params.pageId);
+    const page = await dbModule.query(sqlPage,req.params.pageId);
     var foundPage = page.map(v => Object.assign({}, v));
     foundPage = foundPage[0];
   }catch(e){
@@ -271,7 +272,7 @@ router.put("/page/:pageId", auth, async function(req, res){
 
   try{
     let sqlUpdatePage = "UPDATE shows SET name = ?, description = ?, stateName = ?, source = ?, type = ? WHERE id = ?";
-    const userToUpdate = await query(sqlUpdatePage,[updatedPage.name, updatedPage.description, updatedPage.stateName, updatedPage.source, updatedPage.type, updatedPage.id], function (err, result) {
+    const userToUpdate = await dbModule.query(sqlUpdatePage,[updatedPage.name, updatedPage.description, updatedPage.stateName, updatedPage.source, updatedPage.type, updatedPage.id], function (err, result) {
       if (err) throw err;
         console.log(result.affectedRows + " record(s) updated");
       res.status(200).send("OK");
@@ -290,7 +291,7 @@ var stateName = _.kebabCase(req.body.programName);
 
   try{
     let sqlPage = 'SELECT * FROM shows WHERE stateName = ?';
-    const show = await query(sqlPage,stateName);
+    const show = await dbModule.query(sqlPage,stateName);
     var foundShow = show.map(v => Object.assign({}, v));
     if (foundShow.length){res.status(406).send("Pagina già esistente");}
   }catch(e){
@@ -302,7 +303,7 @@ var stateName = _.kebabCase(req.body.programName);
   try{
     let sqlNewPage = 'INSERT INTO shows(name, description, stateName, source, type) VALUES ('+"'"+ req.body.programName+"'"+','+ "'"+req.body.description+"'"+','+"'"+ stateName+"'"+','+"'"+ req.body.sourceLink +"'"+','+"'"+req.body.type +"'"+ ')';
     console.log("INSERT per il nuovo programma: ", sqlNewPage);
-    newShow = await query(sqlNewPage);
+    newShow = await dbModule.query(sqlNewPage);
     // FIX ME
     console.log("vediamo cosa restituisce", newShow);
 
@@ -314,7 +315,7 @@ var stateName = _.kebabCase(req.body.programName);
 
   try{
     let sqlUser = 'SELECT id FROM users WHERE nickName = ?';
-    const user = await query(sqlUser,req.body.nickName);
+    const user = await dbModule.query(sqlUser,req.body.nickName);
     var foundUserId = user.map(v => Object.assign({}, v));
     foundUserId = foundUserId[0];
     console.log(foundUserId);
@@ -326,7 +327,7 @@ var stateName = _.kebabCase(req.body.programName);
   try{
     let sqlNewLink = 'INSERT INTO usersShows(userId, showId) VALUES ('+"'"+ foundUserId.id+"'"+','+ "'"+newShow.insertId+"'"+ ')';
     console.log("INSERT per il nuovo programma: ", sqlNewLink);
-    const newLink = await query(sqlNewLink);
+    const newLink = await dbModule.query(sqlNewLink);
     console.log("vediamo cosa restituisce", newLink);
     res.status(200).send("OK");
   }catch(e){

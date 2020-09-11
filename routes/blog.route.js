@@ -10,6 +10,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const momentMiddleware = require("../middleware/momentMiddleware");
 const util = require('util');
+const dbModule = require('../db/dbModule');
 
 router.get("/:blog", momentMiddleware, async function(req, res){
   // console.log(req.params);
@@ -18,7 +19,7 @@ router.get("/:blog", momentMiddleware, async function(req, res){
 
   try{
     let sqlBlog = 'SELECT * FROM shows WHERE stateName = ?';
-    const blog = await query(sqlBlog, req.params.blog);
+    const blog = await dbModule.query(sqlBlog, req.params.blog);
     var foundBlog = blog.map(v => Object.assign({}, v));
     if (!foundBlog.length){res.redirect("/");}
     foundBlog = foundBlog[0];
@@ -29,7 +30,7 @@ router.get("/:blog", momentMiddleware, async function(req, res){
 
   // try{
     let sqlAuthor = 'SELECT userId FROM usersShows WHERE showId = ?';
-    const authorList = await query(sqlAuthor, foundBlog.id);
+    const authorList = await dbModule.query(sqlAuthor, foundBlog.id);
     const authors = authorList.map(v => Object.assign({}, v));
     console.log(authors);
 
@@ -39,7 +40,7 @@ router.get("/:blog", momentMiddleware, async function(req, res){
     console.log(authorsArray);
 
     let sqlAuthorInfo = 'SELECT * FROM users WHERE id = ?';
-    const authorInfo = await query(sqlAuthorInfo, authorsArray);
+    const authorInfo = await dbModule.query(sqlAuthorInfo, authorsArray);
     const authorsInfoList = authorInfo.map(v => Object.assign({}, v));
     console.log("PROVA QUERY PER AUTORI");
     console.log(authorsInfoList);
@@ -58,7 +59,7 @@ router.get("/:blog", momentMiddleware, async function(req, res){
 
   // try{
     let sqlPosts = 'SELECT * FROM posts WHERE program = ?';
-    const postList = await query(sqlPosts, req.params.blog);
+    const postList = await dbModule.query(sqlPosts, req.params.blog);
     const postListNew = postList.map(v => Object.assign({}, v));
   // }catch(e){
   //   console.log(e);
@@ -119,7 +120,7 @@ router.get("/:blog", momentMiddleware, async function(req, res){
 router.get("/:blog/posts/:postId", momentMiddleware, async function(req, res){
 
   let sqlBlog = 'SELECT * FROM shows WHERE stateName = ?';
-  const blog = await query(sqlBlog, req.params.blog);
+  const blog = await dbModule.query(sqlBlog, req.params.blog);
   var foundBlog = blog.map(v => Object.assign({}, v));
   if (!foundBlog.length){res.redirect("/");}
   foundBlog = foundBlog[0];
@@ -128,7 +129,7 @@ router.get("/:blog/posts/:postId", momentMiddleware, async function(req, res){
   console.log(foundBlog);
 
   let sqlPost = 'SELECT * FROM posts WHERE program = ? and id = ?';
-  const post = await query(sqlPost,[req.params.blog, req.params.postId]);
+  const post = await dbModule.query(sqlPost,[req.params.blog, req.params.postId]);
   var foundPost = post.map(v => Object.assign({}, v));
   if (!foundPost.length){res.redirect("/");}
   foundPost = foundPost[0];
@@ -137,7 +138,7 @@ router.get("/:blog/posts/:postId", momentMiddleware, async function(req, res){
   console.log(foundPost);
 
   let sqlPostImgs = 'SELECT * FROM postImages WHERE post = ?';
-  const images = await query(sqlPostImgs,req.params.postId);
+  const images = await dbModule.query(sqlPostImgs,req.params.postId);
   var foundImgs = images.map(v => Object.assign({}, v));
 
   res.render("post", {

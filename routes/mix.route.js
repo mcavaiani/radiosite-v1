@@ -10,6 +10,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const momentMiddleware = require("../middleware/momentMiddleware");
 const util = require('util');
+const dbModule = require('../db/dbModule');
 
 router.get("/:mix", momentMiddleware, async function(req, res){
   // console.log(req.params);
@@ -18,7 +19,7 @@ router.get("/:mix", momentMiddleware, async function(req, res){
 
   try{
     let sqlMix = 'SELECT * FROM shows WHERE stateName = ?';
-    const mix = await query(sqlMix, req.params.mix);
+    const mix = await dbModule.query(sqlMix, req.params.mix);
     var foundMix = mix.map(v => Object.assign({}, v));
     if (!foundMix.length){res.redirect("/");}
     foundMix = foundMix[0];
@@ -29,7 +30,7 @@ router.get("/:mix", momentMiddleware, async function(req, res){
 
   // try{
     let sqlAuthor = 'SELECT userId FROM usersShows WHERE showId = ?';
-    const authorList = await query(sqlAuthor, foundMix.id);
+    const authorList = await dbModule.query(sqlAuthor, foundMix.id);
     const authors = authorList.map(v => Object.assign({}, v));
     console.log(authors);
 
@@ -39,7 +40,7 @@ router.get("/:mix", momentMiddleware, async function(req, res){
     console.log(authorsArray);
 
     let sqlAuthorInfo = 'SELECT * FROM users WHERE id = ?';
-    const authorInfo = await query(sqlAuthorInfo, authorsArray);
+    const authorInfo = await dbModule.query(sqlAuthorInfo, authorsArray);
     const authorsInfoList = authorInfo.map(v => Object.assign({}, v));
     console.log("PROVA QUERY PER AUTORI");
     console.log(authorsInfoList);
@@ -58,7 +59,7 @@ router.get("/:mix", momentMiddleware, async function(req, res){
 
   // try{
     let sqlPosts = 'SELECT * FROM posts WHERE program = ?';
-    const postList = await query(sqlPosts, req.params.mix);
+    const postList = await dbModule.query(sqlPosts, req.params.mix);
     const postListNew = postList.map(v => Object.assign({}, v));
   // }catch(e){
   //   console.log(e);
