@@ -235,6 +235,7 @@ https.createServer(options, app).listen(8080, function(){
   );
   console.log("\n");
   console.log("------------------------------"+"\nStartup log"+"\n------------------------------");
+  console.log("Software running in "+process.env.NODE_ENV+" mode");
   console.log("APPLICATION VARIABLES");
   console.table([{variable: "prova", value: "prova"},{variable: "prova", value: "prova"}]);
   console.log("DB Pool creato con le seguenti configurazioni: "+
