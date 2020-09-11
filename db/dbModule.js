@@ -5,10 +5,10 @@ const config = require("config");
 const dbConfig = config.get('dbConfig');
 console.log(dbConfig);
 
-if (process.env.NODE_ENV==="localdev"){
-  password = "root";
-}else{
+if (process.env.NODE_ENV!=="localdev"){
   password = process.env.DBPSW;
+}else{
+  password = "root";
 }
 
 var pool  = mysql.createPool({
