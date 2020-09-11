@@ -2,15 +2,7 @@
   "name": "futuradio",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "engines": {
-    "node": "12.18.0"
-  },
+  "main": "app.js",
   "dependencies": {
     "async": "^3.2.0",
     "bcrypt": "^5.0.0",
@@ -23,21 +15,34 @@
     "ejs": "^3.1.3",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
-    "express-flash": "0.0.2",
     "express-session": "^1.17.1",
     "figlet": "^1.4.0",
-    "fs": "0.0.1-security",
+    "express-flash": "^0.0.2",
     "helmet": "^4.1.0",
-    "https": "^1.0.0",
+    "fs": "^0.0.1-security",
     "joi": "^14.3.1",
-    "lodash": "^4.17.19",
+    "https": "^1.0.0",
     "moment": "^2.27.0",
     "mongoose": "^5.9.20",
     "morgan": "^1.10.0",
-    "multer": "^1.4.2",
     "mysql": "^2.18.1",
+    "multer": "^1.4.2",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "passport-local-mongoose": "^6.0.1"
-  }
+    "passport-local-mongoose": "^6.0.1",
+    "passport-jwt": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcavaiani/radiosite-v1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcavaiani/radiosite-v1/issues"
+  },
+  "homepage": "https://github.com/mcavaiani/radiosite-v1#readme"
 }
