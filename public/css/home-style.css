@@ -10,10 +10,11 @@ body{
   height: auto;
   background-position: center;
   padding-bottom: : 5%; /* DA TOGLIERE QUANDO SI INSERISCONO I BOTTONI DEL DOWNLOAD */
+  height: 31rem;
 }
 
 #homepage-navbar{
-  background-image: url("../images/black-mic.jpg");
+  background-image: url("../images/pages/home-banner.jpg");
 }
 
 #post-navbar{
@@ -43,6 +44,7 @@ body{
 }
 .title-div-new{
   margin: 0 5%;
+  /* height: 500px; */
 }
 
 .btn-text{

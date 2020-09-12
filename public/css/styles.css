@@ -139,7 +139,9 @@ text-align: center;
   width: 100%;
 }
 .bottom-container{
-  margin: 2% auto;
+  margin: 0 auto;
+  margin-top: 2%;
+  padding: 2% 0;
 }
 
 .p-footer{
@@ -194,7 +196,7 @@ text-align: center;
   height: 50rem;
 } */
 
-/* 
+/*
 .people-header{
   color: black;
   text-align: center;

@@ -63,13 +63,13 @@
 .post-number {
   margin-top: 2.5%;
   vertical-align: middle;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: 600;
   text-align: center;
   color: darkgrey;
-  width: 100px;
-  height: 50px;
-  line-height: 50px;
+  width: 60px;
+  height: 30px;
+  line-height: 30px;
   border-radius: 5%;
   border-style: solid;
   border-width: thin;
@@ -78,17 +78,17 @@
 }
 
 .post-header {
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: 700;
 }
 
 .post-preview {
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 300;
 }
 
 .post-author {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 600;
   color: darkgrey;
 }
@@ -114,4 +114,82 @@
 
 .post-error{
   font-size: 0.85rem;
+}
+
+@media all and (min-width: 30em) {
+  .post-number {
+    font-size: 1.5rem;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .post-header {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .post-preview {
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .post-author {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: darkgrey;
+  }
+
+}
+
+@media all and (min-width: 40em) {
+  .post-number {
+    font-size: 1.5rem;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .post-header {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .post-preview {
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .post-author {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: darkgrey;
+  }
+
+}
+
+@media all and (min-width: 62em) {
+  .post-number {
+    font-size: 1.5rem;
+    width: 100px;
+    height: 50px;
+    line-height: 50px;
+  }
+
+  .post-header {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .post-preview {
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .post-author {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: darkgrey;
+  }
+
 }
