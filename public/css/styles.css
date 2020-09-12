@@ -20,6 +20,10 @@ body{
   background-image: url("../images/casaSarzillaTop.jpg");
 }
 
+#login-navbar{
+  height:125px;
+}
+
 .navbar-container{
   padding: 2% 5%;
 }

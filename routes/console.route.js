@@ -107,7 +107,7 @@ router.post("/login", async (req, res) => {
     console.log(e);
     next(err);
   }
-  console.log("Found user", foundUser);
+  console.log("Found user");
 
   if (!foundUser){
     return res.status(401).send({
@@ -115,6 +115,7 @@ router.post("/login", async (req, res) => {
       message: "Invalid username!"
     });
   }
+  console.log("Username is valid");
   var passwordIsValid = bcrypt.compareSync(
     req.body.password,
     foundUser.password
@@ -126,6 +127,8 @@ router.post("/login", async (req, res) => {
       message: "Invalid password!"
     });
   };
+  console.log("Password is valid");
+
   var token = jwt.sign({
     id: foundUser.id,
     username: foundUser.username,
@@ -134,7 +137,12 @@ router.post("/login", async (req, res) => {
   }, process.env.SECRETKEY, {
     expiresIn: 3600 // 1 hour
   });
-  res.cookie("access-token", token, { httpOnly: true, secure: true});
+  if (process.env.NODE_ENV!=="localdev"){
+    res.cookie("access-token", token, { httpOnly: true, secure: true});
+  }else{
+    res.cookie("access-token", token, { httpOnly: true, secure: false});
+  }
+
   res.redirect("/console/admin-console");
 });
 
