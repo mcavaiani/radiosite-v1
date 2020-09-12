@@ -24,6 +24,10 @@ body{
   height:125px;
 }
 
+#console-navbar{
+    height:125px;
+}
+
 .navbar-container{
   padding: 2% 5%;
 }

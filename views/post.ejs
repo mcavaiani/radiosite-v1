@@ -19,11 +19,11 @@
 <div class="post-title-div">
   <p class="hello-p">Gallery</p>
 </div>
-<div class="post-gallery-div">
-  <div class="row row-cols-1 row-cols-md-3 justify-content-center">
+<div class="post-gallery-div justify-content-center">
+  <div class="row row-cols-1 row-cols-md-3 gallery-div">
     <%  images.forEach(function(image){ %>
     <div class="col mb-4">
-      <a href="<%=image.imgPath.substring(2)%>" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+      <a href="<%=image.imgPath.substring(2)%>" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4 img-gallery-element">
           <img src="<%=image.imgPath.substring(2)%>" class="img-fluid">
       </a>
     </div>

@@ -20,7 +20,13 @@
 
 .post-gallery-div{
   padding: 2% 0;
+  width: 95%;
 }
+
+.gallery-div{
+  margin: 0 5%;
+}
+
 
 .post-row {
   margin: 0 5%;
@@ -115,6 +121,8 @@
 .post-error{
   font-size: 0.85rem;
 }
+
+
 
 @media all and (min-width: 30em) {
   .post-number {

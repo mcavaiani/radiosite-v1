@@ -1,20 +1,31 @@
 body{
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPUlEQVQoU2NkIAJMnTrVl5EIdWAleBWCTMrOzt6MVyGyIoImIjsLw2p0k2CKURTiUkS61fhMgltNjCKQYgCVbRoX7exOkwAAAABJRU5ErkJggg==) repeat;
+  /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPUlEQVQoU2NkIAJMnTrVl5EIdWAleBWCTMrOzt6MVyGyIoImIjsLw2p0k2CKURTiUkS61fhMgltNjCKQYgCVbRoX7exOkwAAAABJRU5ErkJggg==) repeat; */
+  background-image: url("../images/pattern_grey.png");
+  background-repeat: repeat;
+}
 
+.body-console{
+  background-image: none;
+  background-color: #eff7fa;
+}
+
+.main-div{
+  margin: 0 auto;
 }
 
 .navbar-section{
   background-size: cover;
   background-repeat: no-repeat;
-  width: auto;
-  height: auto;
+  width: 100%;
   background-position: center;
   padding-bottom: : 5%; /* DA TOGLIERE QUANDO SI INSERISCONO I BOTTONI DEL DOWNLOAD */
-  height: 31rem;
+  height: 16rem;
 }
 
 #homepage-navbar{
-  background-image: url("../images/pages/home-banner.jpg");
+  background-image: url("../images/pages/home-banner-mobile.jpg");
+  background-size: cover;
+  width: 100%;
 }
 
 #post-navbar{
@@ -194,6 +205,9 @@ body{
     font-size: 2rem;
   }
 
+  #homepage-navbar{
+    background-image: url("../images/pages/home-banner.jpg");
+  }
 
 }
 
@@ -222,6 +236,10 @@ body{
     font-size: 2rem;
     color: white;
     padding-bottom: 0%;
+  }
+
+  #homepage-navbar{
+    background-image: url("../images/pages/home-banner.jpg");
   }
 
 }
@@ -258,4 +276,11 @@ body{
     padding-bottom: 0%;
   }
 
+  .navbar-section{
+    height: 31rem;
+  }
+
+  #homepage-navbar{
+    background-image: url("../images/pages/home-banner.jpg");
+  }
 }
