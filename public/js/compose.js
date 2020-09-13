@@ -23,7 +23,6 @@ $(document).ready(function() {
         $("#div-upload-pics").hide();
       }
 
-      alert( this.value );
       localStorage.setItem("pageId", pageId);
 
   });
