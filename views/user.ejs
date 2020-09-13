@@ -6,7 +6,7 @@
 
 <div class="container">
   <div class="py-5 text-center">
-    <img class="d-block mx-auto mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <img class="d-block mx-auto mb-4" src="../images/logos/futuicon.png" alt="" width="72" height="72">
     <h2>Gestisci la tua utenza</h2>
     <p class="lead">In questa pagina potrai inserire le tue informazioni principali.</p>
   </div>
@@ -15,7 +15,15 @@
 
   <div class="">
     <h3>Ciao <%= userInfo.nickName %>, ecco le tue informazioni attuali</h3>
-    <p>Ciao</p>
+    <div class="card-body">
+      <p><b>Nome:</b> <%=userInfo.name%></p>
+      <p><b>Cognome:</b> <%=userInfo.lastName%></p>
+      <p><b>Nickname:</b> <%=userInfo.nickName%></p>
+      <p><b>Descrizione:</b> <%=userInfo.description%></p>
+      <p><b>Facebook:</b> <%=userInfo.facebook%></p>
+      <p><b>Instagram:</b> <%=userInfo.instagram%></p>
+      <p><b>Twitter:</b> <%=userInfo.twitter%></p>
+    </div>
 
   </div>
 
@@ -84,7 +92,6 @@
 
   <div class="container">
     <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
       <h2>Cambia la tua password</h2>
     </div>
 

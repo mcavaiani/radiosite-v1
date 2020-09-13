@@ -55,7 +55,7 @@ router.post("/register", async (req, res) => {
   } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const user = "";
+  var user = "";
   try{
     let sqlUser = 'SELECT * FROM users WHERE userName = ?';
     user = await dbModule.query(sqlUser, req.body.username);
@@ -65,7 +65,7 @@ router.post("/register", async (req, res) => {
   }
 
   console.log(user);
-  if (user){
+  if (user.length){
     return res.status(401).send({
       accessToken: null,
       message: "Utente già registrato!"
@@ -77,7 +77,7 @@ router.post("/register", async (req, res) => {
   var newUser = "";
   try{
     let sqlNewUser = 'INSERT INTO users(username, password, isAdmin) VALUES ('+"'"+req.body.username+"'"+","+"'"+userPassword+"'"+"'"+"0"+"'"+')';
-    const user = await dbModule.query(sqlNewUser, req.body.username);
+    newUser = await dbModule.query(sqlNewUser, req.body.username);
     console.log(user);
   }catch(e){
     console.log(e);
@@ -143,7 +143,7 @@ router.post("/login", async (req, res) => {
     res.cookie("access-token", token, { httpOnly: true, secure: false});
   }
 
-  res.redirect("/console/admin-console");
+  res.redirect("/console/admin-console/user");
 });
 
 router.get("/logout",function(req,res){
