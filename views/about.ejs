@@ -75,11 +75,11 @@
     <%  users.forEach(function(user){ %>
       <% if(user.toBeShown==true){%>
 <hr class="h-line-people">
-      <div class="row featurette justify-content-center">
-        <div class="col-sm-3 img-featurette-container">
+      <div class="row featurette justify-content-center people-description-div">
+        <div class="col-sm-2 img-featurette-container">
           <img class="about-img-left featurette-image" src="<%=user.pictureUrl.substring(2)%>" alt="There should be my face">
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-4">
           <h2 class="featurette-heading"><%=user.nickName%></h2>
           <p class="lead"><%=user.description%></p>
         </div>

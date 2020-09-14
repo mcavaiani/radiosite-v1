@@ -90,6 +90,14 @@
   border-color: white;
 }
 
+.pic-show{
+  height: 8rem;
+  width: auto;
+  display: inline-block;
+  margin: 1rem auto;
+  margin-bottom: 2rem;
+}
+
 .carousel-container{
   height: 50rem;
   margin: 0;

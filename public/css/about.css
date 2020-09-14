@@ -71,6 +71,10 @@
 
 }
 
+/* .people-description-div{
+  margin: 0 10%;
+} */
+
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 
@@ -117,13 +121,7 @@
 
 @media all and (min-width: 36em) {
   /* Bump up size of carousel content */
-  .img-featurette-container{
-    vertical-align: middle;
-    align-items: flex-end;
-    text-align: right;
-    /* align-items: center; */
-    /* margin: auto 0; */
-  }
+
 
   .carousel-caption p {
     margin-bottom: 1.25rem;
@@ -148,7 +146,7 @@
   .about-img-right{
     width: 7rem;
     height: 7rem;
-    margin: 0 0 0 auto;
+    /* margin: 0 0 0 auto; */
     display: block;
     border-radius: 100%;
   }
@@ -156,14 +154,22 @@
   .about-img-left{
     width: 7rem;
     height: 7rem;
-    margin: 0 0 0 auto;
+    /* margin: 0 0 0 auto; */
     display: block;
     border-radius: 100%;
   }
 
+  /* .img-featurette-container{ */
+    /* vertical-align: middle;
+    align-items: flex-end;
+    text-align: center; */
+    /* align-items: center; */
+    /* margin: auto 0; */
+  /* } */
+
   .img-featurette-container{
     vertical-align: middle;
-    align-items: center;
+    align-items:flex-start;
     margin: auto 0;
     padding-top:0%;
   }
@@ -191,7 +197,7 @@
   .about-img-right{
     width: 9rem;
     height: 9rem;
-    margin: 0 0 0 auto;
+    /* margin: 0 0 0 auto; */
     display: block;
     border-radius: 100%;
   }
@@ -199,7 +205,7 @@
   .about-img-left{
     width: 9rem;
     height: 9rem;
-    margin: 0 0 0 auto;
+    /* margin: 0 0 0 auto; */
     display: block;
     border-radius: 100%;
   }
