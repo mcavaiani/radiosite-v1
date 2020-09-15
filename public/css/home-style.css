@@ -16,7 +16,7 @@
 .navbar-section{
   background-size: cover;
   background-repeat: no-repeat;
-  width: auto;
+  /* width: auto; */
   background-position: center;
   padding-bottom: : 5%; /* DA TOGLIERE QUANDO SI INSERISCONO I BOTTONI DEL DOWNLOAD */
   height: 16rem;
