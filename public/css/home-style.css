@@ -1,6 +1,6 @@
-body{
+.body-home{
   /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPUlEQVQoU2NkIAJMnTrVl5EIdWAleBWCTMrOzt6MVyGyIoImIjsLw2p0k2CKURTiUkS61fhMgltNjCKQYgCVbRoX7exOkwAAAABJRU5ErkJggg==) repeat; */
-  background-image: url("../images/pattern_grey.png");
+  background-image: url("../images/pattern_home.png");
   background-repeat: repeat;
 }
 
@@ -16,7 +16,7 @@ body{
 .navbar-section{
   background-size: cover;
   background-repeat: no-repeat;
-  width: 100%;
+  width: auto;
   background-position: center;
   padding-bottom: : 5%; /* DA TOGLIERE QUANDO SI INSERISCONO I BOTTONI DEL DOWNLOAD */
   height: 16rem;
@@ -277,7 +277,7 @@ body{
   }
 
   .navbar-section{
-    height: 31rem;
+    height: 40rem;
   }
 
   #homepage-navbar{

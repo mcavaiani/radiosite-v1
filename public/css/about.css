@@ -43,6 +43,13 @@
   font-size: 0.85rem;
 }
 
+.futu-story-p{
+  text-align: center;
+  font-size: 0.85rem;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+}
+
 .featurette{
   margin:0 auto;
   padding:5% 0;
@@ -71,6 +78,10 @@
 
 }
 
+.people-social{
+  text-align: center;
+  padding: 5px 0;
+}
 /* .people-description-div{
   margin: 0 10%;
 } */
@@ -98,6 +109,10 @@
 
   .lead{
     text-align: center;
+    font-size: 1rem;
+  }
+
+  .futu-story-p{
     font-size: 1rem;
   }
 

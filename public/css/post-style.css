@@ -112,11 +112,10 @@
 
 .card-post {
   margin: 0 auto;
+  padding-bottom: 0;
+  /* background-color: rgb(255, 255, 255,.3); */
 }
 
-.card-body{
-  padding-bottom: 0;
-}
 
 .post-error{
   font-size: 0.85rem;

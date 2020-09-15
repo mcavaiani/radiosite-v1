@@ -1,4 +1,20 @@
-#program-navbar{
+.body-podcast{
+  background-image: url("../images/pattern_podcast.png");
+  background-repeat:repeat;
+}
+
+.body-mix{
+  background-image: url("../images/pattern_mix.jpg");
+  background-repeat: repeat;
+
+}
+
+.body-blog{
+  background-image: url("../images/pattern_blog.png");
+  background-repeat: repeat;
+}
+
+.program-navbar{
   background-image: url("../images/casaSarzillaTop.jpg");
 }
 

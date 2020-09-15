@@ -1,5 +1,5 @@
 <%- include("partials/header", {pageTitle:"Chi siamo", stateName: "about"}); %>
-<%- include("partials/navbar-program", {pageTitle:"Chi siamo"}); %>
+<%- include("partials/navbar-about", {pageTitle:"Chi siamo"}); %>
 
 
 
@@ -52,6 +52,18 @@
 <main role="main">
 
   <div class="people-header">
+    <h3 class="people-title">La nostra storia</h3>
+  </div>
+  <hr class="h-line-people">
+  <div class="row featurette justify-content-center people-description-div">
+    <div class="col-sm-6">
+      <p class="futu-story-p">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Velit ut tortor pretium viverra suspendisse. Enim tortor at auctor urna. Vitae congue mauris rhoncus aenean vel elit scelerisque. Integer eget aliquet nibh praesent tristique. Ac tortor vitae purus faucibus ornare suspendisse. Consectetur a erat nam at. Ultricies integer quis auctor elit sed vulputate mi sit. Convallis a cras semper auctor neque vitae tempus quam. Viverra nibh cras pulvinar mattis nunc sed blandit libero volutpat. Massa tincidunt dui ut ornare lectus sit amet. Cras sed felis eget velit. Blandit cursus risus at ultrices mi tempus imperdiet. Ut tellus elementum sagittis vitae et leo. A lacus vestibulum sed arcu non odio euismod lacinia. Fringilla ut morbi tincidunt augue interdum velit. At lectus urna duis convallis convallis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Feugiat scelerisque varius morbi enim. Integer enim neque volutpat ac. Vestibulum morbi blandit cursus risus at ultrices mi tempus imperdiet. Senectus et netus et malesuada fames ac. Malesuada fames ac turpis egestas. Vitae congue eu consequat ac. Ultricies lacus sed turpis tincidunt. Amet nulla facilisi morbi tempus iaculis urna id volutpat lacus. Imperdiet massa tincidunt nunc pulvinar sapien et ligula ullamcorper. Est pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Platea dictumst quisque sagittis purus sit. Mattis aliquam faucibus purus in massa tempor nec feugiat nisl.</p>
+    </div>
+  </div>
+
+
+  <div class="people-header">
     <h3 class="people-title">Le nostre persone</h3>
   </div>
 
@@ -78,6 +90,18 @@
       <div class="row featurette justify-content-center people-description-div">
         <div class="col-sm-2 img-featurette-container">
           <img class="about-img-left featurette-image" src="<%=user.pictureUrl.substring(2)%>" alt="There should be my face">
+
+              <div class="people-social">
+                <%if(user.facebook.length){%>
+                  <a class="footer-link" href="https://www.instagram.com/<%=user.facebook%>"><img class="img-footer" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt=""></a>
+                <%}%>
+                <%if(user.instagram.length){%>
+                  <a class="footer-link" href="https://www.instagram.com/<%=user.instagram%>"><img class="img-footer" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/1024px-Instagram_logo_2016.svg.png" alt=""></a>
+                <%}%>
+              </div>
+
+
+
         </div>
         <div class="col-sm-4">
           <h2 class="featurette-heading"><%=user.nickName%></h2>
