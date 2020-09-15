@@ -16,7 +16,7 @@
 .navbar-section{
   background-size: cover;
   background-repeat: no-repeat;
-  /* width: auto; */
+  width: 100%;
   background-position: center;
   padding-bottom: : 5%; /* DA TOGLIERE QUANDO SI INSERISCONO I BOTTONI DEL DOWNLOAD */
   height: 16rem;
@@ -185,6 +185,46 @@
   color: #0060A9;
 }
 
+.carousel-home-container{
+  margin: 5% 0%;
+  height: 700px;
+}
+
+.carousel-inner{
+  height: 700px;
+}
+
+.carousel-item{
+  overflow: hidden;
+  vertical-align: middle;
+  position: relative;
+  height:100%;
+  /* background-image: url("/images/pages/home-slider-1.jpg"); */
+  background-position: top;
+  background-size: cover;
+}
+
+#carousel-item-1{
+  background-image: url("/images/pages/home-slider-1.jpg");
+}
+
+#carousel-item-2{
+  background-image: url("/images/pages/home-slider-2.jpg");
+}
+
+.item-text-div{
+  width: 50%;
+  height: 50%;
+  margin: auto;
+  vertical-align: middle;
+  text-align: right;
+}
+
+/* .carousel-item img{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+} */
 
 @media all and (min-width: 30em) {
   .title-h1-new{
