@@ -3,12 +3,18 @@
 
         <main role="main" class="col-md-9 main-div col-lg-10 pt-3 px-4">
 
-
           <div class="container">
             <div class="py-5 text-center">
-              <img class="d-block mx-auto mb-4" src="images/logos/futuicon.png" alt="" width="72" height="72">
+              <img class="d-block mx-auto mb-4" src="../../../images/logos/futuicon.png" alt="" width="72" height="72">
               <h2>Crea il tuo nuovo post</h2>
             </div>
+
+            <% if(!showList.length){%>
+              <hr class="featurette-divider">
+              <div class="">
+                <p class="lead">Non ci sono pagine collegate al tuo profilo. Naviga alla sezione "Le tue pagine" e creane una!</p>
+              </div>
+            <%}else{%>
 
             <div class="row">
               <div class="col-md-12 order-md-1">
@@ -71,14 +77,15 @@
                 </form>
                 </div>
               </div>
-              <footer class="my-5 pt-5 text-muted text-center text-small">
+              <%}%>
+              <!-- <footer class="my-5 pt-5 text-muted text-center text-small">
                 <p class="mb-1">&copy; 2017-2020 Company Name</p>
                 <ul class="list-inline">
                   <li class="list-inline-item"><a href="#">Privacy</a></li>
                   <li class="list-inline-item"><a href="#">Terms</a></li>
                   <li class="list-inline-item"><a href="#">Support</a></li>
                 </ul>
-              </footer>
+              </footer> -->
             </div>
 
 

@@ -183,33 +183,36 @@ router.get("/admin-console/pages", auth, async (req, res)=>{
     next(err);
   }
 
+  var foundIds = [];
   try{
     let sqlShowIds = 'SELECT showId FROM usersShows WHERE userId = ?';
     const showIds = await dbModule.query(sqlShowIds, req.user.id);
-    var foundIds = showIds.map(v => Object.assign({}, v));
+    foundIds = showIds.map(v => Object.assign({}, v));
     console.log("Gli id sono: ", foundIds);
   }catch(e){
     console.log(e);
     next(err);
   }
 
-  var ids = [];
-  foundIds.forEach(function(foundId){
-    ids.push(foundId.showId);
-  });
-  console.log("Il nuovo array ids è: ", ids.toString());
+  var foundShows=[];
+  if (foundIds.length){
+    var ids = [];
+    foundIds.forEach(function(foundId){
+      ids.push(foundId.showId);
+    });
+    console.log("Il nuovo array ids è: ", ids.toString());
 
-  try{
-    let sqlShows = 'SELECT * FROM shows WHERE id IN ('+ids.toString()+')';
-    const shows = await dbModule.query(sqlShows);
-    console.log(shows);
-    var foundShows = shows.map(v => Object.assign({}, v));
-    console.log("Gli shows sono: ", foundShows);
-  }catch(e){
-    console.log(e);
-    next(err);
+    try{
+      let sqlShows = 'SELECT * FROM shows WHERE id IN ('+ids.toString()+')';
+      const shows = await dbModule.query(sqlShows);
+      console.log(shows);
+      foundShows = shows.map(v => Object.assign({}, v));
+      console.log("Gli shows sono: ", foundShows);
+    }catch(e){
+      console.log(e);
+      next(err);
+    }
   }
-
 
   res.render("pages", {userInfo:foundUser, pagesInfo: foundShows});
 })
@@ -219,34 +222,6 @@ router.get("/admin-console/pages/create", function(req,res){
 });
 
 router.get("/admin-console/:page/posts", auth, async (req, res)=>{
-
-  // try{
-  //   let sqlUser = 'SELECT * FROM users WHERE id = ?';
-  //   const user = await dbModule.query(sqlUser, req.user.id);
-  //   var foundUser = user.map(v => Object.assign({}, v));
-  //   foundUser = foundUser[0];
-  // }catch(e){
-  //   console.log(e);
-  //   next(err);
-  // }
-  //
-  // try{
-  //   let sqlShowIds = 'SELECT showId FROM usersShows WHERE userId = ?';
-  //   const showIds = await dbModule.query(sqlShowIds, req.user.id);
-  //   var foundIds = showIds.map(v => Object.assign({}, v));
-  //   console.log("Gli id sono: ", foundIds);
-  // }catch(e){
-  //   console.log(e);
-  //   next(err);
-  // }
-  //
-  // var ids = [];
-  // foundIds.forEach(function(foundId){
-  //   ids.push(foundId.showId);
-  // });
-  // console.log("Il nuovo array ids è: ", ids.toString());
-  //
-
 
   var foundShow = "";
   try{
@@ -400,33 +375,37 @@ router.post("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'previ
 
 router.get("/admin-console/posts/create", auth, async function(req,res){
 
+  var foundShowsId = [];
   try{
     let sqlShowsId = 'SELECT showId FROM usersShows WHERE userId = ?';
     const showsId = await dbModule.query(sqlShowsId, req.user.id);
     console.log(showsId);
-    var foundShowsId = showsId.map(v => Object.assign({}, v));
+    foundShowsId = showsId.map(v => Object.assign({}, v));
     console.log("Gli shows sono: ", foundShowsId);
   }catch(e){
     console.log(e);
     next(err);
   }
+  var foundShows = [];
+  if(foundShowsId.length){
 
-  var idList = [];
-  foundShowsId.forEach(function(show){
-    idList.push(show.showId);
-  });
+    var idList = [];
+    foundShowsId.forEach(function(show){
+      idList.push(show.showId);
+    });
 
-  try{
-    let sqlShows = 'SELECT * FROM shows WHERE id IN ('+idList.toString()+')';
-    const shows = await dbModule.query(sqlShows);
-    console.log(shows);
-    var foundShows = shows.map(v => Object.assign({}, v));
-    console.log("Gli shows sono: ", foundShows);
-  }catch(e){
-    console.log(e);
-    next(err);
+    try{
+      let sqlShows = 'SELECT * FROM shows WHERE id IN ('+idList.toString()+')';
+      const shows = await dbModule.query(sqlShows);
+      console.log(shows);
+      foundShows = shows.map(v => Object.assign({}, v));
+      console.log("Gli shows sono: ", foundShows);
+    }catch(e){
+      console.log(e);
+      next(err);
+    }
+
   }
-
 
   res.render("compose", {showList: foundShows});
 });

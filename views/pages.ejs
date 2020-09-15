@@ -8,15 +8,18 @@
 
 <div class="container">
   <div class="py-5 text-center">
-    <img class="d-block mx-auto mb-4" src="images/logos/futuicon.png" alt="" width="72" height="72">
+    <img class="d-block mx-auto mb-4" src="../../images/logos/futuicon.png" alt="" width="72" height="72">
     <h2>Gestisci le tue pagine</h2>
     <p class="lead">In questa sezione potrai gestire le tue pagine.</p>
   </div>
 
 
-
-
-
+  <% if(!pagesInfo.length){%>
+    <hr class="featurette-divider">
+    <div class="">
+      <p class="lead">Non ci sono pagine collegate al tuo profilo</p>
+    </div>
+  <%}else{%>
 
   <%  pagesInfo.forEach(function(page){ %>
     <div class="accordion" id="accordionExample">
@@ -62,20 +65,15 @@
 </div>
   <hr class="featurette-divider">
   <% }) %>
-
+  <% } %>
 <a class="btn btn-link btn-outline-primary" href="pages/create" role="button">Crea una nuova pagina <span data-feather="plus-circle"></span></a>
 
+
+<% if(pagesInfo.length){%>
   <hr class="featurette-divider">
   <div class="py-5 text-center">
     <h2>Modifica le tue pagine</h2>
   </div>
-
-
-
-
-
-
-
 
   <div class="row">
     <div class="input-group mb-3 col-md-12">
@@ -121,6 +119,7 @@
       </form>
     </div>
   </div>
+    <% } %>
 
 <hr class="featurette-divider">
 
