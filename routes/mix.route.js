@@ -81,7 +81,7 @@ router.get("/:mix", momentMiddleware, async function(req, res){
     topPosts = foundPosts;
   }
 
-  res.render("mixTemplate",{showName: foundMix.name, showMan: authorNames, showDescription: foundMix.description,stateName: foundMix.stateName, latestPost: topPosts, oldPosts: oldPosts, pType: "mixes"});
+  res.render("mixTemplate",{showName: foundMix.name, showMan: authorNames, showDescription: foundMix.description, sourceLink: foundMix.source, stateName: foundMix.stateName, latestPost: topPosts, oldPosts: oldPosts, pType: "mixes"});
 
   // importedMix.Mix.findOne({stateName: req.params.mix}, function(err, foundMix){
   //

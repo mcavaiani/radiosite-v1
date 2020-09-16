@@ -19,10 +19,9 @@
   </div>
 
   <div class="spreaker-div">
-    <a class="spreaker-player" href="https://www.spreaker.com/show/casa-sarzilla" data-resource="show_id=4279312" data-theme="light" data-autoplay="false" data-playlist="show"
-      data-cover="https:&quot;https:\/\/d3wo5wojvuv7l.cloudfront.net\/images.spreaker.com\/original\/ecae615410a21a2218b068311fa38241.jpg&quot;" data-width="100%" data-height="400px">Ascolta "Casa Sarzilla" su Spreaker.</a>
-    <script async src="https://widget.spreaker.com/widgets.js"></script>
+    <iframe src="<%= sourceLink %>" width="100%" height="400px" frameborder="0"></iframe>
   </div>
+
   <hr class="h-line-programs">
 </section>
 <section id="music">
@@ -31,5 +30,4 @@
     <!-- <hr class="h-line-programs"> -->
   </div>
 <%- include("partials/programBlog",{stateName: stateName, latests: latestPost, posts: oldPosts, programType: pType}); %>
-
 <%- include("partials/footer"); %>

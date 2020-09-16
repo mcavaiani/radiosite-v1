@@ -72,7 +72,7 @@ router.get("/:show", momentMiddleware, async function(req, res){
     topPosts = foundPosts;
   }
 
-  res.render("programTemplate",{showName: foundShow.name, showMen: authorNames, showDescription: foundShow.description,stateName: foundShow.stateName, latestPost: topPosts, oldPosts: oldPosts, pType: "shows"});
+  res.render("programTemplate",{showName: foundShow.name, showMen: authorNames, showDescription: foundShow.description, sourceLink: foundShow.source, stateName: foundShow.stateName, latestPost: topPosts, oldPosts: oldPosts, pType: "shows"});
 
   // importedShow.Show.findOne({stateName: req.params.show}, function(err, foundShow){
   //
