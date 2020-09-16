@@ -205,11 +205,11 @@
 }
 
 #carousel-item-1{
-  background-image: url("/images/pages/home-slider-1.jpg");
+  background-image: url("/images/pages/home-slider-1-mobile.jpg");
 }
 
 #carousel-item-2{
-  background-image: url("/images/pages/home-slider-2.jpg");
+  background-image: url("/images/pages/home-slider-2-mobile.jpg");
 }
 
 .item-text-div{
@@ -323,4 +323,19 @@
   #homepage-navbar{
     background-image: url("../images/pages/home-banner.jpg");
   }
+
+
+
+}
+
+@media all and (min-width: 95em) {
+
+  #carousel-item-1{
+    background-image: url("/images/pages/home-slider-1.jpg");
+  }
+
+  #carousel-item-2{
+    background-image: url("/images/pages/home-slider-2.jpg");
+  }
+
 }
