@@ -26,6 +26,7 @@
   background-image: url("../images/pages/home-banner-mobile.jpg");
   background-size: cover;
   width: 100%;
+  background-position: center;
 }
 
 #post-navbar{
