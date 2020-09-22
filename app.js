@@ -34,7 +34,7 @@ const cors = require('cors');
 const multer = require('multer');
 const dbModule = require('./db/dbModule');
 
-// 
+//
 // const dbConfig = config.get('dbConfig');
 // console.log(dbConfig);
 //
@@ -140,31 +140,45 @@ app.get("/", async function(req, res){
 
 });
 
-app.get("/home", function(req, res){
+app.get("/home", async function(req, res){
 
-  var fs = importedShow.Show.find();
-  var fb = importedBlog.Blog.find();
-  var fm = importedMix.Mix.find();
 
-  var resourcesStack = {
-      showList: fs.exec.bind(fs),
-      blogList: fb.exec.bind(fb),
-      mixList: fm.exec.bind(fm)
-  };
+    try{
+      let sql = 'SELECT * FROM shows';
+      const programList = await dbModule.query(sql);
+      console.log(programList);
+      const newProgramList = programList.map(v => Object.assign({}, v));
 
-  async.parallel(resourcesStack, function (error, resultSet){
-    if (error) {
-        res.status(500).send(error);
-        return;
-    }
-    console.log("Lista di show")
-    console.log(resultSet);
-    res.render('home', {
-        shows: resultSet.showList,
-        blogs: resultSet.blogList,
-        mixes: resultSet.mixList
-    });
-});
+      console.log(newProgramList);
+
+      var showList = newProgramList.filter(function (el) {
+        return el.type === 'podcast';
+      });
+
+      var blogList = newProgramList.filter(function (el) {
+        return el.type === 'blog';
+      });
+
+      var mixList = newProgramList.filter(function (el) {
+        return el.type === 'mix';
+      });
+
+      console.log('showList è');
+      console.log(showList);
+      console.log('blogList è');
+      console.log(blogList);
+      console.log('mixList è');
+      console.log(mixList);
+
+      res.render('home-prova', {
+          shows: showList,
+          blogs: blogList,
+          mixes: mixList
+      });
+
+    }catch(e){
+      res.status(500).send(e);
+    };
 
 });
 

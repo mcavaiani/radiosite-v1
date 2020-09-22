@@ -22,6 +22,12 @@
   height: 16rem;
 }
 
+nav {
+      position: fixed;
+      width: 100%;
+      line-height: 60px;
+}
+
 #homepage-navbar{
   background-image: url("../images/pages/home-banner-mobile.jpg");
   background-size: cover;
