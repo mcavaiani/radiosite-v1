@@ -54,16 +54,31 @@ nav {
 
 .nav-link{
   color: white;
+  font-size: 1rem;
 }
 
 .nav-droplist{
   /* background-color: ; */
     color: white;
+    font-size: 1rem;
 }
 
 .dropdown-item{
-  font-size: 1em;
+  font-size: 0.75rem;
+  height: 20px;
+  line-height: normal;
 }
+
+/* .dropdown-toggle{
+  height: 5px;
+} */
+
+
+.nav-link{
+  height: 30px;
+  line-height: normal;
+}
+
 .title-div-new{
   margin: 0 5%;
   /* height: 500px; */
@@ -336,8 +351,23 @@ nav {
     background-image: url("../images/pages/home-banner.jpg");
   }
 
+  .nav-link{
+    color: white;
+  }
 
+  .nav-droplist{
+    /* background-color: ; */
+      color: white;
+  }
 
+  .dropdown-item{
+    font-size: 1rem;
+    /* height: 40px; */
+  }
+
+  .dropdown-toggle{
+
+  }
 }
 
 @media all and (min-width: 95em) {
