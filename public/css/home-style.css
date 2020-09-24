@@ -155,7 +155,7 @@ nav {
 #menu-section{
   align-items: center;
   text-align: center;
-  margin: 0 20px;
+  margin: 5% 20px;
   /* background-color: #131313; */
   /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPUlEQVQoU2NkIAJMnTrVl5EIdWAleBWCTMrOzt6MVyGyIoImIjsLw2p0k2CKURTiUkS61fhMgltNjCKQYgCVbRoX7exOkwAAAABJRU5ErkJggg==) repeat; */
 }
@@ -196,7 +196,7 @@ nav {
 }
 
 .item-thumbnail{
-  padding-bottom: 1em;
+  padding-top: 1em;
 }
 .img-item-new{
   width: 100%;
@@ -211,8 +211,10 @@ nav {
   color: #0060A9;
 }
 
+#about-us{
+    margin: 5% 0%;
+}
 .carousel-home-container{
-  margin: 5% 0%;
   height: 700px;
 }
 

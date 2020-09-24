@@ -55,6 +55,14 @@
   padding:5% 0;
 }
 
+#featurette-eventi{
+  padding-bottom: 0;
+}
+
+#featurette-img-eventi{
+    padding-top: 0;
+}
+
 .img-featurette-container{
   vertical-align: middle;
   /* align-items: center; */
