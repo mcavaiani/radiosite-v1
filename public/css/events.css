@@ -11,27 +11,81 @@
 }
 
 #wedding-card{
-  background-image: url("/images/pages/wedding-prova.jpg");
+  background-image: url("/images/pages/wedding.jpg");
 }
 
 #party-card{
-  background-image: url("/images/pages/party-prova.jpg");
+  background-image: url("/images/pages/party.jpg");
   background-position: center;
 }
 
 #entertainment-card{
-  background-image: url("/images/pages/entertainment-prova.jpg");
+  background-image: url("/images/pages/entertainment.jpg");
   background-position: center;
-}
-
-.event-title{
-  font-size: 7rem;
-  padding-top: 10%;
-  padding-left: 5%;
 }
 
 .event-text{
   padding: 0 6%;
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: 300;
+}
+
+.event-title{
+  font-size: 3rem;
+  padding-top: 10%;
+  padding-left: 5%;
+}
+
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media all and (min-width: 30em) {
+
+
+
+
+}
+
+@media all and (min-width: 36em) {
+
+
+}
+
+
+@media all and (min-width: 40em) {
+  /* Bump up size of carousel content */
+
+}
+
+@media all and (min-width: 62em) {
+
+  .event-text{
+    padding: 0 6%;
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+
+  .event-title{
+    font-size: 5rem;
+    padding-top: 10%;
+    padding-left: 5%;
+  }
+
+}
+
+@media all and (min-width: 90em) {
+
+  .event-text{
+    padding: 0 6%;
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+
+  .event-title{
+    font-size: 7rem;
+    padding-top: 10%;
+    padding-left: 5%;
+  }
+
 }
