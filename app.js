@@ -182,6 +182,10 @@ app.get("/home", async function(req, res){
 
 });
 
+app.get("/events", function(req,res){
+  res.render("eventi");
+});
+
 app.get("/createPage", function(req,res){
   res.render("createPage");
 });
