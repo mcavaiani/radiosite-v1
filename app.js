@@ -104,11 +104,7 @@ app.get("/", async function(req, res){
     try{
       let sql = 'SELECT * FROM shows';
       const programList = await dbModule.query(sql);
-      console.log(programList);
       const newProgramList = programList.map(v => Object.assign({}, v));
-
-      console.log(newProgramList);
-
       var showList = newProgramList.filter(function (el) {
         return el.type === 'podcast';
       });
@@ -120,14 +116,6 @@ app.get("/", async function(req, res){
       var mixList = newProgramList.filter(function (el) {
         return el.type === 'mix';
       });
-
-      console.log('showList è');
-      console.log(showList);
-      console.log('blogList è');
-      console.log(blogList);
-      console.log('mixList è');
-      console.log(mixList);
-
       res.render('home-new', {
           shows: showList,
           blogs: blogList,
@@ -146,10 +134,7 @@ app.get("/home", async function(req, res){
     try{
       let sql = 'SELECT * FROM shows';
       const programList = await dbModule.query(sql);
-      console.log(programList);
       const newProgramList = programList.map(v => Object.assign({}, v));
-
-      console.log(newProgramList);
 
       var showList = newProgramList.filter(function (el) {
         return el.type === 'podcast';
@@ -162,13 +147,6 @@ app.get("/home", async function(req, res){
       var mixList = newProgramList.filter(function (el) {
         return el.type === 'mix';
       });
-
-      console.log('showList è');
-      console.log(showList);
-      console.log('blogList è');
-      console.log(blogList);
-      console.log('mixList è');
-      console.log(mixList);
 
       res.render('home-prova', {
           shows: showList,
@@ -221,16 +199,12 @@ app.get("/about", async function(req,res){
   try{
     let sqlUser = 'SELECT * FROM users';
     const users = await dbModule.query(sqlUser, req.body.username);
-    console.log(users);
     var foundUsers = users.map(v => Object.assign({}, v));
   }catch(e){
     console.log(e);
     next(err);
   }
-
-  console.log(foundUsers);
   res.render("about",{users: foundUsers});
-
 });
 
 

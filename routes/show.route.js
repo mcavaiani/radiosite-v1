@@ -13,16 +13,11 @@ const util = require('util');
 const dbModule = require('../db/dbModule');
 
 router.get("/:show", momentMiddleware, async function(req, res){
-  // console.log(req.params);
-  // const stateName = _.camelCase(req.params.program);
-  // const title = _.startCase(stateName);
 
   try{
     let sqlShow = 'SELECT * FROM shows WHERE stateName = ?';
     const show = await dbModule.query(sqlShow, req.params.show);
-    console.log(show)
     var foundShow = show.map(v => Object.assign({}, v));
-    console.log("Il programma cercato è: ",foundShow);
     if (!foundShow.length){res.redirect("/");}
     foundShow = foundShow[0];
   }catch(e){
@@ -31,14 +26,9 @@ router.get("/:show", momentMiddleware, async function(req, res){
   }
 
 
-  // try{
     let sqlAuthor = 'SELECT userId FROM usersShows WHERE showId = ?';
     const authorList = await dbModule.query(sqlAuthor, foundShow.id);
     const authors = authorList.map(v => Object.assign({}, v));
-  // }catch(e){
-  //   console.log(e);
-  //   res.redirect("/");
-  // }
 
   let authorsArray = [];
   authors.forEach(element => authorsArray.push(element.userId));
@@ -50,18 +40,11 @@ router.get("/:show", momentMiddleware, async function(req, res){
   let authorNames = [];
   authorsInfoList.forEach(element => authorNames.push(element.nickName));
 
-  // try{
     let sqlPosts = 'SELECT * FROM posts WHERE program = ?';
     const postList = await dbModule.query(sqlPosts, req.params.show);
     const postListNew = postList.map(v => Object.assign({}, v));
-  // }catch(e){
-  //   console.log(e);
-  //   res.redirect("/");
-  // }
 
   var foundPosts = postListNew.sort(function(a,b){ return b.postDate.localeCompare(a.postDate);});
-  console.log("Ecco tutti i post di "+req.params.show);
-  console.log(foundPosts);
 
   var topPosts = [];
   var oldPosts = [];
@@ -74,38 +57,7 @@ router.get("/:show", momentMiddleware, async function(req, res){
 
   res.render("programTemplate",{showName: foundShow.name, showMen: authorNames, showDescription: foundShow.description, sourceLink: foundShow.source, stateName: foundShow.stateName, latestPost: topPosts, oldPosts: oldPosts, pType: "shows"});
 
-  // importedShow.Show.findOne({stateName: req.params.show}, function(err, foundShow){
-  //
-  //   if(err){
-  //     console.log(err);
-  //   }else{
-  //     if(foundShow){
-  //       console.log("Found show");
-  //       importedPost.Post.find({program: foundShow.stateName}).sort({date: 'desc'}).exec(function (err, foundPosts) {
-  //         if (err){
-  //           console.error(err);
-  //         };
-  //         console.log("Found posts");
-  //         console.log(foundShow);
-  //         console.log(foundPosts);
-  //         var topPosts = [];
-  //         var oldPosts = [];
-  //         if (foundPosts.length>1){
-  //           topPosts = foundPosts.slice(0,1);
-  //           oldPosts = foundPosts.slice(1);
-  //         }else{
-  //           topPosts = foundPosts;
-  //         }
-  //         console.log(topPosts);
-  //         console.log(oldPosts);
-  //         res.render("programTemplate",{showName: foundShow.name, showMan: foundShow.author, showDescription: foundShow.description,stateName: foundShow.stateName, latestPost: topPosts, oldPosts: oldPosts, pType: "shows"});
-  //       })
-  //     }else{
-  //       res.redirect("/");
-  //     }
-  //   }
-  //
-  // });
+
 });
 
 router.get("/:show/posts/:postId", momentMiddleware, function(req, res){

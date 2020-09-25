@@ -3,7 +3,6 @@ const util = require('util');
 require('dotenv').config();
 const config = require("config");
 const dbConfig = config.get('dbConfig');
-console.log(dbConfig);
 
 if (process.env.NODE_ENV!=="localdev"){
   password = process.env.DBPSW;

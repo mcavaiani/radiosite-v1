@@ -1,10 +1,4 @@
 <!-- Section music -->
-<% console.log("Questi sono i post:")%>
-<% console.log(posts)%>
-<% console.log("Questi è l'ultimo:")%>
-<% console.log(latests)%>
-<% console.log("E la sua lunghezza:")%>
-<% console.log(latests.length)%>
 
 <div class="">
   <% if(latests && latests.length){ %>
@@ -25,7 +19,6 @@
           <% var number =posts.length + latests.length - ind%>
           <p class="post-number">Ep. <%=number%></p>
           <% var dateShort =latest.postDate %>
-          <% console.log(dateShort)%>
           <p class="post-date"><%=moment(dateShort).format('DD-MM-YY')%></p>
           <h2 class="post-header"><%=latest.title%></h2>
           <p class="post-preview"><%=latest.content%></p>

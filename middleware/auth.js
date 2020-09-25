@@ -4,7 +4,6 @@ const config = require("config");
 module.exports = function(req, res, next) {
   //get the token from the header if present
   const token = req.cookies['access-token'] || req.headers["x-access-token"] || req.headers["authorization"];
-  console.log(token);
   //if no token found, return response (without going to the next middelware)
   if (!token) return res.status(401).send("Access denied. No token provided.");
 
@@ -12,7 +11,6 @@ module.exports = function(req, res, next) {
     //if can verify the token, set req.user and pass to next middleware
     const decoded = jwt.verify(token, process.env.SECRETKEY);
     req.user = decoded;
-    console.log("JWT info: ",req.user);
     next();
   } catch (ex) {
     //if invalid token

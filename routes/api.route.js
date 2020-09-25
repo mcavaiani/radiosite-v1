@@ -120,7 +120,6 @@ router.put("/user/:id?", auth, async function(req, res){
     res.status(404).send("User not found");
 
   var updatedUser = foundUser;
-  console.log("Request body: ", req.body);
   if(req.body.nickName) updatedUser.nickName = req.body.nickName;
   if(req.body.description) updatedUser.description = req.body.description;
   if(req.body.pictureUrl) updatedUser.pictureUrl = req.body.pictureUrl;
@@ -189,7 +188,7 @@ router.put("/user/:id?/credentials", auth, async function(req, res){
     let sqlUpdateUser = "UPDATE users SET password = ? WHERE id = ?";
     const userToUpdate = await dbModule.query(sqlUpdateUser,[updatedUser.password, updatedUser.id], function (err, result) {
       if (err) throw err;
-      console.log(result.affectedRows + " record(s) updated");
+      console.log("Update password: "+result.affectedRows + " record(s) updated");
       res.status(200).send("OK");
     });
   }catch(e){
@@ -205,7 +204,6 @@ router.delete("/page/:pageId", auth, async function(req, res){
       message: "Missing page id!"
     });
   }
-  console.log("Siamo entrati nella apiiiii");
   try{
     let sqlPage = 'SELECT * FROM shows WHERE id = ?';
     const page = await dbModule.query(sqlPage,req.params.pageId);
@@ -215,7 +213,6 @@ router.delete("/page/:pageId", auth, async function(req, res){
     console.log(e);
     next(err);
   }
-  console.log("select ok")
 
   if(!foundPage)
     res.status(404).send("Page not found");
@@ -227,12 +224,10 @@ router.delete("/page/:pageId", auth, async function(req, res){
     console.log(e);
     next(err);
   }
-    console.log("Eliminato da usersShows");
   try{
     let sqlPageDeleted = "DELETE FROM shows WHERE id = ?";
     const pageDeleted = await dbModule.query(sqlPageDeleted, req.params.pageId);
     console.log(pageDeleted.affectedRows + " record(s) updated");
-    console.log("Eliminato da shows");
 
     res.status(200).send("OK");
   }catch(e){
@@ -263,7 +258,6 @@ router.put("/page/:pageId", auth, async function(req, res){
     res.status(404).send("Page not found");
 
   var updatedPage = foundPage;
-  console.log("Request body: ", req.body);
   if(req.body.name) updatedPage.name = req.body.name;
   if(req.body.description) updatedPage.description = req.body.description;
   if(req.body.stateName) updatedPage.stateName = req.body.stateName;
@@ -302,10 +296,8 @@ var stateName = _.kebabCase(req.body.programName);
   var newShow = "";
   try{
     let sqlNewPage = 'INSERT INTO shows(name, description, stateName, source, type) VALUES ('+"'"+ req.body.programName+"'"+','+ "'"+req.body.description+"'"+','+"'"+ stateName+"'"+','+"'"+ req.body.sourceLink +"'"+','+"'"+req.body.type +"'"+ ')';
-    console.log("INSERT per il nuovo programma: ", sqlNewPage);
     newShow = await dbModule.query(sqlNewPage);
     // FIX ME
-    console.log("vediamo cosa restituisce", newShow);
 
   }catch(e){
     console.log(e);
@@ -318,7 +310,6 @@ var stateName = _.kebabCase(req.body.programName);
     const user = await dbModule.query(sqlUser,req.body.nickName);
     var foundUserId = user.map(v => Object.assign({}, v));
     foundUserId = foundUserId[0];
-    console.log(foundUserId);
   }catch(e){
     console.log(e);
     next(err);
@@ -326,9 +317,7 @@ var stateName = _.kebabCase(req.body.programName);
 
   try{
     let sqlNewLink = 'INSERT INTO usersShows(userId, showId) VALUES ('+"'"+ foundUserId.id+"'"+','+ "'"+newShow.insertId+"'"+ ')';
-    console.log("INSERT per il nuovo programma: ", sqlNewLink);
     const newLink = await dbModule.query(sqlNewLink);
-    console.log("vediamo cosa restituisce", newLink);
     res.status(200).send("OK");
   }catch(e){
     console.log(e);
