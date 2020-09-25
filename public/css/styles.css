@@ -12,6 +12,10 @@ body{
   padding: 0 0 5% 0; /* DA TOGLIERE QUANDO SI INSERISCONO I BOTTONI DEL DOWNLOAD */
 }
 
+.navbar-collapse{
+    z-index: 1;
+}
+
 #homepage-navbar{
   background-image: url("../images/black-mic.jpg");
 }
