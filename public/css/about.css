@@ -71,19 +71,20 @@
 
 .about-img-right{
   width: 6rem;
-  height: 6rem;
+  height: 100%;
   margin: auto;
   display: block;
   border-radius: 100%;
+  object-fit: cover;
 }
 
 .about-img-left{
   width: 6rem;
-  height: 6rem;
+  height: 100%;
   margin: auto;
   display: block;
   border-radius: 100%;
-
+  object-fit: cover;
 }
 
 .people-social{
