@@ -163,6 +163,7 @@ router.get("/admin-console/user", auth, async (req, res)=>{
     const user = await dbModule.query(sqlUser, req.user.id);
     var foundUser = user.map(v => Object.assign({}, v));
     foundUser = foundUser[0];
+    console.log(foundUser);
   }catch(e){
     console.log(e);
     next(err);

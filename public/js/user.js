@@ -57,7 +57,7 @@ $(document).ready(function() {
       // Submit the form using AJAX.
       var request = $.ajax({
         type: 'PUT',
-        url: $(form).attr('action'),
+        url: $(form).attr('action')+"/credentials",
         data: formData
       });
       request.done(function(response) {

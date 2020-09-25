@@ -24,14 +24,12 @@
       <p><b>Instagram:</b> <%=userInfo.instagram%></p>
       <p><b>Twitter:</b> <%=userInfo.twitter%></p>
     </div>
-
   </div>
 
   <hr class="featurette-divider">
-
   <div class="row">
     <div class="col-md-12 order-md-1">
-      <form class="needs-validation" novalidate action="/api/user" method="POST" id="update-user-info">
+      <form class="needs-validation" novalidate action="/api/user/" method="POST" id="update-user-info">
         <div class="row">
 
           <div class="col-md-4 mb-3">
@@ -98,7 +96,7 @@
 
     <div class="row">
       <div class="col-md-12 order-md-1">
-        <form class="needs-validation" novalidate action="/api/user" method="POST" id="update-user-psw">
+        <form class="needs-validation" novalidate action="/api/user/<%=userInfo.id%>" method="POST" id="update-user-psw">
 
 
           <div class="row">
