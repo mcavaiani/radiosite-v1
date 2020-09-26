@@ -11,16 +11,16 @@
 }
 
 #wedding-card{
-  background-image: url("/images/pages/wedding.jpg");
+  background-image: url("/images/pages/other/wedding.jpg");
 }
 
 #party-card{
-  background-image: url("/images/pages/party.jpg");
+  background-image: url("/images/pages/other/party.jpg");
   background-position: center;
 }
 
 #entertainment-card{
-  background-image: url("/images/pages/entertainment.jpg");
+  background-image: url("/images/pages/other/entertainment.jpg");
   background-position: center;
 }
 

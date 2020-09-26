@@ -1,16 +1,16 @@
 .body-podcast{
-  background-image: url("../images/pattern_podcast.png");
+  background-image: url("../images/patterns/pattern_podcast.png");
   background-repeat:repeat;
 }
 
 .body-mix{
-  background-image: url("../images/pattern_mix.jpg");
+  background-image: url("../images/patterns/pattern_mix.jpg");
   background-repeat: repeat;
 
 }
 
 .body-blog{
-  background-image: url("../images/pattern_blog.png");
+  background-image: url("../images/patterns/pattern_blog.png");
   background-repeat: repeat;
 }
 
