@@ -71,20 +71,21 @@
 
 .about-img-right{
   width: 6rem;
-  height: 100%;
+  height: 6rem;
+  object-fit: contain;
   margin: auto;
   display: block;
   border-radius: 100%;
-  object-fit: cover;
+
 }
 
 .about-img-left{
   width: 6rem;
-  height: 100%;
+  width: 6rem;
+  object-fit: contain;
   margin: auto;
   display: block;
   border-radius: 100%;
-  object-fit: cover;
 }
 
 .people-social{
@@ -128,16 +129,18 @@
   .about-img-right{
     width: 6rem;
     height: 6rem;
-    margin: auto;
-    display: block;
+  object-fit: contain;
+  margin: auto;
+  display: block;
     border-radius: 100%;
   }
 
   .about-img-left{
     width: 6rem;
     height: 6rem;
-    margin: auto;
-    display: block;
+  object-fit: contain;
+  margin: auto;
+  display: block;
     border-radius: 100%;
   }
 
@@ -158,19 +161,13 @@
     line-height: 1;
     margin-top: 1rem;
     font-size: 1.5rem;
-    text-align: left;
   }
-
-  .lead{
-    text-align: left;
-    font-size: 1rem;
-  }
-
 
   .about-img-right{
     width: 7rem;
     height: 7rem;
-    /* margin: 0 0 0 auto; */
+    object-fit: contain;
+    margin: auto;
     display: block;
     border-radius: 100%;
   }
@@ -178,7 +175,8 @@
   .about-img-left{
     width: 7rem;
     height: 7rem;
-    /* margin: 0 0 0 auto; */
+    object-fit: contain;
+    margin: auto;
     display: block;
     border-radius: 100%;
   }
@@ -191,16 +189,31 @@
     /* margin: auto 0; */
   /* } */
 
-  .img-featurette-container{
-    vertical-align: middle;
-    align-items:flex-start;
-    margin: auto 0;
-    padding-top:0%;
-  }
+
 }
 
 
 @media all and (min-width: 40em) {
+
+  .about-img-right{
+    width: 7rem;
+    height: 7rem;
+    object-fit: contain;
+    margin: auto;
+    display: block;
+    border-radius: 100%;
+  }
+
+
+  .about-img-left{
+    width: 7rem;
+    height: 7rem;
+    object-fit: contain;
+    margin: auto;
+    display: block;
+    border-radius: 100%;
+  }
+
   /* Bump up size of carousel content */
   .carousel-caption p {
     margin-bottom: 1.25rem;
@@ -216,11 +229,25 @@
 @media all and (min-width: 62em) {
   .featurette-heading {
     /* margin-top: 7rem; */
+        text-align: left;
+  }
+
+  .lead{
+    text-align: left;
+    font-size: 1rem;
+  }
+
+  .img-featurette-container{
+    vertical-align: middle;
+    align-items:flex-start;
+    margin: auto 0;
+    padding-top:0%;
   }
 
   .about-img-right{
     width: 9rem;
     height: 9rem;
+    object-fit: contain;
     /* margin: 0 0 0 auto; */
     display: block;
     border-radius: 100%;
@@ -229,6 +256,7 @@
   .about-img-left{
     width: 9rem;
     height: 9rem;
+    object-fit: contain;
     /* margin: 0 0 0 auto; */
     display: block;
     border-radius: 100%;
