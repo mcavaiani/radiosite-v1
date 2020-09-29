@@ -10,6 +10,12 @@ $(document).ready(function(){
   $('.file-upload').file_upload();
 });
 
+$(document).ready(function(){
+  $('.richTextArea').richText();
+
+});
+
+
 
 $(document).ready(function() {
     // Get the form.

@@ -11,7 +11,7 @@ const morgan = require('morgan');
 const _ = require('lodash');
 const multer = require('multer');
 const dbModule = require('../db/dbModule');
-
+const mysql = require('mysql');
 const app = express();
 app.use(express.static("public"));
 
@@ -249,7 +249,6 @@ router.get("/admin-console/:page/posts", auth, async (req, res)=>{
   res.render("userPosts", {page: foundShow, postsInfo: foundPosts});
 })
 
-
 router.get("/admin-console/:page/posts/:id", auth, async (req, res)=>{
 
   var foundType = "";
@@ -379,7 +378,7 @@ router.get("/admin-console/posts/create", auth, async function(req,res){
 
   }
 
-  res.render("compose", {showList: foundShows});
+  res.render("compose-new", {showList: foundShows});
 });
 
 router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'}, {name: 'pics'}]), async function(req,res){
@@ -388,16 +387,16 @@ router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'
   try{
     var dateString = new Date().toISOString();
     var pathImg = "../images/posts/" + req.files.preview[0].filename;
-    let sqlNewPost = 'INSERT INTO posts(title, content, author, postDate, program, previewPicture) VALUES ('+"'"+ req.body.postTitle+"'"+','+ "'"+req.body.postContent+"'"+','+"'"+ req.user.nickName+"'"+','+"'"+ dateString +"'"+','+"'"+req.body.programName +"'"+','+"'"+ pathImg+"'" +')';
-    newPost = await dbModule.query(sqlNewPost);
+    let sqlNewPost = 'INSERT INTO posts(title, content, author, postDate, program, previewPicture, preview) VALUES (?,?,?,?,?,?,?)';
+    newPost = await dbModule.query(sqlNewPost,[req.body.postTitle,req.body.postContent,req.user.nickName,dateString,req.body.programName,pathImg,req.body.postPreview]);
   }catch(e){
     console.log(e);
-    next(err);
     res.status(500).send("Qualcosa è andato storto");
   }
 
   newPostId = newPost.insertId;
 
+  if (req.files.pics){
   req.files.pics.forEach(async function(pic){
 
     try{
@@ -407,12 +406,13 @@ router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'
       postImage = await dbModule.query(sqlPostImage);
     }catch(e){
       console.log(e);
-      next(err);
+      next(e);
       res.status(500).send("Qualcosa è andato storto");
     }
 
 
   });
+  }
 
   try{
     let sqlShowsId = 'SELECT showId FROM usersShows WHERE userId = ?';
@@ -420,7 +420,7 @@ router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'
     var foundShowsId = showsId.map(v => Object.assign({}, v));
   }catch(e){
     console.log(e);
-    next(err);
+    next(e);
   }
 
   var idList = [];
@@ -434,7 +434,7 @@ router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'
     var foundShows = shows.map(v => Object.assign({}, v));
   }catch(e){
     console.log(e);
-    next(err);
+    next(e);
   }
 
 
