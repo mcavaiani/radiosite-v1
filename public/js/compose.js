@@ -23,10 +23,13 @@ $(document).ready(function() {
     $('#inputGroupSelect').on('change', function() {
       var pageId = this.value;
       var selectedText = $(this).find('option:selected').text();
+
       if(selectedText.includes("blog")){
         $("#div-upload-pics").show();
+        $("#div-editor-content").show();
       }else{
         $("#div-upload-pics").hide();
+        $("#div-editor-content").hide();
       }
 
       localStorage.setItem("pageId", pageId);
