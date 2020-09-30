@@ -57,7 +57,7 @@
         <div class="card-post col-lg-10">
           <div class="card-body">
             <h5 class="card-title"><%= post.title%></h5>
-            <p class="card-text post-preview"><%= post.content%></p>
+            <p class="card-text post-preview"><%= post.preview%></p>
             <% var pos = posts.length - ind%>
             <h6 class="card-subtitle mb-2 text-muted">Episode <%=pos %> - <%=moment(post.postDate).format('DD-MM-YY') %></h6>
           </div>
