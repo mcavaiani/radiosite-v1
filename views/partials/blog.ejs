@@ -16,7 +16,7 @@
       </div>
       <div class="post-text-container col-lg-6">
         <div class="post-text">
-          <% var number =posts.length + latests.length - ind%>
+          <% var number =posts.length + latests.length - ind -1%>
           <p class="post-number">Ep. <%=number%></p>
           <% var dateShort =latest.postDate %>
           <p class="post-date"><%=moment(dateShort).format('DD-MM-YY')%></p>
@@ -58,7 +58,7 @@
           <div class="card-body card-post">
             <h5 class="card-title"><%= post.title%></h5>
             <p class="card-text post-preview"><%= post.preview%>...<a href="/<%=programType %>/<%=stateName%>/posts/<%=post.id%>">read more</a></p>
-            <% var pos = posts.length - ind%>
+            <% var pos = posts.length - ind -1%>
             <h6 class="card-subtitle mb-2 text-muted">Episode <%=pos %> - <%=moment(post.postDate).format('DD-MM-YY') %></h6>
           </div>
         </div>
