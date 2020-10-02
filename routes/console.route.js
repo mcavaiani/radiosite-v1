@@ -28,19 +28,6 @@ const fileStorage = multer.diskStorage({
   }
 });
 
-// const fileStorage = multer.diskStorage({
-//   destination: (req, file, cb) => { // setting destination of uploading files
-//     if (file.fieldname === "resume") { // if uploading resume
-//       cb(null, 'resumes');
-//     } else { // else uploading image
-//       cb(null, 'images');
-//     }
-//   },
-//   filename: (req, file, cb) => { // naming file
-//     cb(null, file.fieldname+"-"+uuidv4()+path.extname(file.originalname));
-//   }
-// });
-//
 var upload = multer({ storage: fileStorage });
 
 router.get("/register", function(req, res) {
@@ -348,6 +335,30 @@ router.post("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'previ
 
 })
 
+router.delete("/admin-console/:page/posts/:id", auth, async (req, res)=>{
+
+  try{
+    let sqlImg = 'DELETE FROM postImages WHERE post = ?';
+    const imgsDeleted = await dbModule.query(sqlImg, req.params.id);
+    console.log(imgsDeleted.affectedRows + " record(s) updated");
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  try{
+    let sqlPost = 'DELETE FROM posts WHERE id = ?';
+    const postDeleted = await dbModule.query(sqlPost, req.params.id);
+    console.log(postDeleted.affectedRows + " record(s) updated");
+  }catch(e){
+    console.log(e);
+    next(err);
+  }
+
+  res.status(200).send("OK");
+
+})
+
 router.get("/admin-console/posts/create", auth, async function(req,res){
 
   var foundShowsId = [];
@@ -438,7 +449,7 @@ router.post("/admin-console/posts/create", auth, upload.fields([{name: 'preview'
   }
 
 
-  res.render("compose", {showList: foundShows});
+  res.render("compose-new", {showList: foundShows});
 
 });
 

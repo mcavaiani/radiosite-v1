@@ -23,6 +23,7 @@
         <h5 class="card-title"><%=post.title%></h5>
         <p class="card-text"><%=post.preview.substring(0,100)%>...</p>
         <a class="btn btn-link btn-outline-primary" href="posts/<%= post.id %>" role="button"> Modifica <span data-feather="edit-2"></span></a>
+        <a class="btn btn-link btn-outline-primary delete-button" href="" id="<%=post.id%>" role="button"> Elimina <span data-feather="trash-2"></span></a>
       </div>
     </div>
   </div>

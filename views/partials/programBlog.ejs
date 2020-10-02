@@ -21,7 +21,7 @@
           <% var dateShort =latest.postDate %>
           <p class="post-date"><%=moment(dateShort).format('DD-MM-YY')%></p>
           <h2 class="post-header"><%=latest.title%></h2>
-          <p class="post-preview"><%=latest.preview%></p>
+          <p class="post-preview"><%-latest.preview%></p>
           <p class="post-author"><%=latest.author%></p>
         </div>
       </div>
@@ -57,7 +57,7 @@
         <div class="card-post col-lg-10">
           <div class="card-body">
             <h5 class="card-title"><%= post.title%></h5>
-            <p class="card-text post-preview"><%= post.preview%></p>
+            <p class="card-text post-preview"><%- post.preview%></p>
             <% var pos = posts.length - ind-1%>
             <h6 class="card-subtitle mb-2 text-muted">Episode <%=pos %> - <%=moment(post.postDate).format('DD-MM-YY') %></h6>
           </div>
