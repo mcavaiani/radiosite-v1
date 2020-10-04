@@ -182,6 +182,10 @@
     color: darkgrey;
   }
 
+  .post-author-div{
+    padding-top: 2%;
+  }
+
 }
 
 @media all and (min-width: 62em) {
@@ -207,5 +211,6 @@
     font-weight: 600;
     color: darkgrey;
   }
+
 
 }
