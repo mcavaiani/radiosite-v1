@@ -104,6 +104,10 @@
   color: darkgrey;
 }
 
+.post-author-div{
+  padding-top: 5%;
+}
+
 .post-date {
   font-weight: 600;
   text-align: left;
