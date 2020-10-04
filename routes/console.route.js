@@ -141,7 +141,7 @@ router.get("/logout",function(req,res){
 router.get("/admin-console", auth, async (req, res)=>{
 
   res.render("adminConsole");
-})
+});
 
 router.get("/admin-console/user", auth, async (req, res)=>{
 
@@ -157,7 +157,7 @@ router.get("/admin-console/user", auth, async (req, res)=>{
   }
 
   res.render("user", {userInfo:foundUser});
-})
+});
 
 router.get("/admin-console/pages", auth, async (req, res)=>{
 
@@ -199,7 +199,7 @@ router.get("/admin-console/pages", auth, async (req, res)=>{
   }
 
   res.render("pages", {userInfo:foundUser, pagesInfo: foundShows});
-})
+});
 
 router.get("/admin-console/pages/create", function(req,res){
   res.render("createPage");
@@ -234,10 +234,13 @@ router.get("/admin-console/:page/posts", auth, async (req, res)=>{
   }
 
   res.render("userPosts", {page: foundShow, postsInfo: foundPosts});
-})
+});
 
 router.get("/admin-console/:page/posts/:id", auth, async (req, res)=>{
 
+
+  console.log("INIZIO API GET POST ID");
+  console.log(req.params);
   var foundType = "";
   try{
     let sqlShow = 'SELECT type FROM shows WHERE stateName = ?';
@@ -246,9 +249,9 @@ router.get("/admin-console/:page/posts/:id", auth, async (req, res)=>{
     foundType = foundType[0];
   }catch(e){
     console.log(e);
-    next(err);
+  res.redirect("/")
   }
-
+  console.log(foundType);
 
   var foundPost = "";
   try{
@@ -258,101 +261,46 @@ router.get("/admin-console/:page/posts/:id", auth, async (req, res)=>{
     foundPost = foundPost[0];
   }catch(e){
     console.log(e);
-    next(err);
+    res.redirect("/")
   }
+  console.log(foundPost);
 
   var foundImgs = "";
   try{
     let sqlImgs = 'SELECT * FROM postImages WHERE post = ? ';
-    const imgs = await dbModule.query(sqlImgs, foundPost.id);
+    const imgs = await dbModule.query(sqlImgs, req.params.id);
     foundImgs = imgs.map(v => Object.assign({}, v));
   }catch(e){
     console.log(e);
-    next(err);
+    res.redirect("/")
   }
+  console.log(foundImgs)
 
+  console.log("END API")
   res.render("editPost", {post: foundPost, images: foundImgs, pageType: foundType.type.toString()});
-})
+});
 
 router.post("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'preview'}, {name: 'pics'}]), async (req, res)=>{
 
+  console.log("INIZIO API POST ID");
+  console.log(req.params.id);
   var foundPost = "";
   try{
     let sqlPost = 'SELECT * FROM posts WHERE id = ?';
     newPost = await dbModule.query(sqlPost, req.params.id);
     var foundPost = newPost.map(v => Object.assign({}, v));
-  }catch(e){
-    console.log(e);
-    next(err);
-    res.status(500).send("Qualcosa è andato storto");
-  }
-
-  var updatePost = foundPost;
-  if(req.body.postTitle){updatePost.title = req.body.postTitle};
-  if(req.body.postContent){updatePost.content = req.body.postContent};
-  if(req.files.preview[0].filename){updatePost.previewPicture = req.files.preview[0].filename};
-
-
-  try{
-    let sqlUpdatePost = 'UPDATE posts SET title = ?, content = ?, previewPicture = ? WHERE id = ?';
-    updatedPost = await dbModule.query(sqlUpdatePost,[updatePost.title, updatePost.content, updatePost.previewPicture, updatePost.id]);
-  }catch(e){
-    console.log(e);
-    next(err);
-    res.status(500).send("Qualcosa è andato storto");
-  }
-
-  if(req.files.pics){
-    try{
-      let sqlPostImgs = "DELETE FROM postImages WHERE post = ?";
-      const imgsDel = await dbModule.query(sqlPostImgs, req.params.id);
-      console.log(imgsDel.affectedRows + " record(s) updated");
-    }catch(e){
-      console.log(e);
-      next(err);
-      res.status(500).send("Qualcosa è andato storto");
-    }
-    // INSERT A DB
-
-    req.files.pics.forEach(async function(pic){
-
-      try{
-        var pathImg = "../images/posts/" + pic.filename;
-        let sqlPostImage = 'INSERT INTO postImages(post, imgPath) VALUES ('+"'"+ req.params.id+"'"+','+ "'"+pathImg+"'"+ ')';
-        postImage = await dbModule.query(sqlPostImage);
-      }catch(e){
-        console.log(e);
-        next(err);
-        res.status(500).send("Qualcosa è andato storto");
-      }
-
-      });
-  }
-
-  res.redirect("pages");
-
-
-
-})
-
-router.put("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'preview'}, {name: 'pics'}]), async (req, res)=>{
-
-  var foundPost = "";
-  try{
-    let sqlPost = 'SELECT * FROM posts WHERE id = ?';
-    newPost = await dbModule.query(sqlPost, req.params.id);
-    var foundPost = newPost.map(v => Object.assign({}, v));
+    foundPost = foundPost[0];
   }catch(e){
     console.log(e);
     res.status(500).send("Qualcosa è andato storto");
   }
+  console.log(foundPost);
 
   var updatePost = foundPost;
   if(req.body.postTitle){updatePost.title = req.body.postTitle};
   if(req.body.postContent){updatePost.content = req.body.postContent};
   if(req.body.postPreview){updatePost.preview = req.body.postPreview};
-  if(req.files.preview[0].filename){updatePost.previewPicture = req.files.preview[0].filename};
-
+  if(req.files.preview[0].filename){updatePost.previewPicture = "../images/posts/" + req.files.preview[0].filename};
 
   try{
     let sqlUpdatePost = 'UPDATE posts SET title = ?, content = ?, previewPicture = ?, preview = ? WHERE id = ?';
@@ -381,18 +329,16 @@ router.put("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'previe
         postImage = await dbModule.query(sqlPostImage);
       }catch(e){
         console.log(e);
-        next(err);
+        next(e);
         res.status(500).send("Qualcosa è andato storto");
       }
 
       });
   }
 
-  res.redirect("pages");
+  res.redirect("../../pages");
 
-
-
-})
+});
 
 router.delete("/admin-console/:page/posts/:id", auth, async (req, res)=>{
 
@@ -416,7 +362,7 @@ router.delete("/admin-console/:page/posts/:id", auth, async (req, res)=>{
 
   res.status(200).send("OK");
 
-})
+});
 
 router.get("/admin-console/posts/create", auth, async function(req,res){
 

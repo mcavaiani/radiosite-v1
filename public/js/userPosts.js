@@ -1,12 +1,3 @@
-$(document).ready(function() {
-    // Get the form.
-
-    $('#inputGroupSelect').on('change', function() {
-      var pageId = this.value;
-      alert( this.value );
-      localStorage.setItem("pageId", pageId);
-  });
-});
 
 
 
