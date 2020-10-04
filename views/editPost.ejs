@@ -67,12 +67,22 @@
           </div>
 
           <div class="mb-3">
-            <label>Contenuto</label>
-            <textarea class="form-control" name="postContent" id="postContent" rows="5" cols="30"></textarea>
+            <label>Anteprima</label>
+            <textarea class="form-control richTextArea" name="postPreview" id="postPreview" rows="5" cols="30"></textarea>
             <div class="invalid-feedback">
-              Inserisci la descrizione. Apparirà sulla tua pagina!
+              Inserisci la anteprima. Apparirà sulla tua pagina!
             </div>
           </div>
+
+          <% if(pageType=="blog"){%>
+          <div class="mb-3" id="div-editor-content">
+            <label>Contenuto</label>
+            <textarea class="form-control richTextArea" name="postContent" id="postContent" rows="8" cols="30"></textarea>
+            <div class="invalid-feedback">
+              Inserisci il contenuto. Apparirà sulla tua pagina!
+            </div>
+          </div>
+            <% }%>
 
           <div class="mb-3" <label for="preview">Scegli l'immagine di anteprima</label>
             <div class="">

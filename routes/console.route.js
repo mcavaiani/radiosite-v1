@@ -335,6 +335,65 @@ router.post("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'previ
 
 })
 
+router.put("/admin-console/:page/posts/:id", auth, upload.fields([{name: 'preview'}, {name: 'pics'}]), async (req, res)=>{
+
+  var foundPost = "";
+  try{
+    let sqlPost = 'SELECT * FROM posts WHERE id = ?';
+    newPost = await dbModule.query(sqlPost, req.params.id);
+    var foundPost = newPost.map(v => Object.assign({}, v));
+  }catch(e){
+    console.log(e);
+    res.status(500).send("Qualcosa è andato storto");
+  }
+
+  var updatePost = foundPost;
+  if(req.body.postTitle){updatePost.title = req.body.postTitle};
+  if(req.body.postContent){updatePost.content = req.body.postContent};
+  if(req.body.postPreview){updatePost.preview = req.body.postPreview};
+  if(req.files.preview[0].filename){updatePost.previewPicture = req.files.preview[0].filename};
+
+
+  try{
+    let sqlUpdatePost = 'UPDATE posts SET title = ?, content = ?, previewPicture = ?, preview = ? WHERE id = ?';
+    updatedPost = await dbModule.query(sqlUpdatePost,[updatePost.title, updatePost.content, updatePost.previewPicture, updatePost.preview, updatePost.id]);
+  }catch(e){
+    console.log(e);
+    res.status(500).send("Qualcosa è andato storto");
+  }
+
+  if(req.files.pics){
+    try{
+      let sqlPostImgs = "DELETE FROM postImages WHERE post = ?";
+      const imgsDel = await dbModule.query(sqlPostImgs, req.params.id);
+      console.log(imgsDel.affectedRows + " record(s) updated");
+    }catch(e){
+      console.log(e);
+      res.status(500).send("Qualcosa è andato storto");
+    }
+    // INSERT A DB
+
+    req.files.pics.forEach(async function(pic){
+
+      try{
+        var pathImg = "../images/posts/" + pic.filename;
+        let sqlPostImage = 'INSERT INTO postImages(post, imgPath) VALUES ('+"'"+ req.params.id+"'"+','+ "'"+pathImg+"'"+ ')';
+        postImage = await dbModule.query(sqlPostImage);
+      }catch(e){
+        console.log(e);
+        next(err);
+        res.status(500).send("Qualcosa è andato storto");
+      }
+
+      });
+  }
+
+  res.redirect("pages");
+
+
+
+})
+
 router.delete("/admin-console/:page/posts/:id", auth, async (req, res)=>{
 
   try{
