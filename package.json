@@ -17,6 +17,7 @@
     "express-fileupload": "^1.2.0",
     "express-flash": "^0.0.2",
     "express-session": "^1.17.1",
+    "fb": "^2.0.0",
     "figlet": "^1.4.0",
     "fs": "^0.0.1-security",
     "helmet": "^4.1.0",

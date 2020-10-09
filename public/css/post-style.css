@@ -58,10 +58,9 @@
 
 .post-text-container {
   background-color: #eeeeee;
-  height: 22rem;
+  height: 100%;
   align-items: center;
   margin: auto 0;
-
 }
 
 .post-text {
@@ -210,6 +209,13 @@
     font-size: 1.25rem;
     font-weight: 600;
     color: darkgrey;
+  }
+
+  .post-text-container {
+    background-color: #eeeeee;
+    height: 22rem;
+    align-items: center;
+    margin: auto 0;
   }
 
 
