@@ -156,6 +156,7 @@ nav {
   align-items: center;
   text-align: center;
   margin: 5% 20px;
+  margin-top: 0; /* TO BE REMOVED WHEN CHRISTMAS ENDS*/
   /* background-color: #131313; */
   /* background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAPUlEQVQoU2NkIAJMnTrVl5EIdWAleBWCTMrOzt6MVyGyIoImIjsLw2p0k2CKURTiUkS61fhMgltNjCKQYgCVbRoX7exOkwAAAABJRU5ErkJggg==) repeat; */
 }
